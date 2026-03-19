@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Challenge, ChallengeSubmission
+from .models import Challenge, ChallengeSubmission, EcoPoints
 
 class ChallengeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +17,8 @@ class ChallengeSubmissionSerializer(serializers.ModelSerializer):
             'status', 'proof_image_url', 'submitted_at', 'rejection_reason'
         ]
         read_only_fields = ['user', 'status', 'submitted_at', 'rejection_reason']
+
+class EcoPointsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EcoPoints
+        fields = '__all__'

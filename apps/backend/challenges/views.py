@@ -1,7 +1,11 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .models import Challenge, ChallengeSubmission
-from .serializers import ChallengeSerializer, ChallengeSubmissionSerializer
+from .models import Challenge, ChallengeSubmission, EcoPoints
+from .serializers import (
+    ChallengeSerializer, 
+    ChallengeSubmissionSerializer,
+    EcoPointsSerializer
+)
 from .services import ChallengeService
 
 class ChallengeListView(generics.ListAPIView):
@@ -31,3 +35,10 @@ class MySubmissionsView(generics.ListAPIView):
 
     def get_queryset(self):
         return ChallengeSubmission.objects.filter(user=self.request.user)
+
+class MyPointsHistoryView(generics.ListAPIView):
+    serializer_class = EcoPointsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return EcoPoints.objects.filter(user=self.request.user).order_by('-awarded_at')

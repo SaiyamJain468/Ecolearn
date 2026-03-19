@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: ecolearn-backend
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --no-input
+      python manage.py migrate
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.4
+      - key: DEBUG
+        value: "False"
+      - fromDatabase:
+          name: ecolearn-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: ecolearn-redis
+          property: connectionString
+
+databases:
+  - name: ecolearn-db
+    plan: free
+
+redises:
+  - name: ecolearn-redis
+    plan: free

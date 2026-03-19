@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'badges',
     'leaderboard',
     'notifications',
+    'core',
 ]
 
 MIDDLEWARE = [

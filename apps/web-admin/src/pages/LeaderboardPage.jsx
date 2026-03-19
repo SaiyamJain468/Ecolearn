@@ -23,6 +23,11 @@ const LeaderboardPage = () => {
         { name: 'Sagar Public School', points: 31450, students: 298, color: '#F4A07A' },
         { name: 'Campian School', points: 28900, students: 256, color: '#00F2FE' },
         { name: 'St. Joseph Co-ed', points: 24500, students: 210, color: '#0891B2' },
+        { name: 'Billabong High', points: 21200, students: 185, color: '#10B981' },
+        { name: 'Mount Carmel', points: 19800, students: 160, color: '#F59E0B' },
+        { name: 'Sanskar Valley', points: 17500, students: 142, color: '#06B6D4' },
+        { name: 'Holy Family', points: 15100, students: 120, color: '#F97316' },
+        { name: 'Ryan International', points: 12400, students: 95, color: '#00F2FE' },
       ];
     }
   });

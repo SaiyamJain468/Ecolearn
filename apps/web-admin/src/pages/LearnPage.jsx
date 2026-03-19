@@ -7,8 +7,12 @@ const lessons = [
   { id: 2, title: 'Rainwater Harvesting',        cat: 'Water',  dur: '20 min', stars: 5, color: '#06B6D4', xp: 90,  unlocked: true,  done: true  },
   { id: 3, title: 'Indoor Air Quality',           cat: 'Energy', dur: '12 min', stars: 3, color: '#F97316', xp: 45,  unlocked: true,  done: false },
   { id: 4, title: 'Seed Bombing Techniques',      cat: 'Plant',  dur: '18 min', stars: 4, color: '#10B981', xp: 75,  unlocked: true,  done: false },
-  { id: 5, title: 'Solar Panel Basics',           cat: 'Energy', dur: '25 min', stars: 5, color: '#00F2FE', xp: 120, unlocked: false, done: false },
-  { id: 6, title: 'Carbon Credit Trading',        cat: 'Adv',    dur: '30 min', stars: 5, color: '#A855F7', xp: 150, unlocked: false, done: false },
+  { id: 5, title: 'Solar Panel Basics',           cat: 'Energy', dur: '25 min', stars: 5, color: '#00F2FE', xp: 120, unlocked: true,  done: false },
+  { id: 6, title: 'Carbon Credit Trading',        cat: 'Adv',    dur: '30 min', stars: 5, color: '#0891B2', xp: 150, unlocked: false, done: false },
+  { id: 7, title: 'Permaculture Design',          cat: 'Plant',  dur: '45 min', stars: 5, color: '#10B981', xp: 200, unlocked: false, done: false },
+  { id: 8, title: 'Greywater Systems',            cat: 'Water',  dur: '35 min', stars: 4, color: '#06B6D4', xp: 180, unlocked: false, done: false },
+  { id: 9, title: 'Circular Economy 101',         cat: 'Waste',  dur: '25 min', stars: 4, color: '#F59E0B', xp: 130, unlocked: false, done: false },
+  { id: 10, title: 'Wind Turbine Mechanics',      cat: 'Energy', dur: '50 min', stars: 5, color: '#00F2FE', xp: 250, unlocked: false, done: false },
 ];
 
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };

@@ -28,6 +28,7 @@ extra/
 .vscode/
 todo.md
 PROGRESS.md
+prototype_roadmap.md
 dist/
 node_modules/
 .env

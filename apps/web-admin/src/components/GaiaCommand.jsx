@@ -93,45 +93,45 @@ export default function GaiaCommand() {
             animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 30, x: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-            className="fixed bottom-6 right-6 z-[100] w-[380px] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
+            className="fixed bottom-6 right-6 z-[100] w-[340px] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
             style={{
               background: 'rgba(8,11,20,0.95)', backdropFilter: 'blur(24px)',
               border: '1px solid rgba(99,102,241,0.3)',
               boxShadow: '0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(99,102,241,0.15)',
-              height: 480
+              height: 420
             }}
           >
             {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3.5 shrink-0"
+            <div className="flex items-center gap-3 px-4 py-3 shrink-0"
               style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(99,102,241,0.06)' }}>
               <div className="relative">
                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-md"
                   style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.2))', border: '1px solid rgba(99,102,241,0.4)' }}>
                   🌿
                 </motion.div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#10B981] rounded-full border-2 border-[#080B14]" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-[#10B981] rounded-full border-2 border-[#080B14]" />
               </div>
               <div className="flex-1">
-                <p className="text-[13px] font-bold text-white">GAIA Intelligence</p>
-                <p className="text-[10px] flex items-center gap-1" style={{ color: '#10B981' }}>
-                  <span className="relative w-1.5 h-1.5 inline-block">
+                <p className="text-[12px] font-bold text-white">GAIA Intelligence</p>
+                <p className="text-[9px] flex items-center gap-1" style={{ color: '#10B981' }}>
+                  <span className="relative w-1 h-1 inline-block">
                     <span className="absolute inset-0 rounded-full bg-[#10B981]" />
                     <span className="absolute inset-0 rounded-full bg-[#10B981] animate-ping opacity-60" />
                   </span>
-                  Online · Eco-Intelligence v4.2
+                  Online
                 </p>
               </div>
               <motion.button whileHover={{ scale: 1.15, rotate: 90 }} whileTap={{ scale: 0.9 }}
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-colors hover:bg-white/10"
+                className="w-7 h-7 rounded-lg flex items-center justify-center cursor-pointer transition-colors hover:bg-white/10"
                 style={{ color: '#64748B' }}>
-                <X size={15} />
+                <X size={14} />
               </motion.button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar">
+            <div className="flex-1 overflow-y-auto p-3.5 space-y-3 no-scrollbar">
               <AnimatePresence initial={false}>
                 {messages.map((m, i) => (
                   <motion.div key={i}
@@ -139,7 +139,7 @@ export default function GaiaCommand() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[82%] px-4 py-2.5 rounded-2xl text-[12px] leading-relaxed ${
+                    <div className={`max-w-[85%] px-3.5 py-2 rounded-2xl text-[11.5px] leading-relaxed ${
                       m.role === 'user'
                         ? 'text-white rounded-br-md'
                         : 'text-[#E2E8F0] rounded-bl-md'

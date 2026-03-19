@@ -7,7 +7,6 @@ import {
   ChevronDown, Flame
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import GaiaCommand from './GaiaCommand';
 
 /* ── Cursor Spotlight ────────────────────────────────────── */
 function CursorSpotlight() {
@@ -264,8 +263,6 @@ export default function Layout() {
           </AnimatePresence>
         </div>
       </main>
-
-      <GaiaCommand />
     </div>
   );
 }

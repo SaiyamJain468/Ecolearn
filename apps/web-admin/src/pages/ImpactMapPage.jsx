@@ -41,103 +41,103 @@ export default function ImpactMapPage() {
   const [sel, setSel] = useState(null);
 
   return (
-    <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
+    <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-7">
       {/* Hero */}
-      <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
+      <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-8"
         style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(99,102,241,0.06) 100%)', border: '1px solid rgba(16,185,129,0.2)' }}>
         <div className="absolute -bottom-20 -right-20 w-56 h-56 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #10B981, transparent 70%)' }} />
-        <div className="relative flex flex-col md:flex-row md:items-center gap-6">
+        <div className="relative flex flex-col xl:flex-row xl:items-center gap-8">
           <div className="flex-1">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#34D399' }}>Central India · 4 Active Zones</p>
-            <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">Impact Map</h1>
-            <p className="text-[13px]" style={{ color: '#94A3B8' }}>Real-time environmental intelligence across monitored regions.</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1.5" style={{ color: '#34D399' }}>Central India · 4 Active Zones</p>
+            <h1 className="text-[28px] font-bold text-white tracking-tight mb-2">Impact Map</h1>
+            <p className="text-[14px] max-w-xl" style={{ color: '#94A3B8' }}>Real-time environmental intelligence across monitored regions. Track progress, node density, and local biodiversity impact.</p>
           </div>
-          <div className="grid grid-cols-4 gap-3 shrink-0">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 shrink-0">
             {[{ k: 'Trees', v: '1,005', c: '#10B981', i: '🌳' }, { k: 'Water', v: '28.3k L', c: '#06B6D4', i: '💧' }, { k: 'CO₂', v: '1,045 Kg', c: '#FBBF24', i: '🌬️' }, { k: 'Energy', v: '2.4 MWh', c: '#F97316', i: '⚡' }].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.07, type: 'spring', stiffness: 200 }}
-                className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="text-xl mb-1">{s.i}</div>
-                <p className="text-[16px] font-bold" style={{ color: s.c }}>{s.v}</p>
-                <p className="text-[8px] font-bold uppercase tracking-wider mt-0.5" style={{ color: '#475569' }}>{s.k}</p>
+                className="p-5 rounded-2xl text-center min-w-[100px]" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="text-2xl mb-2">{s.i}</div>
+                <p className="text-[18px] font-bold" style={{ color: s.c }}>{s.v}</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider mt-1" style={{ color: '#475569' }}>{s.k}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Region Cards */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
           {regions.map((r, i) => (
             <motion.div key={i} variants={fadeUp}
               whileHover={{ y: -5, boxShadow: `0 20px 48px rgba(0,0,0,0.3), 0 0 50px ${r.color}12` }}
               onClick={() => setSel(sel?.name === r.name ? null : r)}
-              className="surface p-5 cursor-pointer relative overflow-hidden"
+              className="surface p-6 cursor-pointer relative overflow-hidden"
               style={{ border: sel?.name === r.name ? `1px solid ${r.color}50` : undefined, transition: 'all 0.3s ease' }}
             >
               <motion.div className="absolute inset-0 rounded-2xl pointer-events-none" animate={{ opacity: sel?.name === r.name ? 1 : 0 }}
                 style={{ background: `${r.color}06` }} />
-              <div className="relative flex items-start gap-3.5 mb-4">
+              <div className="relative flex items-start gap-4 mb-6">
                 <motion.div whileHover={{ rotate: 15, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: `${r.color}12`, border: `1px solid ${r.color}25` }}>
-                  <MapPin size={18} style={{ color: r.color }} />
+                  <MapPin size={20} style={{ color: r.color }} />
                 </motion.div>
                 <div>
-                  <h4 className="text-[14px] font-bold text-white mb-0.5">{r.name}</h4>
-                  <div className="flex items-center gap-2">
-                    <span className="badge" style={{ fontSize: '8px', padding: '1px 8px', background: `${r.color}12`, color: r.color, border: `1px solid ${r.color}25` }}>{r.status}</span>
-                    <span className="flex items-center gap-1 text-[10px] font-bold" style={{ color: '#10B981' }}><TrendingUp size={10} />{r.trend}</span>
+                  <h4 className="text-[16px] font-bold text-white mb-1">{r.name}</h4>
+                  <div className="flex items-center gap-3">
+                    <span className="badge" style={{ fontSize: '9px', padding: '2px 10px', background: `${r.color}12`, color: r.color, border: `1px solid ${r.color}25` }}>{r.status}</span>
+                    <span className="flex items-center gap-1.5 text-[11px] font-bold" style={{ color: '#10B981' }}><TrendingUp size={12} />{r.trend}</span>
                   </div>
                 </div>
               </div>
-              <div className="relative grid grid-cols-3 gap-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                <div><Leaf size={11} className="mb-1" style={{ color: '#10B981' }} /><p className="text-[14px] font-bold text-white">{r.trees}</p><p className="text-[8px] uppercase font-bold" style={{ color: '#475569' }}>Trees</p></div>
-                <div><Droplets size={11} className="mb-1" style={{ color: '#06B6D4' }} /><p className="text-[14px] font-bold text-white">{r.water}</p><p className="text-[8px] uppercase font-bold" style={{ color: '#475569' }}>Water</p></div>
-                <div><Wind size={11} className="mb-1" style={{ color: '#F59E0B' }} /><p className="text-[14px] font-bold text-white">{r.co2}</p><p className="text-[8px] uppercase font-bold" style={{ color: '#475569' }}>CO₂</p></div>
+              <div className="relative grid grid-cols-3 gap-4 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div><Leaf size={12} className="mb-1.5" style={{ color: '#10B981' }} /><p className="text-[16px] font-bold text-white">{r.trees}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>Trees</p></div>
+                <div><Droplets size={12} className="mb-1.5" style={{ color: '#06B6D4' }} /><p className="text-[16px] font-bold text-white">{r.water}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>Water</p></div>
+                <div><Wind size={12} className="mb-1.5" style={{ color: '#F59E0B' }} /><p className="text-[16px] font-bold text-white">{r.co2}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>CO₂</p></div>
               </div>
             </motion.div>
           ))}
         </div>
 
         {/* Radar + Active Nodes */}
-        <div className="space-y-4">
-          <motion.div variants={fadeUp} className="surface p-5">
-            <h3 className="text-[14px] font-semibold text-white mb-1">Sector Breakdown</h3>
-            <p className="text-[11px] mb-4" style={{ color: '#475569' }}>This month</p>
-            <div className="h-[220px]">
+        <div className="space-y-6">
+          <motion.div variants={fadeUp} className="surface p-6">
+            <h3 className="text-[15px] font-semibold text-white mb-1">Sector Breakdown</h3>
+            <p className="text-[12px] mb-6" style={{ color: '#475569' }}>Monthly Performance</p>
+            <div className="h-[240px]">
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={radarData} outerRadius="70%">
+                <RadarChart data={radarData} outerRadius="75%">
                   <PolarGrid stroke="rgba(255,255,255,0.06)" />
-                  <PolarAngleAxis dataKey="area" tick={{ fontSize: 10, fill: '#475569' }} />
-                  <Radar name="Impact" dataKey="A" stroke="#6366F1" fill="#6366F1" fillOpacity={0.15} strokeWidth={2}
-                    dot={{ fill: '#6366F1', r: 3, strokeWidth: 0 }} />
+                  <PolarAngleAxis dataKey="area" tick={{ fontSize: 11, fill: '#475569' }} />
+                  <Radar name="Impact" dataKey="A" stroke="#6366F1" fill="#6366F1" fillOpacity={0.15} strokeWidth={2.5}
+                    dot={{ fill: '#6366F1', r: 3.5, strokeWidth: 0 }} />
                   <Tooltip content={<RadarTip />} />
                 </RadarChart>
               </ResponsiveContainer>
             </div>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="surface p-5">
-            <h3 className="text-[14px] font-semibold text-white mb-4">Active Nodes</h3>
-            <div className="space-y-2">
+          <motion.div variants={fadeUp} className="surface p-6">
+            <h3 className="text-[15px] font-semibold text-white mb-5">Active Nodes</h3>
+            <div className="space-y-3">
               {MOCK_MAP_NODES.slice(0, 5).map((node, i) => {
                 const cfg = typeConfig[node.type] || { color: '#6366F1', icon: Globe, label: node.type };
                 const Icon = cfg.icon;
                 return (
                   <motion.div key={i} initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.06 }}
-                    whileHover={{ x: 4 }}
-                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
-                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${cfg.color}12` }}>
-                      <Icon size={13} style={{ color: cfg.color }} />
+                    whileHover={{ x: 4, background: 'rgba(255,255,255,0.04)' }}
+                    className="flex items-center gap-3.5 p-3.5 rounded-xl cursor-pointer transition-all border border-transparent hover:border-white/5"
+                    style={{ background: 'rgba(255,255,255,0.02)' }}>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${cfg.color}12` }}>
+                      <Icon size={14} style={{ color: cfg.color }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-semibold text-white truncate">{node.label.replace(/_/g, ' ')}</p>
-                      <p className="text-[9px] font-medium" style={{ color: cfg.color }}>{cfg.label}</p>
+                      <p className="text-[12px] font-semibold text-white truncate">{node.label.replace(/_/g, ' ')}</p>
+                      <p className="text-[10px] font-medium" style={{ color: cfg.color }}>{cfg.label}</p>
                     </div>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: node.status === 'active' ? '#10B981' : '#F59E0B', boxShadow: `0 0 6px ${node.status === 'active' ? '#10B981' : '#F59E0B'}` }} />
+                    <div className="flex items-center gap-2 shrink-0">
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: node.status === 'active' ? '#10B981' : '#F59E0B', boxShadow: `0 0 8px ${node.status === 'active' ? '#10B981' : '#F59E0B'}` }} />
                       <span className="text-[14px] font-bold" style={{ color: '#94A3B8' }}>{Math.round(node.strength * 100)}%</span>
                     </div>
                   </motion.div>

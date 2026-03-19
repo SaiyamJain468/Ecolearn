@@ -28,3 +28,6 @@
 [DONE] Task 7.4 — add submission approval queue with photo review, approve/reject, and websocket — commit: "feat(admin): add submission approval queue with photo review, approve/reject, and websocket"
 [DONE] Task 7.5 — add students table with search/sort and school leaderboard with live bar chart — commit: "feat(admin): add students table with search/sort and school leaderboard with live bar chart"
 [DONE] Task 8.1 — add dockerfile and nginx config, update docker-compose for full stack — commit: "feat(devops): add dockerfile and nginx config, update docker-compose for full stack"
+[DONE] Task 8.2 — add render.yaml for backend cloud deployment — commit: "feat(devops): add render.yaml and vercel.json for automated cloud deployment"
+[DONE] Task 8.3 — add vercel.json for react admin deployment — commit: "feat(devops): add render.yaml and vercel.json for automated cloud deployment"
+[DONE] Task 9.1 — add demo account seed script for hackathon presentation — commit: "chore: add demo account seed script for hackathon presentation"

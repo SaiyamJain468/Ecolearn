@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from apps.backend.users.models import School
-from apps.backend.challenges.models import Challenge, ChallengeSubmission
-from apps.backend.badges.models import Badge, UserBadge
-from apps.backend.lessons.models import Lesson, LessonProgress
+from users.models import School
+from challenges.models import Challenge, ChallengeSubmission
+from badges.models import Badge, UserBadge
+from lessons.models import Lesson, LessonProgress
 from django.utils import timezone
 from datetime import timedelta
 

@@ -17,14 +17,21 @@ dist/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-build/
 *.iml
 *.lock
 
 # General
 .DS_Store
 *.log
+*.sqlite3
 .idea/
 .vscode/
-.todo.md 
-.progress.md 
+todo.md
+PROGRESS.md
+dist/
+node_modules/
+.env
+__pycache__/
+*.pyc
+*.pyo
+build/

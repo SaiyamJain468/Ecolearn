@@ -12,6 +12,8 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
     avatar_url = models.URLField(blank=True)
     eco_points_total = models.IntegerField(default=0)
+    streak_days = models.IntegerField(default=0)
+    level = models.CharField(max_length=50, default="EARTH KEEPER")
     fcm_token = models.CharField(max_length=255, blank=True)
 
 class School(models.Model):

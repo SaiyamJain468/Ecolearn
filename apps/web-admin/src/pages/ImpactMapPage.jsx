@@ -72,29 +72,29 @@ export default function ImpactMapPage() {
            <motion.div key={i} variants={fadeUp}
               whileHover={{ y: -5, boxShadow: `0 20px 48px rgba(0,0,0,0.3), 0 0 50px ${r.color}12` }}
               onClick={() => setSel(sel?.name === r.name ? null : r)}
-              className="surface p-4 cursor-pointer relative overflow-hidden"
-              style={{ border: sel?.name === r.name ? `1px solid ${r.color}50` : undefined, transition: 'all 0.3s ease' }}
+              className="surface p-3 cursor-pointer relative overflow-hidden"
+              style={{ border: sel?.name === r.name ? `1px solid ${r.color}50` : undefined, transition: 'all 0.2s ease' }}
             >
               <motion.div className="absolute inset-0 rounded-2xl pointer-events-none" animate={{ opacity: sel?.name === r.name ? 1 : 0 }}
                 style={{ background: `${r.color}06` }} />
-              <div className="relative flex items-start gap-4 mb-3">
+              <div className="relative flex items-start gap-3 mb-2">
                 <motion.div whileHover={{ rotate: 15, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
                   style={{ background: `${r.color}12`, border: `1px solid ${r.color}25` }}>
-                  <MapPin size={20} style={{ color: r.color }} />
+                  <MapPin size={16} style={{ color: r.color }} />
                 </motion.div>
                 <div>
-                  <h4 className="text-[16px] font-bold text-white mb-1">{r.name}</h4>
+                  <h4 className="text-[14px] font-bold text-white mb-0.5">{r.name}</h4>
                   <div className="flex items-center gap-3">
-                    <span className="badge" style={{ fontSize: '9px', padding: '2px 10px', background: `${r.color}12`, color: r.color, border: `1px solid ${r.color}25` }}>{r.status}</span>
-                    <span className="flex items-center gap-1.5 text-[11px] font-bold" style={{ color: '#10B981' }}><TrendingUp size={12} />{r.trend}</span>
+                    <span className="badge" style={{ fontSize: '8px', padding: '1px 8px', background: `${r.color}12`, color: r.color, border: `1px solid ${r.color}25` }}>{r.status}</span>
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold" style={{ color: '#10B981' }}><TrendingUp size={11} />{r.trend}</span>
                   </div>
                 </div>
               </div>
-              <div className="relative grid grid-cols-3 gap-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                <div><Leaf size={12} className="mb-1.5" style={{ color: '#10B981' }} /><p className="text-[16px] font-bold text-white">{r.trees}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>Trees</p></div>
-                <div><Droplets size={12} className="mb-1.5" style={{ color: '#06B6D4' }} /><p className="text-[16px] font-bold text-white">{r.water}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>Water</p></div>
-                <div><Wind size={12} className="mb-1.5" style={{ color: '#F59E0B' }} /><p className="text-[16px] font-bold text-white">{r.co2}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>CO₂</p></div>
+              <div className="relative grid grid-cols-3 gap-2 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div><Leaf size={11} className="mb-1" style={{ color: '#10B981' }} /><p className="text-[14px] font-bold text-white leading-none">{r.trees}</p><p className="text-[8px] uppercase font-bold mt-1" style={{ color: '#475569' }}>Trees</p></div>
+                <div><Droplets size={11} className="mb-1" style={{ color: '#06B6D4' }} /><p className="text-[14px] font-bold text-white leading-none">{r.water}</p><p className="text-[8px] uppercase font-bold mt-1" style={{ color: '#475569' }}>Water</p></div>
+                <div><Wind size={11} className="mb-1" style={{ color: '#F59E0B' }} /><p className="text-[14px] font-bold text-white leading-none">{r.co2}</p><p className="text-[8px] uppercase font-bold mt-1" style={{ color: '#475569' }}>CO₂</p></div>
               </div>
             </motion.div>
           ))}

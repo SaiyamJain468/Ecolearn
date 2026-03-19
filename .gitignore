@@ -26,3 +26,5 @@ build/
 *.log
 .idea/
 .vscode/
+.todo.md 
+.progress.md 

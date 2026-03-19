@@ -6,3 +6,8 @@
 [DONE] Task 2.1 — initialize django project with all dependencies — commit: "feat(backend): initialize django project with all dependencies"
 [DONE] Task 2.2 — create users, challenges, lessons, badges, leaderboard, notifications apps — commit: "feat(backend): create users, challenges, lessons, badges, leaderboard, notifications apps"
 [DONE] Task 2.3 — configure settings/base.py — commit: "feat(backend): configure installed apps, database, jwt, cors, channels"
+[DONE] Task 3.1 — add CustomUser and School models with roles and eco points — commit: "feat(backend): add CustomUser and School models with roles and eco points"
+[DONE] Task 3.2 — add Challenge and ChallengeSubmission models with proof flow — commit: "feat(backend): add Challenge and ChallengeSubmission models with proof flow"
+[DONE] Task 3.3 — add Lesson, QuizQuestion, LessonProgress models — commit: "feat(backend): add Lesson, QuizQuestion, LessonProgress models"
+[DONE] Task 3.4 — add Badge and UserBadge models with emoji support — commit: "feat(backend): add Badge and UserBadge models with emoji support"
+[DONE] Task 3.5 — add EcoPoints and Notification models, complete database schema — commit: "feat(backend): add EcoPoints and Notification models, complete database schema"

@@ -1,45 +1,184 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MOCK_MISSIONS } from '../lib/mockData';
-import { motion } from 'framer-motion';
-import { Target, Clock, Zap, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Clock, Camera, Leaf, Droplets, BatteryCharging, Flame, Zap, X, CheckCircle2, Trophy, Star } from 'lucide-react';
 
-const MissionCard = ({ mission, i }) => (
-  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-    className="card p-6 flex flex-col h-full group cursor-pointer hover:border-[#374151]">
-    <div className="flex justify-between items-start mb-5">
-      <div className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
-        mission.difficulty >= 3 ? 'bg-[#EF4444]/10 text-[#EF4444]' :
-        mission.difficulty >= 2 ? 'bg-[#FBBF24]/10 text-[#FBBF24]' : 'bg-[#10B981]/10 text-[#10B981]'}`}>
-        {mission.difficulty >= 3 ? 'HARD' : mission.difficulty >= 2 ? 'MEDIUM' : 'EASY'}
-      </div>
-      <div className="px-3 py-1 bg-[#4F6EF7]/10 text-[#4F6EF7] rounded-lg text-[10px] font-bold">+{mission.xp} XP</div>
-    </div>
-    <h3 className="text-[15px] font-semibold text-white mb-2 group-hover:text-[#4F6EF7] transition-colors">{mission.title}</h3>
-    <p className="text-[12px] text-[#8B92A5] mb-auto leading-relaxed">{mission.description}</p>
-    <div className="flex items-center justify-between pt-5 mt-5 border-t border-[#1F2937]">
-      <div className="flex items-center gap-4 text-[#4B5563]">
-        <span className="flex items-center gap-1.5 text-[11px] font-medium"><Clock size={13} /> {mission.time || '2 Days'}</span>
-        <span className="flex items-center gap-1.5 text-[11px] font-medium"><Zap size={13} /> {mission.category}</span>
-      </div>
-      <ChevronRight size={16} className="text-[#4B5563] group-hover:text-[#4F6EF7] transition-all" />
-    </div>
-  </motion.div>
-);
+const catConfig = {
+  plant:  { icon: Leaf,            color: '#10B981', label: 'Plant',  bg: 'rgba(16,185,129,0.12)'  },
+  water:  { icon: Droplets,        color: '#06B6D4', label: 'Water',  bg: 'rgba(6,182,212,0.12)'   },
+  waste:  { icon: Flame,           color: '#F59E0B', label: 'Waste',  bg: 'rgba(245,158,11,0.12)'  },
+  energy: { icon: BatteryCharging, color: '#6366F1', label: 'Energy', bg: 'rgba(99,102,241,0.12)'  },
+};
+
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
+const fadeUp  = { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25,0.46,0.45,0.94] } } };
+
+const CATS = ['All', 'Plant', 'Water', 'Waste', 'Energy'];
+
+const diffLabel = d => d >= 3 ? ['Hard', 'badge-danger'] : d >= 2 ? ['Medium', 'badge-warning'] : ['Easy', 'badge-success'];
 
 export default function MissionsPage() {
+  const [cat, setCat]         = useState('All');
+  const [sel, setSel]         = useState(null);
+  const [completed, setCompleted] = useState([]);
+  const [success, setSuccess] = useState(null);
+
+  const filtered = cat === 'All' ? MOCK_MISSIONS : MOCK_MISSIONS.filter(m => m.category === cat.toLowerCase());
+  const done = completed.length;
+  const totalXP = completed.reduce((a, id) => a + (MOCK_MISSIONS.find(m => m.id === id)?.xp || 0), 0);
+
+  const complete = (m) => {
+    if (!completed.includes(m.id)) {
+      setCompleted(p => [...p, m.id]);
+      setSuccess(m);
+      setSel(null);
+      setTimeout(() => setSuccess(null), 3200);
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <div><h1 className="text-2xl font-bold text-white">Mission Control</h1><p className="text-[13px] text-[#8B92A5] mt-1">Active field operations</p></div>
-        <div className="flex gap-2">
-          {['All', 'Plant', 'Water', 'Waste', 'Energy'].map(c => (
-            <button key={c} className={`px-4 py-2 rounded-xl text-[12px] font-semibold transition-all ${c === 'All' ? 'bg-[#4F6EF7] text-white' : 'bg-[#1A1F2E] text-[#8B92A5] border border-[#1F2937] hover:border-[#374151] hover:text-white'}`}>{c}</button>
-          ))}
+    <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
+      {/* Hero */}
+      <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
+        style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(16,185,129,0.06) 100%)', border: '1px solid rgba(99,102,241,0.2)' }}>
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }} />
+        <div className="relative flex flex-col md:flex-row md:items-center gap-6">
+          <div className="flex-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#A5B4FC' }}>Mission Control</p>
+            <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">Active Challenges</h1>
+            <p className="text-[13px]" style={{ color: '#94A3B8' }}>{MOCK_MISSIONS.length} missions · {done} completed · {MOCK_MISSIONS.reduce((a, m) => a + m.xp, 0).toLocaleString()} XP available</p>
+          </div>
+          <div className="grid grid-cols-3 gap-3 shrink-0">
+            {[{ k: 'Available', v: MOCK_MISSIONS.length, c: '#A5B4FC' }, { k: 'Completed', v: done, c: '#10B981' }, { k: 'XP Earned', v: `${totalXP.toLocaleString()}`, c: '#F59E0B' }].map((s, i) => (
+              <motion.div key={i} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 + i * 0.07, type: 'spring' }}
+                className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <p className="text-[20px] font-bold" style={{ color: s.c }}>{s.v}</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider mt-0.5" style={{ color: '#475569' }}>{s.k}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {MOCK_MISSIONS.map((m, i) => <MissionCard key={m.id} mission={m} i={i} />)}
-      </div>
-    </div>
+      </motion.div>
+
+      {/* Category Filter */}
+      <motion.div variants={fadeUp} className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+        {CATS.map(c => (
+          <motion.button key={c} onClick={() => setCat(c)} whileTap={{ scale: 0.96 }}
+            className="px-4 py-[7px] rounded-lg text-[11px] font-semibold cursor-pointer relative"
+            style={{ color: cat === c ? 'white' : '#64748B' }}>
+            {cat === c && <motion.div layoutId="mcat" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }} />}
+            <span className="relative z-10">{c}</span>
+          </motion.button>
+        ))}
+      </motion.div>
+
+      {/* Cards */}
+      <AnimatePresence mode="wait">
+        <motion.div key={cat} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.22 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((m, i) => {
+            const cfg = catConfig[m.category] || { icon: Zap, color: '#6366F1', bg: 'rgba(99,102,241,0.12)', label: m.category };
+            const Icon = cfg.icon;
+            const isDone = completed.includes(m.id);
+            const [dLabel, dBadge] = diffLabel(m.difficulty);
+            return (
+              <motion.div key={m.id}
+                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+                whileHover={!isDone ? { y: -5, boxShadow: `0 20px 48px rgba(0,0,0,0.3), 0 0 60px ${cfg.color}12` } : {}}
+                onClick={() => !isDone && setSel(m)}
+                className="surface p-5 flex flex-col cursor-pointer group relative overflow-hidden"
+                style={{ opacity: isDone ? 0.55 : 1, transition: 'all 0.3s ease' }}
+              >
+                {isDone && (
+                  <div className="absolute inset-0 rounded-2xl flex items-center justify-center z-10" style={{ background: 'rgba(16,185,129,0.06)', backdropFilter: 'blur(1px)' }}>
+                    <div className="flex flex-col items-center">
+                      <CheckCircle2 size={32} style={{ color: '#10B981' }} />
+                      <span className="text-[11px] font-bold mt-2" style={{ color: '#10B981' }}>Completed</span>
+                    </div>
+                  </div>
+                )}
+                <div className="flex justify-between items-start mb-4">
+                  <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: 'spring', stiffness: 300 }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: cfg.bg }}>
+                    <Icon size={18} style={{ color: cfg.color }} />
+                  </motion.div>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`badge ${dBadge}`} style={{ fontSize: '8px', padding: '2px 8px' }}>{dLabel}</span>
+                    <span className="badge badge-accent" style={{ fontSize: '8px', padding: '2px 8px' }}>+{m.xp} XP</span>
+                  </div>
+                </div>
+                <h3 className="text-[14px] font-semibold text-white mb-1.5 group-hover:text-[#A5B4FC] transition-colors">{m.title}</h3>
+                <p className="text-[11px] leading-relaxed mb-auto" style={{ color: '#64748B' }}>{m.description}</p>
+                <div className="flex items-center justify-between pt-4 mt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-center gap-1.5 text-[10px] font-medium" style={{ color: '#475569' }}><Clock size={10} />{m.time}</span>
+                    {m.requires_photo && <Camera size={11} style={{ color: '#475569' }} />}
+                  </div>
+                  <span className="text-[9px] font-semibold uppercase px-2 py-1 rounded-lg" style={{ background: `${cfg.color}10`, color: cfg.color }}>{cfg.label}</span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Mission Detail Modal */}
+      <AnimatePresence>
+        {sel && (() => {
+          const cfg = catConfig[sel.category] || { icon: Zap, color: '#6366F1', bg: 'rgba(99,102,241,0.12)' };
+          const Icon = cfg.icon;
+          const [dLabel, dBadge] = diffLabel(sel.difficulty);
+          return (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+              style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(10px)' }}
+              onClick={() => setSel(null)}>
+              <motion.div initial={{ scale: 0.88, y: 40, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.88, y: 40, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 250, damping: 22 }}
+                className="glass-strong rounded-2xl max-w-md w-full p-7 shadow-2xl"
+                style={{ border: `1px solid ${cfg.color}20` }}
+                onClick={e => e.stopPropagation()}>
+                <div className="flex justify-between items-start mb-5">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: cfg.bg, border: `1px solid ${cfg.color}30`, boxShadow: `0 0 30px ${cfg.color}20` }}>
+                    <Icon size={26} style={{ color: cfg.color }} />
+                  </div>
+                  <button onClick={() => setSel(null)} className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer hover:bg-white/10 transition-all" style={{ color: '#64748B' }}><X size={16} /></button>
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className={`badge ${dBadge}`} style={{ fontSize: '9px' }}>{dLabel}</span>
+                  <span className="badge badge-accent" style={{ fontSize: '9px' }}>+{sel.xp} XP</span>
+                  <span className="flex items-center gap-1 text-[10px]" style={{ color: '#475569' }}><Clock size={10} />{sel.time}</span>
+                </div>
+                <h2 className="text-[22px] font-bold text-white mb-2 tracking-tight">{sel.title}</h2>
+                <p className="text-[13px] leading-relaxed mb-6" style={{ color: '#94A3B8' }}>{sel.description}</p>
+                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                  className="btn-primary w-full" style={{ padding: '13px', fontSize: '13px' }}
+                  onClick={() => complete(sel)}>
+                  Complete Mission · +{sel.xp} XP
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          );
+        })()}
+      </AnimatePresence>
+
+      {/* Success Toast */}
+      <AnimatePresence>
+        {success && (
+          <motion.div initial={{ opacity: 0, y: 80, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 80, scale: 0.8 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="fixed bottom-6 right-6 z-[300] flex items-center gap-4 p-5 rounded-2xl shadow-2xl"
+            style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', backdropFilter: 'blur(16px)', boxShadow: '0 0 60px rgba(16,185,129,0.2)' }}>
+            <motion.div animate={{ rotate: [0, -10, 10, -5, 5, 0], scale: [1, 1.3, 0.9, 1.1, 1] }} transition={{ duration: 0.6 }}>
+              <Trophy size={28} style={{ color: '#10B981' }} />
+            </motion.div>
+            <div>
+              <p className="text-[14px] font-bold text-white">Mission complete! 🎉</p>
+              <p className="text-[12px]" style={{ color: '#34D399' }}>+{success.xp} XP awarded</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

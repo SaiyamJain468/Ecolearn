@@ -25,22 +25,21 @@ export const MOCK_USER = {
 };
 
 export const MOCK_LOGS = [
-  { id: 1, type: 'SYSTEM', message: 'GAIA_OS v4.2 Uplink established', time: '10:00:01', status: 'SUCCESS' },
-  { id: 2, type: 'NODE', message: 'Indore_Bio_Hub: Carbon sink yield +4.2%', time: '10:05:22', status: 'INFO' },
-  { id: 3, type: 'AUTH', message: 'Client ID: 0x4f2b verified (ARYAN_X)', time: '10:08:45', status: 'SUCCESS' },
-  { id: 4, type: 'NETWORK', message: 'Global Relay: 12.4k Alliances active', time: '10:12:01', status: 'INFO' },
-  { id: 5, type: 'SECURITY', message: 'Firewall: 0 attempts blocked in last 24h', time: '10:15:33', status: 'SAFE' },
-  { id: 6, type: 'ECO', message: 'Solar_Sentinels: Energy relay optimized', time: '10:20:11', status: 'SUCCESS' },
-  { id: 7, type: 'SYSTEM', message: 'Cache manifest updated (342MB cleared)', time: '10:25:44', status: 'SUCCESS' },
-  { id: 8, type: 'ALERT', message: 'Water_Warriors: Low hydraulic pressure in Hub_04', time: '10:30:12', status: 'WARNING' },
-  { id: 9, type: 'NODE', message: 'Bhopal_Core: Logic verification complete', time: '10:35:05', status: 'SUCCESS' },
-  { id: 10, type: 'ADMIN', message: 'Policy Update: Eco-Credit ratio adjusted', time: '10:40:00', status: 'INFO' },
-  // ... Adding more for the "endless" feel
-  { id: 11, type: 'SYSTEM', message: 'Atmospheric telemetry sync: 100%', time: '10:45:12', status: 'SUCCESS' },
-  { id: 12, type: 'ECO', message: 'Planting_Protocol: 400 new saplings detected', time: '10:50:33', status: 'SUCCESS' },
-  { id: 13, type: 'NODE', message: 'Ujjain_Nexus: Latency 0.4ms', time: '10:55:01', status: 'SAFE' },
-  { id: 14, type: 'ADMIN', message: 'Leaderboard recalibration in progress', time: '11:00:00', status: 'INFO' },
-  { id: 15, type: 'SYSTEM', message: 'Night_Mode: Power conservation active', time: '11:05:45', status: 'INFO' },
+  { id: 1,  type: 'ECO',      message: 'Completed waste segregation mission',       time: '10:00', status: 'success', xp: 150 },
+  { id: 2,  type: 'NODE',     message: 'Quiz passed — Biodiversity Basics',          time: '09:45', status: 'success', xp: 90  },
+  { id: 3,  type: 'ECO',      message: 'Badge unlocked: Solar Pioneer ⚡',           time: '09:20', status: 'success', xp: 200 },
+  { id: 4,  type: 'NETWORK',  message: 'Joined alliance: Green Guardians',           time: '08:55', status: 'info',    xp: null },
+  { id: 5,  type: 'ECO',      message: 'Carbon Guardian Alpha — submitted proof',    time: '08:30', status: 'warning', xp: null },
+  { id: 6,  type: 'ECO',      message: 'Daily check-in streak bonus claimed',        time: '08:00', status: 'success', xp: 50  },
+  { id: 7,  type: 'SYSTEM',   message: 'Hydraulic Master approved by teacher',       time: '07:45', status: 'success', xp: 850 },
+  { id: 8,  type: 'ALERT',    message: 'Low XP velocity — complete 1 more mission',  time: '07:30', status: 'warning', xp: null },
+  { id: 9,  type: 'NODE',     message: 'Bio-Logician mission started',               time: '07:00', status: 'info',    xp: null },
+  { id: 10, type: 'ADMIN',    message: 'School rank updated: #2 → #2 (maintained)', time: '06:00', status: 'info',    xp: null },
+  { id: 11, type: 'SYSTEM',   message: 'Atmospheric telemetry sync: 100%',           time: '05:45', status: 'success', xp: null },
+  { id: 12, type: 'ECO',      message: 'Planting_Protocol: 400 new saplings detected',time:'05:20', status: 'success', xp: null },
+  { id: 13, type: 'NODE',     message: 'Ujjain_Nexus: Latency 0.4ms',                time: '05:00', status: 'success', xp: null },
+  { id: 14, type: 'ADMIN',    message: 'Leaderboard recalibration in progress',      time: '04:00', status: 'info',    xp: null },
+  { id: 15, type: 'SYSTEM',   message: 'Night_Mode: Power conservation active',      time: '03:45', status: 'info',    xp: null },
 ];
 
 export const MOCK_MISSIONS = [

@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cyan-vibrant: #00F0FF;
+  --color-purple-vibrant: #7C3AED;
+  --color-dark-bg: #0a0a0a;
+  
+  --font-sans: "Inter", var(--font-geist-sans);
+  
+  --animation-gradient: gradient 8s linear infinite;
+  --animation-float: float 6s ease-in-out infinite;
+  --animation-pulse-glow: pulse-glow 2s ease-in-out infinite;
+
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; filter: blur(8px); }
+    50% { opacity: 1; filter: blur(12px); }
+  }
+}
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10;
+  }
+  .neon-glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+  }
+  .neon-glow-purple {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.1);
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-linear-to-r from-cyan-vibrant to-purple-vibrant animate-gradient;
+  }
+}
+
+/* Custom Scrollbar for the future */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}

@@ -8,12 +8,17 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    
-    if (token && storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    // LOGIN BYPASS: auto-set a fake admin user for demo
+    const bypassUser = {
+      id: 1,
+      name: 'Admin',
+      email: 'admin@ecolearn.com',
+      role: 'admin',
+      eco_points_total: 9999,
+    };
+    localStorage.setItem('token', 'bypass-token');
+    localStorage.setItem('user', JSON.stringify(bypassUser));
+    setUser(bypassUser);
     setLoading(false);
   }, []);
 

@@ -5,3 +5,4 @@
 [DONE] Task 1.2 — Create .env.example — commit: "chore: add backend env example with all required variables"
 [DONE] Task 2.1 — initialize django project with all dependencies — commit: "feat(backend): initialize django project with all dependencies"
 [DONE] Task 2.2 — create users, challenges, lessons, badges, leaderboard, notifications apps — commit: "feat(backend): create users, challenges, lessons, badges, leaderboard, notifications apps"
+[DONE] Task 2.3 — configure settings/base.py — commit: "feat(backend): configure installed apps, database, jwt, cors, channels"

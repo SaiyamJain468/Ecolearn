@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from users.models import School
 from challenges.models import Challenge, ChallengeSubmission
 from badges.models import Badge, UserBadge
-from lessons.models import Lesson, LessonProgress
 from django.utils import timezone
 from datetime import timedelta
 
@@ -18,7 +17,12 @@ class Command(BaseCommand):
         # 1. Ensure DPS Bhopal exists
         school, _ = School.objects.get_or_create(
             name="DPS Bhopal",
-            defaults={"city": "Bhopal", "eco_points_total": 42000}
+            defaults={
+                "city": "Bhopal", 
+                "state": "Madhya Pradesh",
+                "district": "Bhopal",
+                "eco_points_total": 42000
+            }
         )
 
         # 2. Create Student: Aryan
@@ -32,7 +36,8 @@ class Command(BaseCommand):
                 "school": school,
                 "class_grade": "X-B",
                 "eco_points_total": 1240,
-                "streak_days": 7
+                "streak_days": 7,
+                "level": "ECO WARRIOR"
             }
         )
         student.set_password("demo123")
@@ -65,12 +70,11 @@ class Command(BaseCommand):
                 user=student,
                 challenge=challenge,
                 proof_image_url="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80",
-                status='pending',
-                submitted_at=timezone.now() - timedelta(minutes=15)
+                status='pending'
             )
             self.stdout.write("Created pending submission for Aryan")
 
-        # 5. Award some badges to Aryan for the starting state
+        # 5. Award some badges to Aryan
         badges = Badge.objects.all()[:3]
         for badge in badges:
             UserBadge.objects.get_or_create(user=student, badge=badge)

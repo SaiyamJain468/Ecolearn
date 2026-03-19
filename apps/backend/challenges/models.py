@@ -49,3 +49,18 @@ class ChallengeSubmission(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.challenge.title}"
+
+class EcoPoints(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='eco_points')
+    points = models.IntegerField()
+    reason = models.CharField(max_length=200)
+    challenge = models.ForeignKey(Challenge, null=True, blank=True, on_delete=models.SET_NULL)
+    lesson = models.ForeignKey('lessons.Lesson', null=True, blank=True, on_delete=models.SET_NULL)
+    awarded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [models.Index(fields=['user'])]
+        verbose_name_plural = "Eco points"
+
+    def __str__(self):
+        return f"{self.user.username} - {self.points} pts ({self.reason})"

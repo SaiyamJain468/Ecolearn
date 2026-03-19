@@ -1,5 +1,4 @@
-from django.contrib import admin
-from .models import Challenge, ChallengeSubmission
+from .models import Challenge, ChallengeSubmission, EcoPoints
 
 @admin.register(Challenge)
 class ChallengeAdmin(admin.ModelAdmin):
@@ -13,3 +12,9 @@ class ChallengeSubmissionAdmin(admin.ModelAdmin):
     list_filter = ('status', 'submitted_at')
     search_fields = ('user__username', 'challenge__title')
     readonly_fields = ('submitted_at',)
+
+@admin.register(EcoPoints)
+class EcoPointsAdmin(admin.ModelAdmin):
+    list_display = ('user', 'points', 'reason', 'awarded_at')
+    list_filter = ('awarded_at', 'reason')
+    search_fields = ('user__username', 'reason')

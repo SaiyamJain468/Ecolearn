@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/lessons/', include('lessons.urls')),
     path('api/badges/', include('badges.urls')),
     path('api/notifications/', include('notifications.urls')),
+    path('api/leaderboard/', include('leaderboard.urls')),
 ]

@@ -7,7 +7,7 @@ const lessons = [
   { id: 2, title: 'Rainwater Harvesting',        cat: 'Water',  dur: '20 min', stars: 5, color: '#06B6D4', xp: 90,  unlocked: true,  done: true  },
   { id: 3, title: 'Indoor Air Quality',           cat: 'Energy', dur: '12 min', stars: 3, color: '#F97316', xp: 45,  unlocked: true,  done: false },
   { id: 4, title: 'Seed Bombing Techniques',      cat: 'Plant',  dur: '18 min', stars: 4, color: '#10B981', xp: 75,  unlocked: true,  done: false },
-  { id: 5, title: 'Solar Panel Basics',           cat: 'Energy', dur: '25 min', stars: 5, color: '#6366F1', xp: 120, unlocked: false, done: false },
+  { id: 5, title: 'Solar Panel Basics',           cat: 'Energy', dur: '25 min', stars: 5, color: '#00F2FE', xp: 120, unlocked: false, done: false },
   { id: 6, title: 'Carbon Credit Trading',        cat: 'Adv',    dur: '30 min', stars: 5, color: '#A855F7', xp: 150, unlocked: false, done: false },
 ];
 
@@ -35,7 +35,7 @@ export default function LearnPage() {
             <motion.button key={c} onClick={() => setCatFilter(c)} whileTap={{ scale: 0.96 }}
               className="px-3 py-[6px] rounded-lg text-[11px] font-semibold transition-all cursor-pointer relative"
               style={{ color: catFilter === c ? 'white' : '#64748B' }}>
-              {catFilter === c && <motion.div layoutId="ltab" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }} />}
+              {catFilter === c && <motion.div layoutId="ltab" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #0891B2, #00F2FE)' }} />}
               <span className="relative z-10">{c}</span>
             </motion.button>
           ))}
@@ -56,7 +56,7 @@ export default function LearnPage() {
               </motion.div>
               {l.done && <CheckCircle2 size={16} style={{ color: '#10B981' }} />}
             </div>
-            <h3 className="text-[14px] font-semibold text-white mb-auto group-hover:text-[#A5B4FC] transition-colors">{l.title}</h3>
+            <h3 className="text-[14px] font-semibold text-white mb-auto group-hover:text-[#22D3EE] transition-colors">{l.title}</h3>
             <div className="flex items-center gap-3 mt-4 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <span className="flex items-center gap-1 text-[10px] font-medium" style={{ color: '#475569' }}><Clock size={10} />{l.dur}</span>
               <span className="badge badge-accent" style={{ fontSize: '8px', padding: '1px 7px' }}>+{l.xp} XP</span>

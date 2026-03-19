@@ -21,8 +21,8 @@ const LeaderboardPage = () => {
         { name: 'DPS Bhopal', points: 42850, students: 412, color: '#2D5A27' },
         { name: 'Kendriya Vidyalaya S4', points: 38200, students: 385, color: '#E8573A' },
         { name: 'Sagar Public School', points: 31450, students: 298, color: '#F4A07A' },
-        { name: 'Campian School', points: 28900, students: 256, color: '#6366F1' },
-        { name: 'St. Joseph Co-ed', points: 24500, students: 210, color: '#EC4899' },
+        { name: 'Campian School', points: 28900, students: 256, color: '#00F2FE' },
+        { name: 'St. Joseph Co-ed', points: 24500, students: 210, color: '#0891B2' },
       ];
     }
   });

@@ -64,16 +64,16 @@ export default function NexusPage() {
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
       {/* Hero */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
-        style={{ background: 'linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(99,102,241,0.06) 100%)', border: '1px solid rgba(6,182,212,0.2)' }}>
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #06B6D4, transparent 70%)' }} />
+        style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.1) 0%, rgba(8, 145, 178, 0.06) 100%)', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#67E8F9' }}>Global Network</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#22D3EE' }}>Global Network</p>
             <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">Collaboration Nexus</h1>
             <p className="text-[13px]" style={{ color: '#94A3B8' }}>Form alliances, trade eco-credits, and amplify your collective impact.</p>
           </div>
           <div className="grid grid-cols-3 gap-3 shrink-0">
-            {[{ k: 'Alliances', v: '12.4k', c: '#06B6D4' }, { k: 'Active Now', v: '3.2k', c: '#10B981' }, { k: 'Trades Today', v: '840', c: '#F59E0B' }].map((s, i) => (
+            {[{ k: 'Alliances', v: '12.4k', c: '#00F2FE' }, { k: 'Active Now', v: '3.2k', c: '#10B981' }, { k: 'Trades Today', v: '840', c: '#F59E0B' }].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 + i * 0.08, type: 'spring', stiffness: 200 }}
                 className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <p className="text-[20px] font-bold" style={{ color: s.c }}>{s.v}</p>
@@ -90,7 +90,7 @@ export default function NexusPage() {
           <motion.button key={val} onClick={() => setTab(val)} whileTap={{ scale: 0.96 }}
             className="px-4 py-[7px] rounded-lg text-[11px] font-semibold transition-all cursor-pointer relative"
             style={{ color: tab === val ? 'white' : '#64748B' }}>
-            {tab === val && <motion.div layoutId="ntab" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }} />}
+            {tab === val && <motion.div layoutId="ntab" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #0891B2, #00F2FE)' }} />}
             <span className="relative z-10">{label}</span>
           </motion.button>
         ))}
@@ -121,7 +121,7 @@ export default function NexusPage() {
                   className="flex items-center gap-4 p-4 rounded-xl cursor-pointer group transition-all"
                   style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-all group-hover:scale-110"
-                    style={{ background: 'rgba(99,102,241,0.1)', color: '#A5B4FC' }}>
+                    style={{ background: 'rgba(0, 242, 254, 0.1)', color: '#22D3EE' }}>
                     {i % 3 === 0 ? <Zap size={14} /> : i % 3 === 1 ? <ShieldCheck size={14} /> : <Cpu size={14} />}
                   </div>
                   <div className="flex-1 min-w-0">

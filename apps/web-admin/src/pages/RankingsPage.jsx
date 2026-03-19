@@ -32,7 +32,7 @@ export default function RankingsPage() {
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
       {/* Hero */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
-        style={{ background: 'linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(99,102,241,0.06) 100%)', border: '1px solid rgba(245,158,11,0.2)' }}>
+        style={{ background: 'linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(0, 242, 254, 0.06) 100%)', border: '1px solid rgba(245,158,11,0.2)' }}>
         <div className="absolute -top-16 -right-16 w-52 h-52 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #F59E0B, transparent 70%)' }} />
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
@@ -47,10 +47,10 @@ export default function RankingsPage() {
               </div>
             </div>
             <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">School Rankings</h1>
-            <p className="text-[13px]" style={{ color: '#94A3B8' }}>DPS Bhopal is <span style={{ color: '#A5B4FC', fontWeight: 700 }}>#2</span> · 2,790 XP behind #1 · This Week: Oct 14–21</p>
+            <p className="text-[13px]" style={{ color: '#94A3B8' }}>DPS Bhopal is <span style={{ color: '#22D3EE', fontWeight: 700 }}>#2</span> · 2,790 XP behind #1 · This Week: Oct 14–21</p>
           </div>
           <div className="grid grid-cols-3 gap-3 shrink-0">
-            {[{ k: 'Schools', v: '120+', c: '#F59E0B' }, { k: 'Students', v: '48k', c: '#A5B4FC' }, { k: 'Live Updates', v: '60s', c: '#10B981' }].map((s, i) => (
+            {[{ k: 'Schools', v: '120+', c: '#F59E0B' }, { k: 'Students', v: '48k', c: '#22D3EE' }, { k: 'Live Updates', v: '60s', c: '#10B981' }].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 + i * 0.07, type: 'spring' }}
                 className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <p className="text-[20px] font-bold" style={{ color: s.c }}>{s.v}</p>
@@ -70,7 +70,7 @@ export default function RankingsPage() {
                 <motion.button key={t} onClick={() => setTab(t)} whileTap={{ scale: 0.96 }}
                   className="px-4 py-[7px] rounded-lg text-[11px] font-semibold cursor-pointer relative"
                   style={{ color: tab === t ? 'white' : '#64748B' }}>
-                  {tab === t && <motion.div layoutId="rtab" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }} />}
+                  {tab === t && <motion.div layoutId="rtab" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #0891B2, #00F2FE)' }} />}
                   <span className="relative z-10">{t === 'SCHOOLS' ? 'Schools' : 'Students — DPS'}</span>
                 </motion.button>
               ))}
@@ -94,7 +94,7 @@ export default function RankingsPage() {
                     }
                   </div>
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-[11px] shrink-0"
-                    style={{ background: r.hl ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)', color: r.hl ? '#A5B4FC' : '#64748B', border: `1px solid ${r.hl ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.07)'}` }}>
+                    style={{ background: r.hl ? 'rgba(0, 242, 254, 0.2)' : 'rgba(255,255,255,0.05)', color: r.hl ? '#22D3EE' : '#64748B', border: `1px solid ${r.hl ? 'rgba(0, 242, 254, 0.3)' : 'rgba(255,255,255,0.07)'}` }}>
                     {r.name.split(' ').map(n => n[0]).join('').slice(0,2)}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -104,7 +104,7 @@ export default function RankingsPage() {
                       <motion.div className="h-full rounded-full" initial={{ width: 0 }}
                         animate={{ width: `${(r.val / maxVal) * 100}%` }}
                         transition={{ duration: 1.1, delay: 0.15 + i * 0.08 }}
-                        style={{ background: r.hl ? 'linear-gradient(90deg, #6366F1, #8B5CF6)' : 'rgba(255,255,255,0.22)', boxShadow: r.hl ? '0 0 8px rgba(99,102,241,0.6)' : 'none' }} />
+                        style={{ background: r.hl ? 'linear-gradient(90deg, #0891B2, #00F2FE)' : 'rgba(255,255,255,0.22)', boxShadow: r.hl ? '0 0 8px rgba(0, 242, 254, 0.6)' : 'none' }} />
                     </div>
                   </div>
                   <div className="text-right shrink-0">
@@ -128,7 +128,7 @@ export default function RankingsPage() {
           <motion.div variants={fadeUp} className="surface p-5 glow-card">
             <p className="text-[9px] font-semibold uppercase tracking-wider mb-3" style={{ color: '#475569 '}}>Your Position</p>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white" style={{ background: 'linear-gradient(135deg, #6366F1, #8B5CF6)', boxShadow: '0 0 20px rgba(99,102,241,0.4)' }}>AS</div>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white" style={{ background: 'linear-gradient(135deg, #0891B2, #00F2FE)', boxShadow: '0 0 20px rgba(0, 242, 254, 0.4)' }}>AS</div>
               <div><p className="text-[13px] font-bold text-white">Aryan Sharma</p><p className="text-[10px]" style={{ color: '#64748B' }}>DPS Bhopal · Class X-B</p></div>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
@@ -150,8 +150,8 @@ export default function RankingsPage() {
                 <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.09 }}
                   whileHover={{ x: 4 }}
                   className="flex justify-between items-center p-3 rounded-xl cursor-pointer transition-all"
-                  style={c.hl ? { background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)' } : { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-[12px] font-medium" style={{ color: c.hl ? '#A5B4FC' : '#94A3B8' }}>{c.n}</span>
+                  style={c.hl ? { background: 'rgba(0, 242, 254, 0.08)', border: '1px solid rgba(0, 242, 254, 0.2)' } : { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span className="text-[12px] font-medium" style={{ color: c.hl ? '#22D3EE' : '#94A3B8' }}>{c.n}</span>
                   <span className="badge badge-success" style={{ fontSize: '10px', padding: '3px 10px' }}>
                     <ArrowUpRight size={10} className="inline" /> +{c.g}
                   </span>

@@ -8,7 +8,7 @@ const badges = [
   { id: 'water-saver',  name: 'Water Saver',    desc: 'Save 500L of water across missions',  icon: '💧', color: '#06B6D4' },
   { id: 'waste-warrior',name: 'Waste Warrior',  desc: 'Divert 50Kg of waste from landfill',  icon: '♻️', color: '#F59E0B' },
   { id: 'solar-pioneer',name: 'Solar Pioneer',  desc: 'Complete 5 energy audit missions',    icon: '⚡', color: '#F97316' },
-  { id: 'eco-leader',   name: 'Eco Leader',     desc: 'Reach Level 10 in any skill',         icon: '👑', color: '#6366F1' },
+  { id: 'eco-leader',   name: 'Eco Leader',     desc: 'Reach Level 10 in any skill',         icon: '👑', color: '#00F2FE' },
   { id: 'data-analyst', name: 'Data Analyst',   desc: 'Log 100 environmental data points',   icon: '📊', color: '#A855F7' },
 ];
 
@@ -32,13 +32,13 @@ export default function BadgesPage() {
           <div className="relative w-12 h-12">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
               <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3" />
-              <motion.circle cx="18" cy="18" r="14" fill="none" stroke="#6366F1" strokeWidth="3"
+              <motion.circle cx="18" cy="18" r="14" fill="none" stroke="#00F2FE" strokeWidth="3"
                 strokeDasharray={`${2 * Math.PI * 14}`}
                 initial={{ strokeDashoffset: 2 * Math.PI * 14 }}
                 animate={{ strokeDashoffset: 2 * Math.PI * 14 * (1 - pct / 100) }}
                 transition={{ duration: 1.5, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
                 strokeLinecap="round"
-                style={{ filter: 'drop-shadow(0 0 6px rgba(99,102,241,0.7))' }}
+                style={{ filter: 'drop-shadow(0 0 6px rgba(0, 242, 254, 0.7))' }}
               />
             </svg>
             <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">{pct}%</span>

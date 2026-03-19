@@ -26,7 +26,7 @@ export default function ProfilePage() {
           <p className="text-[11px] mb-1" style={{ color: '#475569' }}>{u.email}</p>
           <p className="text-[11px] mb-5 badge badge-accent">Eco Warrior</p>
           <div className="grid grid-cols-3 w-full gap-3 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            {[{ k: 'Level', v: u.level, c: '#6366F1' }, { k: 'Rank', v: `#${u.rank}`, c: '#F59E0B' }, { k: 'Badges', v: u.badges.length, c: '#10B981' }].map((s, i) => (
+            {[{ k: 'Level', v: u.level, c: '#00F2FE' }, { k: 'Rank', v: `#${u.rank}`, c: '#F59E0B' }, { k: 'Badges', v: u.badges.length, c: '#10B981' }].map((s, i) => (
               <div key={i}><p className="text-[18px] font-bold" style={{ color: s.c }}>{s.v}</p><p className="text-[8px] font-bold uppercase tracking-wider" style={{ color: '#475569' }}>{s.k}</p></div>
             ))}
           </div>
@@ -56,7 +56,7 @@ export default function ProfilePage() {
             <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
               {['🌱', '💧', '♻️', '⚡', '👑'].map((emoji, i) => (
                 <motion.div key={i} whileHover={{ scale: 1.15, y: -3 }} className="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 cursor-pointer"
-                  style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}>
+                  style={{ background: 'rgba(0, 242, 254, 0.1)', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
                   {emoji}
                 </motion.div>
               ))}

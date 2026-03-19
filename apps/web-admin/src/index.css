@@ -5,34 +5,34 @@
    INNOSOFT DARK TECH — Design Tokens
    ======================================== */
 :root {
-  --bg-base:     #080B14;
-  --bg-surface:  #0D1120;
-  --bg-elevated: #131829;
-  --bg-glass:    rgba(255,255,255,0.04);
-  --border:      rgba(255,255,255,0.08);
-  --border-glow: rgba(99,102,241,0.3);
+  --bg-base:     #05070A;
+  --bg-surface:  rgba(10, 14, 20, 0.95);
+  --bg-elevated: #0D1117;
+  --bg-glass:    rgba(255,255,255,0.02);
+  --border:      rgba(0, 242, 254, 0.12);
+  --border-glow: rgba(0, 242, 254, 0.35);
 
-  --accent:        #6366F1;
-  --accent-hover:  #818CF8;
-  --accent-bright: #A5B4FC;
-  --accent-glow:   rgba(99,102,241,0.15);
+  --accent:        #00F2FE;
+  --accent-hover:  #00E5FF;
+  --accent-bright: #22D3EE;
+  --accent-glow:   rgba(0, 242, 254, 0.3);
 
   --text-primary:   #F1F5F9;
   --text-secondary: #94A3B8;
   --text-muted:     #475569;
-  --text-accent:    #A5B4FC;
+  --text-accent:    #22D3EE;
 
   --success: #10B981;
   --warning: #F59E0B;
   --danger:  #EF4444;
-  --info:    #06B6D4;
+  --info:    #00F2FE;
 
-  --gradient-hero:    linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #06B6D4 100%);
-  --gradient-cta:     linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%);
-  --gradient-border:  linear-gradient(135deg, rgba(99,102,241,0.5), rgba(139,92,246,0.2), rgba(6,182,212,0.3));
+  --gradient-hero:    linear-gradient(135deg, #0891B2 0%, #00F2FE 100%);
+  --gradient-cta:     linear-gradient(90deg, #0891B2 0%, #00F2FE 100%);
+  --gradient-border:  linear-gradient(135deg, rgba(8,145,178,0.5), rgba(0,242,254,0.2), rgba(34,211,238,0.3));
 
-  --shadow-glow:  0 0 40px rgba(99,102,241,0.25), 0 0 80px rgba(99,102,241,0.1);
-  --shadow-cta:   0 8px 30px rgba(99,102,241,0.4);
+  --shadow-glow:  0 0 40px rgba(0, 242, 254, 0.2), 0 0 80px rgba(0, 242, 254, 0.05);
+  --shadow-cta:   0 8px 30px rgba(0, 242, 254, 0.4);
   --shadow-card:  0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.2);
   --shadow-float: 0 20px 60px rgba(0,0,0,0.5);
 }
@@ -135,7 +135,7 @@ body {
   content: '';
   position: absolute; inset: 0;
   border-radius: 16px; padding: 1px;
-  background: linear-gradient(var(--ag-angle, 0deg), #6366F1, #8B5CF6, #06B6D4, #6366F1);
+  background: linear-gradient(var(--ag-angle, 0deg), var(--accent), var(--accent-blue), #22D3EE, var(--accent));
   background-size: 300% 300%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -176,7 +176,7 @@ body {
 .btn-primary:hover::before { transform: translateX(100%); }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(99,102,241,0.5), 0 0 0 1px rgba(99,102,241,0.3);
+  box-shadow: 0 12px 40px rgba(0, 242, 254, 0.4), 0 0 0 1px rgba(0, 242, 254, 0.2);
 }
 .btn-primary:active { transform: translateY(0px) scale(0.98); }
 
@@ -206,7 +206,7 @@ body {
   padding: 4px 12px; border-radius: 9999px;
   font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
 }
-.badge-accent  { background: rgba(99,102,241,0.15);  color: #A5B4FC;  border: 1px solid rgba(99,102,241,0.3);  }
+.badge-accent  { background: rgba(0, 242, 254, 0.15);  color: #22D3EE;  border: 1px solid rgba(0, 242, 254, 0.3);  }
 .badge-success { background: rgba(16,185,129,0.12);  color: #34D399;  border: 1px solid rgba(16,185,129,0.25); }
 .badge-warning { background: rgba(245,158,11,0.12);  color: #FCD34D;  border: 1px solid rgba(245,158,11,0.25); }
 .badge-danger  { background: rgba(239,68,68,0.12);   color: #FCA5A5;  border: 1px solid rgba(239,68,68,0.25);  }
@@ -224,7 +224,7 @@ body {
 .xp-bar-fill {
   height: 100%; border-radius: 9999px;
   background: var(--gradient-cta);
-  box-shadow: 0 0 14px rgba(99,102,241,0.7);
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.7);
   transition: width 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
@@ -257,8 +257,8 @@ input, textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 input:focus, textarea:focus {
-  border-color: rgba(99,102,241,0.5);
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+  border-color: rgba(0, 242, 254, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.12);
 }
 input::placeholder { color: var(--text-muted); }
 
@@ -340,7 +340,7 @@ input::placeholder { color: var(--text-muted); }
   top: 0; left: 0;
   width: 600px; height: 600px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   transform: translate(-50%, -50%);
@@ -386,10 +386,10 @@ input::placeholder { color: var(--text-muted); }
    GAIA COMMAND PILL
    ======================================== */
 .gaia-pill {
-  background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.15));
-  border: 1px solid rgba(99,102,241,0.3);
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.15));
+  border: 1px solid rgba(0, 242, 254, 0.3);
   backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(99,102,241,0.25), 0 0 0 1px rgba(99,102,241,0.1) inset;
+  box-shadow: 0 8px 32px rgba(0, 242, 254, 0.25), 0 0 0 1px rgba(0, 242, 254, 0.1) inset;
 }
 
 /* Orbit ring animation (GaiaCommand expanded) */
@@ -416,7 +416,7 @@ input::placeholder { color: var(--text-muted); }
    ======================================== */
 .typing-cursor::after {
   content: '|';
-  color: #6366F1;
+  color: var(--accent);
   animation: blink 1s step-end infinite;
 }
 @keyframes blink {
@@ -428,5 +428,5 @@ input::placeholder { color: var(--text-muted); }
    CHART DOTS
    ======================================== */
 .recharts-active-dot circle {
-  filter: drop-shadow(0 0 6px rgba(99,102,241,0.8));
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.8));
 }

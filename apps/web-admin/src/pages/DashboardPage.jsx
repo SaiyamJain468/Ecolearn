@@ -89,13 +89,13 @@ export default function DashboardPage() {
       {/* ===== HERO GREETING ===== */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
         style={{
-          background: 'linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.08) 50%, rgba(6,182,212,0.05) 100%)',
-          border: '1px solid rgba(99,102,241,0.2)',
-          boxShadow: '0 0 60px rgba(99,102,241,0.08)'
+          background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(8, 145, 178, 0.08) 50%, rgba(34, 211, 238, 0.05) 100%)',
+          border: '1px solid rgba(0, 242, 254, 0.2)',
+          boxShadow: '0 0 60px rgba(0, 242, 254, 0.08)'
         }}>
         {/* Animated blobs */}
         <motion.div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }}
           animate={{ scale: [1, 1.15, 1], x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }} />
         <motion.div className="absolute -bottom-16 right-40 w-48 h-48 rounded-full opacity-10 pointer-events-none"
           style={{ background: 'radial-gradient(circle, #06B6D4, transparent 70%)' }}
@@ -106,7 +106,7 @@ export default function DashboardPage() {
             <motion.p
               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
               className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-1"
-              style={{ color: '#A5B4FC' }}
+              style={{ color: '#22D3EE' }}
             >
               Good morning ✨
             </motion.p>
@@ -129,7 +129,7 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-2">
                   <span className="badge badge-accent" style={{ fontSize: '10px', padding: '2px 10px' }}>Lvl {u.level} · Eco Warrior</span>
                 </div>
-                <span className="text-[11px] font-semibold" style={{ color: '#6366F1' }}>260 XP to Climate Champion</span>
+                <span className="text-[11px] font-semibold" style={{ color: '#00F2FE' }}>260 XP to Climate Champion</span>
               </div>
               <div className="xp-bar-track">
                 <motion.div className="xp-bar-fill" initial={{ width: 0 }} animate={{ width: `${xpProgress * 100}%` }} transition={{ duration: 1.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} />
@@ -164,9 +164,9 @@ export default function DashboardPage() {
                         : 'text-white/30'
                   }`} style={{
                     background: STREAK_DONE[i] && i !== 6
-                      ? 'linear-gradient(135deg, #6366F1, #8B5CF6)'
+                      ? 'linear-gradient(135deg, #0891B2, #00F2FE)'
                       : 'rgba(255,255,255,0.04)',
-                    boxShadow: STREAK_DONE[i] && i !== 6 ? '0 0 12px rgba(99,102,241,0.5)' : 'none'
+                    boxShadow: STREAK_DONE[i] && i !== 6 ? '0 0 12px rgba(0, 242, 254, 0.5)' : 'none'
                   }}>
                     {STREAK_DONE[i] && i !== 6 ? <CheckCircle2 size={12} /> : d}
                   </div>
@@ -182,7 +182,7 @@ export default function DashboardPage() {
       {/* ===== QUICK STATS ===== */}
       <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Eco Points', value: 12400, icon: Zap, color: '#6366F1', glow: 'rgba(99,102,241,0.25)', suffix: '' },
+          { label: 'Eco Points', value: 12400, icon: Zap, color: '#00F2FE', glow: 'rgba(0, 242, 254, 0.25)', suffix: '' },
           { label: 'Missions Done', value: 24, icon: Target, color: '#10B981', glow: 'rgba(16,185,129,0.25)', suffix: '' },
           { label: 'Badges Earned', value: u.badges.length, icon: Award, color: '#F59E0B', glow: 'rgba(245,158,11,0.25)', suffix: '' },
           { label: 'School Rank', value: 2, icon: Trophy, color: '#06B6D4', glow: 'rgba(6,182,212,0.25)', prefix: '#', suffix: '' },
@@ -197,7 +197,7 @@ export default function DashboardPage() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all group-hover:scale-110" style={{ background: `${s.color}15`, boxShadow: `0 0 20px ${s.glow}` }}>
                 <s.icon size={18} style={{ color: s.color }} />
               </div>
-              <ArrowUpRight size={13} style={{ color: '#334155' }} className="group-hover:text-[#6366F1] transition-colors" />
+              <ArrowUpRight size={13} style={{ color: '#334155' }} className="group-hover:text-[#00F2FE] transition-colors" />
             </div>
             <div>
               <p className="text-[26px] font-bold text-white leading-none tracking-tight">
@@ -215,7 +215,7 @@ export default function DashboardPage() {
         <motion.div variants={fadeUp} className="lg:col-span-3 space-y-3">
           <div className="flex justify-between items-center">
             <h3 className="text-[14px] font-semibold text-white">Active Missions</h3>
-            <a href="/missions" className="text-[11px] font-medium flex items-center gap-1 hover:opacity-80 transition-opacity" style={{ color: '#A5B4FC' }}>View all <ArrowUpRight size={12} /></a>
+            <a href="/missions" className="text-[11px] font-medium flex items-center gap-1 hover:opacity-80 transition-opacity" style={{ color: '#22D3EE' }}>View all <ArrowUpRight size={12} /></a>
           </div>
           {missions.map((m, i) => (
             <motion.div
@@ -232,7 +232,7 @@ export default function DashboardPage() {
                 {i === 0 ? <Leaf size={17} style={{ color: '#10B981' }} /> : i === 1 ? <Droplets size={17} style={{ color: '#06B6D4' }} /> : <BatteryCharging size={17} style={{ color: '#F59E0B' }} />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-semibold text-white truncate group-hover:text-[#A5B4FC] transition-colors">{m.title}</p>
+                <p className="text-[13px] font-semibold text-white truncate group-hover:text-[#22D3EE] transition-colors">{m.title}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-[10px] font-medium" style={{ color: '#475569' }}><Clock size={10} className="inline mr-1" />~30 min</span>
                   <span className="text-[9px]" style={{ color: '#334155' }}>·</span>
@@ -242,8 +242,8 @@ export default function DashboardPage() {
                 </div>
               </div>
               <div className="shrink-0 text-right">
-                <span className="text-[12px] font-bold" style={{ color: '#6366F1' }}>+{m.xp} XP</span>
-                <ChevronRight size={13} style={{ color: '#334155' }} className="ml-auto mt-1 group-hover:text-[#6366F1] group-hover:translate-x-0.5 transition-all" />
+                <span className="text-[12px] font-bold" style={{ color: '#00F2FE' }}>+{m.xp} XP</span>
+                <ChevronRight size={13} style={{ color: '#334155' }} className="ml-auto mt-1 group-hover:text-[#00F2FE] group-hover:translate-x-0.5 transition-all" />
               </div>
             </motion.div>
           ))}
@@ -263,8 +263,8 @@ export default function DashboardPage() {
               <LineChart data={chartData}>
                 <defs>
                   <linearGradient id="xpLine" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#6366F1" />
-                    <stop offset="100%" stopColor="#8B5CF6" />
+                    <stop offset="0%" stopColor="#0891B2" />
+                    <stop offset="100%" stopColor="#00F2FE" />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
@@ -274,7 +274,7 @@ export default function DashboardPage() {
                 <Line
                   type="monotone" dataKey="xp" name="XP"
                   stroke="url(#xpLine)" strokeWidth={2.5} dot={false}
-                  activeDot={{ r: 5, fill: '#6366F1', stroke: '#080B14', strokeWidth: 2.5 }}
+                  activeDot={{ r: 5, fill: '#00F2FE', stroke: '#080B14', strokeWidth: 2.5 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -305,17 +305,17 @@ export default function DashboardPage() {
             >
               <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[11px] font-bold"
                 style={{
-                  background: log.status === 'success' ? 'rgba(16,185,129,0.12)' : log.status === 'warning' ? 'rgba(245,158,11,0.12)' : 'rgba(99,102,241,0.12)',
-                  color: log.status === 'success' ? '#10B981' : log.status === 'warning' ? '#F59E0B' : '#A5B4FC'
+                  background: log.status === 'success' ? 'rgba(16,185,129,0.12)' : log.status === 'warning' ? 'rgba(245,158,11,0.12)' : 'rgba(0, 242, 254, 0.12)',
+                  color: log.status === 'success' ? '#10B981' : log.status === 'warning' ? '#F59E0B' : '#22D3EE'
                 }}>
                 {log.status === 'success' ? <CheckCircle2 size={14} /> : log.status === 'warning' ? <Flame size={14} /> : <Zap size={14} />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-medium text-white truncate group-hover:text-[#A5B4FC] transition-colors">{log.message}</p>
+                <p className="text-[12px] font-medium text-white truncate group-hover:text-[#22D3EE] transition-colors">{log.message}</p>
                 <p className="text-[10px] mt-0.5" style={{ color: '#475569' }}>{log.time}</p>
               </div>
               {log.xp && (
-                <span className="text-[11px] font-bold shrink-0" style={{ color: '#6366F1' }}>+{log.xp} XP</span>
+                <span className="text-[11px] font-bold shrink-0" style={{ color: '#00F2FE' }}>+{log.xp} XP</span>
               )}
             </motion.div>
           ))}
@@ -327,15 +327,15 @@ export default function DashboardPage() {
         whileHover={{ scale: 1.005 }}
         className="relative overflow-hidden rounded-2xl p-6 cursor-pointer group"
         style={{
-          background: 'linear-gradient(135deg, #0D1120 0%, rgba(99,102,241,0.08) 100%)',
-          border: '1px solid rgba(99,102,241,0.2)'
+          background: 'linear-gradient(135deg, #0D1120 0%, rgba(0, 242, 254, 0.08) 100%)',
+          border: '1px solid rgba(0, 242, 254, 0.2)'
         }}>
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.05), rgba(6,182,212,0.03))' }} />
-        <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }} />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(8, 145, 178, 0.03))' }} />
+        <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
         <div className="relative flex items-center gap-5">
           <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }}
             className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 text-2xl"
-            style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1))', border: '1px solid rgba(99,102,241,0.3)' }}>
+            style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.1))', border: '1px solid rgba(0, 242, 254, 0.3)' }}>
             🌍
           </motion.div>
           <div className="flex-1">

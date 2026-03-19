@@ -26,11 +26,11 @@ function CursorSpotlight() {
 /* ── Floating Particle ───────────────────────────────────── */
 function Particles() {
   const particles = [
-    { x: '15%', size: 3, color: '#6366F1', dur: '7s', delay: '0s'   },
-    { x: '30%', size: 2, color: '#8B5CF6', dur: '9s', delay: '2s'   },
-    { x: '60%', size: 4, color: '#06B6D4', dur: '6s', delay: '4s'   },
-    { x: '75%', size: 2, color: '#6366F1', dur: '8s', delay: '1s'   },
-    { x: '85%', size: 3, color: '#A855F7', dur: '7s', delay: '3s'   },
+    { x: '15%', size: 3, color: '#00F2FE', dur: '7s', delay: '0s'   },
+    { x: '30%', size: 2, color: '#0891B2', dur: '9s', delay: '2s'   },
+    { x: '60%', size: 4, color: '#22D3EE', dur: '6s', delay: '4s'   },
+    { x: '75%', size: 2, color: '#00F2FE', dur: '8s', delay: '1s'   },
+    { x: '85%', size: 3, color: '#0891B2', dur: '7s', delay: '3s'   },
     { x: '45%', size: 2, color: '#10B981', dur: '10s', delay: '5s'  },
   ];
   return (
@@ -60,21 +60,21 @@ const NavItem = ({ to, icon: Icon, label, active }) => (
           layoutId="navActive"
           className="absolute inset-0 rounded-xl"
           style={{
-            background: 'linear-gradient(120deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1))',
-            border: '1px solid rgba(99,102,241,0.3)',
-            boxShadow: '0 0 20px rgba(99,102,241,0.15), inset 0 1px 0 rgba(255,255,255,0.05)'
+            background: 'linear-gradient(120deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.1))',
+            border: '1px solid rgba(0, 242, 254, 0.3)',
+            boxShadow: '0 0 20px rgba(0, 242, 254, 0.15), inset 0 1px 0 rgba(255,255,255,0.05)'
           }}
           transition={{ type: 'spring', stiffness: 400, damping: 35 }}
         />
       )}
       <Icon size={16} strokeWidth={active ? 2.2 : 1.7}
-        className={`relative z-10 transition-colors ${active ? 'text-[#A5B4FC]' : ''}`} />
+        className={`relative z-10 transition-colors ${active ? 'text-[#22D3EE]' : ''}`} />
       <span className="relative z-10">{label}</span>
       {active && (
         <motion.div
           initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.15, type: 'spring' }}
           className="ml-auto w-1.5 h-1.5 rounded-full relative z-10"
-          style={{ background: '#6366F1', boxShadow: '0 0 8px rgba(99,102,241,0.9)' }}
+          style={{ background: '#00F2FE', boxShadow: '0 0 8px rgba(0, 242, 254, 0.9)' }}
         />
       )}
     </motion.div>
@@ -99,7 +99,7 @@ export default function Layout() {
       <Particles />
 
       {/* Static ambient orbs */}
-      <div className="ambient-orb w-[600px] h-[600px] -top-32 -left-48 opacity-[0.035]" style={{ background: '#6366F1' }} />
+      <div className="ambient-orb w-[600px] h-[600px] -top-32 -left-48 opacity-[0.035]" style={{ background: '#00F2FE' }} />
       <div className="ambient-orb w-[400px] h-[400px] -bottom-24 -right-24 opacity-[0.025]" style={{ background: '#06B6D4' }} />
 
       {/* ═══ SIDEBAR ═══════════════════════════════════════ */}
@@ -108,16 +108,16 @@ export default function Layout() {
 
         {/* Top shimmer line */}
         <div className="absolute top-0 left-0 right-0 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent)' }} />
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.5), transparent)' }} />
 
         {/* Logo / Brand */}
         <div className="px-5 pt-5 pb-2 flex items-center gap-3">
           <motion.div whileHover={{ rotate: 180 }} transition={{ duration: 0.5 }}
             className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-[14px]"
-            style={{ background: 'linear-gradient(135deg, #6366F1, #8B5CF6)', boxShadow: '0 0 20px rgba(99,102,241,0.5)' }}>
+            style={{ background: 'linear-gradient(135deg, #00F2FE, #0891B2)', boxShadow: '0 0 20px rgba(0, 242, 254, 0.5)' }}>
             G
           </motion.div>
-          <span className="text-[15px] font-bold text-white tracking-tight">GAIA <span style={{ color: '#A5B4FC' }}>Protocol</span></span>
+          <span className="text-[15px] font-bold text-white tracking-tight">GAIA <span style={{ color: '#22D3EE' }}>Protocol</span></span>
         </div>
 
         {/* User Profile */}
@@ -142,7 +142,7 @@ export default function Layout() {
 
         {/* Search */}
         <div className="px-4 mb-2">
-          <motion.div whileHover={{ borderColor: 'rgba(99,102,241,0.3)' }}
+          <motion.div whileHover={{ borderColor: 'rgba(0, 242, 254, 0.3)' }}
             className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl cursor-pointer group transition-all"
             style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', color: '#475569' }}>
             <Search size={13} />
@@ -179,13 +179,13 @@ export default function Layout() {
         <div className="p-4 mt-3">
           <div className="relative overflow-hidden rounded-2xl p-5"
             style={{
-              background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.08))',
-              border: '1px solid rgba(99,102,241,0.2)',
-              boxShadow: '0 0 40px rgba(99,102,241,0.1)'
+              background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(8, 145, 178, 0.08))',
+              border: '1px solid rgba(0, 242, 254, 0.2)',
+              boxShadow: '0 0 40px rgba(0, 242, 254, 0.1)'
             }}>
             {/* Animated blobs */}
             <motion.div className="absolute -top-8 -right-8 w-24 h-24 rounded-full opacity-20 pointer-events-none"
-              style={{ background: '#6366F1', filter: 'blur(30px)' }}
+              style={{ background: '#00F2FE', filter: 'blur(30px)' }}
               animate={{ scale: [1, 1.2, 1], x: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }} />
             <motion.div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full opacity-15 pointer-events-none"
@@ -228,7 +228,7 @@ export default function Layout() {
           <div className="flex items-center gap-2.5">
             <motion.div whileHover={{ scale: 1.03 }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold cursor-pointer"
-              style={{ background: 'rgba(99,102,241,0.1)', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
+              style={{ background: 'rgba(0, 242, 254, 0.1)', color: '#22D3EE', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
               <Zap size={13} />
               124,500 XP
             </motion.div>

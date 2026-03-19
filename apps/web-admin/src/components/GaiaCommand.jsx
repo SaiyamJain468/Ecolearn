@@ -24,7 +24,7 @@ function getResponse(text) {
 }
 
 function format(text) {
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#A5B4FC">$1</strong>');
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#22D3EE">$1</strong>');
 }
 
 /* Orbiting dot around the button */
@@ -76,7 +76,7 @@ export default function GaiaCommand() {
           >
             <OrbitDot />
             <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}>
-              <Sparkles size={16} style={{ color: '#A5B4FC' }} />
+              <Sparkles size={16} style={{ color: '#22D3EE' }} />
             </motion.div>
             <span className="text-[12px] font-semibold text-white">GAIA AI</span>
             <motion.div className="w-2 h-2 rounded-full" style={{ background: '#10B981', boxShadow: '0 0 8px #10B981' }}
@@ -96,18 +96,18 @@ export default function GaiaCommand() {
             className="fixed bottom-6 right-6 z-[100] w-[340px] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
             style={{
               background: 'rgba(8,11,20,0.95)', backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(99,102,241,0.3)',
-              boxShadow: '0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(99,102,241,0.15)',
+              border: '1px solid rgba(0, 242, 254, 0.3)',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0, 242, 254, 0.15)',
               height: 420
             }}
           >
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 shrink-0"
-              style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(99,102,241,0.06)' }}>
+              style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(0, 242, 254, 0.06)' }}>
               <div className="relative">
                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
                   className="w-8 h-8 rounded-xl flex items-center justify-center text-md"
-                  style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.2))', border: '1px solid rgba(99,102,241,0.4)' }}>
+                  style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.3), rgba(8, 145, 178, 0.2))', border: '1px solid rgba(0, 242, 254, 0.4)' }}>
                   🌿
                 </motion.div>
                 <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-[#10B981] rounded-full border-2 border-[#080B14]" />
@@ -144,7 +144,7 @@ export default function GaiaCommand() {
                         ? 'text-white rounded-br-md'
                         : 'text-[#E2E8F0] rounded-bl-md'
                     }`} style={m.role === 'user'
-                      ? { background: 'linear-gradient(135deg, #6366F1, #8B5CF6)', boxShadow: '0 4px 16px rgba(99,102,241,0.3)' }
+                      ? { background: 'linear-gradient(135deg, #0891B2, #00F2FE)', boxShadow: '0 4px 16px rgba(0, 242, 254, 0.3)' }
                       : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }
                     } dangerouslySetInnerHTML={{ __html: format(m.text) }} />
                   </motion.div>
@@ -155,7 +155,7 @@ export default function GaiaCommand() {
                       style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                       {[0, 0.2, 0.4].map((d, i) => (
                         <motion.div key={i} className="w-1.5 h-1.5 rounded-full"
-                          style={{ background: '#A5B4FC' }}
+                          style={{ background: '#22D3EE' }}
                           animate={{ y: [0, -5, 0] }}
                           transition={{ repeat: Infinity, duration: 0.7, delay: d }} />
                       ))}
@@ -172,7 +172,7 @@ export default function GaiaCommand() {
                 <motion.button key={i} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={() => send(s)}
                   className="px-3 py-1.5 rounded-full text-[10px] font-semibold whitespace-nowrap cursor-pointer shrink-0 transition-all"
-                  style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', color: '#A5B4FC' }}>
+                  style={{ background: 'rgba(0, 242, 254, 0.1)', border: '1px solid rgba(0, 242, 254, 0.2)', color: '#22D3EE' }}>
                   {s}
                 </motion.button>
               ))}
@@ -190,7 +190,7 @@ export default function GaiaCommand() {
                 <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
                   onClick={() => send()}
                   className="w-7 h-7 rounded-lg flex items-center justify-center cursor-pointer transition-all"
-                  style={{ background: input.trim() ? 'linear-gradient(135deg, #6366F1, #8B5CF6)' : 'rgba(255,255,255,0.06)', color: input.trim() ? 'white' : '#334155' }}>
+                  style={{ background: input.trim() ? 'linear-gradient(135deg, #0891B2, #00F2FE)' : 'rgba(255,255,255,0.06)', color: input.trim() ? 'white' : '#334155' }}>
                   <Send size={13} />
                 </motion.button>
               </div>

@@ -21,18 +21,18 @@ const pieData = [
   { name: 'Plant',  value: 38, color: '#10B981' },
   { name: 'Water',  value: 28, color: '#06B6D4' },
   { name: 'Waste',  value: 22, color: '#F59E0B' },
-  { name: 'Energy', value: 12, color: '#6366F1' },
+  { name: 'Energy', value: 12, color: '#00F2FE' },
 ];
 
 const telemetry = [
   { icon: Cpu,      label: 'Neural  Res',  value: '4K',    status: 'Optimal', color: '#10B981' },
   { icon: Wifi,     label: 'Latency',      value: '1.2ms', status: 'Fast',    color: '#06B6D4' },
-  { icon: Shield,   label: 'Uptime',       value: '99.9%', status: 'Stable',  color: '#6366F1' },
+  { icon: Shield,   label: 'Uptime',       value: '99.9%', status: 'Stable',  color: '#0891B2' },
   { icon: Activity, label: 'Throughput',   value: '4.8 Gb', status: 'High',   color: '#F59E0B' },
 ];
 
 const statCards = [
-  { label: 'AI Confidence', value: '98.4%', icon: Binary,    color: '#6366F1', glow: 'rgba(99,102,241,0.25)',    bg: 'rgba(99,102,241,0.1)'   },
+  { label: 'AI Confidence', value: '98.4%', icon: Binary,    color: '#00F2FE', glow: 'rgba(0, 242, 254, 0.25)',    bg: 'rgba(0, 242, 254, 0.1)'   },
   { label: 'CO₂ Saved',     value: '1,045 Kg', icon: Zap,   color: '#10B981', glow: 'rgba(16,185,129,0.25)',    bg: 'rgba(16,185,129,0.1)'   },
   { label: 'Growth Rate',   value: '+24.8%', icon: TrendingUp, color: '#F59E0B', glow: 'rgba(245,158,11,0.25)',  bg: 'rgba(245,158,11,0.1)'   },
   { label: 'Live Nodes',    value: '12,400', icon: Activity, color: '#06B6D4', glow: 'rgba(6,182,212,0.25)',     bg: 'rgba(6,182,212,0.1)'    },
@@ -43,11 +43,11 @@ export default function AnalyticsPage() {
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
       {/* Hero */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
-        style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.06) 100%)', border: '1px solid rgba(99,102,241,0.2)' }}>
-        <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }} />
-        <div className="absolute top-0 right-0 w-px h-full opacity-20" style={{ background: 'linear-gradient(180deg, transparent, #6366F1, transparent)' }} />
+        style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.12) 0%, rgba(8, 145, 178, 0.06) 100%)', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
+        <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
+        <div className="absolute top-0 right-0 w-px h-full opacity-20" style={{ background: 'linear-gradient(180deg, transparent, #00F2FE, transparent)' }} />
         <div className="relative">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#A5B4FC' }}>Powered by GAIA Intelligence</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#22D3EE' }}>Powered by GAIA Intelligence</p>
           <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">Eco Analytics</h1>
           <p className="text-[13px]" style={{ color: '#94A3B8' }}>AI-driven environmental intelligence · Updated every 60 seconds</p>
         </div>
@@ -84,16 +84,16 @@ export default function AnalyticsPage() {
               <AreaChart data={MOCK_ANALYTICS.monthly_offset}>
                 <defs>
                   <linearGradient id="co2g" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366F1" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#00F2FE" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#00F2FE" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#475569' }} />
                 <YAxis hide />
                 <Tooltip content={<AreaTip />} />
-                <Area type="monotone" dataKey="offset" stroke="#6366F1" strokeWidth={2.5} fillOpacity={1} fill="url(#co2g)"
-                  activeDot={{ r: 5, fill: '#6366F1', stroke: '#080B14', strokeWidth: 2.5 }} />
+                <Area type="monotone" dataKey="offset" stroke="#00F2FE" strokeWidth={2.5} fillOpacity={1} fill="url(#co2g)"
+                  activeDot={{ r: 5, fill: '#00F2FE', stroke: '#080B14', strokeWidth: 2.5 }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -163,12 +163,12 @@ export default function AnalyticsPage() {
 
       {/* AI Insight Card */}
       <motion.div variants={fadeUp} whileHover={{ scale: 1.005 }} className="relative overflow-hidden rounded-2xl p-6 cursor-pointer"
-        style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05))', border: '1px solid rgba(99,102,241,0.2)' }}>
-        <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }} />
+        style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.08), rgba(8, 145, 178, 0.05))', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
+        <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
         <div className="relative flex items-start gap-5">
           <motion.div animate={{ rotate: [0,5,-5,0] }} transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
             className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0"
-            style={{ background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)' }}>
+            style={{ background: 'rgba(0, 242, 254, 0.15)', border: '1px solid rgba(0, 242, 254, 0.3)' }}>
             🤖
           </motion.div>
           <div>

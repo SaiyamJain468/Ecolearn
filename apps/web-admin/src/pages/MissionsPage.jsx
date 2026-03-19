@@ -7,7 +7,7 @@ const catConfig = {
   plant:  { icon: Leaf,            color: '#10B981', label: 'Plant',  bg: 'rgba(16,185,129,0.12)'  },
   water:  { icon: Droplets,        color: '#06B6D4', label: 'Water',  bg: 'rgba(6,182,212,0.12)'   },
   waste:  { icon: Flame,           color: '#F59E0B', label: 'Waste',  bg: 'rgba(245,158,11,0.12)'  },
-  energy: { icon: BatteryCharging, color: '#6366F1', label: 'Energy', bg: 'rgba(99,102,241,0.12)'  },
+  energy: { icon: BatteryCharging, color: '#00F2FE', label: 'Energy', bg: 'rgba(0, 242, 254, 0.12)'  },
 };
 
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
@@ -40,16 +40,16 @@ export default function MissionsPage() {
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
       {/* Hero */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
-        style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(16,185,129,0.06) 100%)', border: '1px solid rgba(99,102,241,0.2)' }}>
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }} />
+        style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.12) 0%, rgba(16, 185, 129, 0.06) 100%)', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#A5B4FC' }}>Mission Control</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#22D3EE' }}>Mission Control</p>
             <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">Active Challenges</h1>
             <p className="text-[13px]" style={{ color: '#94A3B8' }}>{MOCK_MISSIONS.length} missions · {done} completed · {MOCK_MISSIONS.reduce((a, m) => a + m.xp, 0).toLocaleString()} XP available</p>
           </div>
           <div className="grid grid-cols-3 gap-3 shrink-0">
-            {[{ k: 'Available', v: MOCK_MISSIONS.length, c: '#A5B4FC' }, { k: 'Completed', v: done, c: '#10B981' }, { k: 'XP Earned', v: `${totalXP.toLocaleString()}`, c: '#F59E0B' }].map((s, i) => (
+            {[{ k: 'Available', v: MOCK_MISSIONS.length, c: '#22D3EE' }, { k: 'Completed', v: done, c: '#10B981' }, { k: 'XP Earned', v: `${totalXP.toLocaleString()}`, c: '#F59E0B' }].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 + i * 0.07, type: 'spring' }}
                 className="p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <p className="text-[20px] font-bold" style={{ color: s.c }}>{s.v}</p>
@@ -66,7 +66,7 @@ export default function MissionsPage() {
           <motion.button key={c} onClick={() => setCat(c)} whileTap={{ scale: 0.96 }}
             className="px-4 py-[7px] rounded-lg text-[11px] font-semibold cursor-pointer relative"
             style={{ color: cat === c ? 'white' : '#64748B' }}>
-            {cat === c && <motion.div layoutId="mcat" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }} />}
+            {cat === c && <motion.div layoutId="mcat" className="absolute inset-0 rounded-lg" style={{ background: 'linear-gradient(90deg, #0891B2, #00F2FE)' }} />}
             <span className="relative z-10">{c}</span>
           </motion.button>
         ))}
@@ -77,7 +77,7 @@ export default function MissionsPage() {
         <motion.div key={cat} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.22 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((m, i) => {
-            const cfg = catConfig[m.category] || { icon: Zap, color: '#6366F1', bg: 'rgba(99,102,241,0.12)', label: m.category };
+            const cfg = catConfig[m.category] || { icon: Zap, color: '#00F2FE', bg: 'rgba(0, 242, 254, 0.12)', label: m.category };
             const Icon = cfg.icon;
             const isDone = completed.includes(m.id);
             const [dLabel, dBadge] = diffLabel(m.difficulty);
@@ -107,7 +107,7 @@ export default function MissionsPage() {
                     <span className="badge badge-accent" style={{ fontSize: '8px', padding: '2px 8px' }}>+{m.xp} XP</span>
                   </div>
                 </div>
-                <h3 className="text-[14px] font-semibold text-white mb-1.5 group-hover:text-[#A5B4FC] transition-colors">{m.title}</h3>
+                <h3 className="text-[14px] font-semibold text-white mb-1.5 group-hover:text-[#22D3EE] transition-colors">{m.title}</h3>
                 <p className="text-[11px] leading-relaxed mb-auto" style={{ color: '#64748B' }}>{m.description}</p>
                 <div className="flex items-center justify-between pt-4 mt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <div className="flex items-center gap-3">
@@ -125,7 +125,7 @@ export default function MissionsPage() {
       {/* Mission Detail Modal */}
       <AnimatePresence>
         {sel && (() => {
-          const cfg = catConfig[sel.category] || { icon: Zap, color: '#6366F1', bg: 'rgba(99,102,241,0.12)' };
+          const cfg = catConfig[sel.category] || { icon: Zap, color: '#00F2FE', bg: 'rgba(0, 242, 254, 0.12)' };
           const Icon = cfg.icon;
           const [dLabel, dBadge] = diffLabel(sel.difficulty);
           return (

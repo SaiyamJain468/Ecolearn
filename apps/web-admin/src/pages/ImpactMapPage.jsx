@@ -12,7 +12,7 @@ const typeConfig = {
   ENERGY_GRID:  { color: '#F59E0B', icon: Zap,      label: 'Energy Grid'},
   WATER_SYNC:   { color: '#06B6D4', icon: Droplets,  label: 'Water Sync' },
   RECYCLE_POINT:{ color: '#F97316', icon: Wind,      label: 'Recycle'    },
-  NODE_MASTER:  { color: '#6366F1', icon: Globe,     label: 'Master Node'},
+  NODE_MASTER:  { color: '#00F2FE', icon: Globe,     label: 'Master Node'},
 };
 
 const radarData = [
@@ -25,14 +25,14 @@ const RadarTip = ({ active, payload }) => {
   return (
     <div className="glass-strong rounded-xl p-3 text-[11px]" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
       <p className="text-white font-bold">{payload[0]?.payload?.area}</p>
-      <p style={{ color: '#A5B4FC' }}>{payload[0]?.value}% impact</p>
+      <p style={{ color: '#22D3EE' }}>{payload[0]?.value}% impact</p>
     </div>
   );
 };
 
 const regions = [
   { name: 'Bhopal Central', trees: 420, water: '12k L', co2: '450 Kg', color: '#10B981', status: 'Active', trend: '+18%' },
-  { name: 'Indore North',   trees: 310, water: '8.4k L', co2: '320 Kg', color: '#6366F1', status: 'Active', trend: '+12%' },
+  { name: 'Indore North',   trees: 310, water: '8.4k L', co2: '320 Kg', color: '#00F2FE', status: 'Active', trend: '+12%' },
   { name: 'Sagar District', trees: 180, water: '5.1k L', co2: '180 Kg', color: '#06B6D4', status: 'Growing',trend: '+9%'  },
   { name: 'Jabalpur East',  trees: 95,  water: '2.8k L', co2: '95 Kg',  color: '#F59E0B', status: 'New',    trend: '+4%'  },
 ];
@@ -44,7 +44,7 @@ export default function ImpactMapPage() {
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-7">
       {/* Hero */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-8"
-        style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(99,102,241,0.06) 100%)', border: '1px solid rgba(16,185,129,0.2)' }}>
+        style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(0, 242, 254, 0.06) 100%)', border: '1px solid rgba(16,185,129,0.2)' }}>
         <div className="absolute -bottom-20 -right-20 w-56 h-56 rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #10B981, transparent 70%)' }} />
         <div className="relative flex flex-col xl:flex-row xl:items-center gap-8">
           <div className="flex-1">
@@ -69,15 +69,15 @@ export default function ImpactMapPage() {
         {/* Region Cards */}
         <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
           {regions.map((r, i) => (
-            <motion.div key={i} variants={fadeUp}
+           <motion.div key={i} variants={fadeUp}
               whileHover={{ y: -5, boxShadow: `0 20px 48px rgba(0,0,0,0.3), 0 0 50px ${r.color}12` }}
               onClick={() => setSel(sel?.name === r.name ? null : r)}
-              className="surface p-6 cursor-pointer relative overflow-hidden"
+              className="surface p-4 cursor-pointer relative overflow-hidden"
               style={{ border: sel?.name === r.name ? `1px solid ${r.color}50` : undefined, transition: 'all 0.3s ease' }}
             >
               <motion.div className="absolute inset-0 rounded-2xl pointer-events-none" animate={{ opacity: sel?.name === r.name ? 1 : 0 }}
                 style={{ background: `${r.color}06` }} />
-              <div className="relative flex items-start gap-4 mb-6">
+              <div className="relative flex items-start gap-4 mb-3">
                 <motion.div whileHover={{ rotate: 15, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}
                   className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: `${r.color}12`, border: `1px solid ${r.color}25` }}>
@@ -91,7 +91,7 @@ export default function ImpactMapPage() {
                   </div>
                 </div>
               </div>
-              <div className="relative grid grid-cols-3 gap-4 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <div className="relative grid grid-cols-3 gap-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                 <div><Leaf size={12} className="mb-1.5" style={{ color: '#10B981' }} /><p className="text-[16px] font-bold text-white">{r.trees}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>Trees</p></div>
                 <div><Droplets size={12} className="mb-1.5" style={{ color: '#06B6D4' }} /><p className="text-[16px] font-bold text-white">{r.water}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>Water</p></div>
                 <div><Wind size={12} className="mb-1.5" style={{ color: '#F59E0B' }} /><p className="text-[16px] font-bold text-white">{r.co2}</p><p className="text-[9px] uppercase font-bold" style={{ color: '#475569' }}>CO₂</p></div>
@@ -110,8 +110,8 @@ export default function ImpactMapPage() {
                 <RadarChart data={radarData} outerRadius="75%">
                   <PolarGrid stroke="rgba(255,255,255,0.06)" />
                   <PolarAngleAxis dataKey="area" tick={{ fontSize: 11, fill: '#475569' }} />
-                  <Radar name="Impact" dataKey="A" stroke="#6366F1" fill="#6366F1" fillOpacity={0.15} strokeWidth={2.5}
-                    dot={{ fill: '#6366F1', r: 3.5, strokeWidth: 0 }} />
+                  <Radar name="Impact" dataKey="A" stroke="#00F2FE" fill="#00F2FE" fillOpacity={0.15} strokeWidth={2.5}
+                    dot={{ fill: '#00F2FE', r: 3.5, strokeWidth: 0 }} />
                   <Tooltip content={<RadarTip />} />
                 </RadarChart>
               </ResponsiveContainer>
@@ -122,7 +122,7 @@ export default function ImpactMapPage() {
             <h3 className="text-[15px] font-semibold text-white mb-5">Active Nodes</h3>
             <div className="space-y-3">
               {MOCK_MAP_NODES.slice(0, 5).map((node, i) => {
-                const cfg = typeConfig[node.type] || { color: '#6366F1', icon: Globe, label: node.type };
+                const cfg = typeConfig[node.type] || { color: '#00F2FE', icon: Globe, label: node.type };
                 const Icon = cfg.icon;
                 return (
                   <motion.div key={i} initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.06 }}

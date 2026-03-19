@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import Challenge, ChallengeSubmission, EcoPoints
 
 @admin.register(Challenge)
 class ChallengeAdmin(admin.ModelAdmin):

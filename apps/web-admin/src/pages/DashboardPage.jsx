@@ -1,23 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from 'framer-motion';
 import {
-  Zap, Target, Trophy, Award, Flame, TrendingUp, TrendingDown,
-  ArrowUpRight, ChevronRight, Leaf, Droplets, BatteryCharging, Trash2,
-  CheckCircle2, Clock, Star, MoreVertical, Calendar
+  Zap, Target, Trophy, Award, Flame, TrendingUp,
+  ArrowUpRight, ChevronRight, Leaf, Droplets, BatteryCharging,
+  CheckCircle2, Clock
 } from 'lucide-react';
 import { MOCK_USER, MOCK_MISSIONS, MOCK_LOGS } from '../lib/mockData';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 /* ---- ANIMATED COUNTER ---- */
-function Counter({ from = 0, to, duration = 1.8, suffix = '', prefix = '' }) {
+function Counter({ from = 0, to, suffix = '', prefix = '' }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const val = useMotionValue(from);
-  const smooth = useSpring(val, { stiffness: 60, damping: 18, mass: 0.8 });
+  const smooth = useSpring(val, { stiffness: 55, damping: 16, mass: 0.9 });
   const [display, setDisplay] = useState(from);
   useEffect(() => { if (inView) val.set(to); }, [inView, to]);
   useEffect(() => smooth.on('change', v => setDisplay(Math.floor(v))), [smooth]);
-  return <span ref={ref}>{prefix}{display.toLocaleString()}{suffix}</span>;
+  return <span ref={ref} className="stat-number">{prefix}{display.toLocaleString()}{suffix}</span>;
+}
+
+/* ---- TYPEWRITER ---- */
+function Typewriter({ text, delay = 0 }) {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let i = 0;
+    const t = setTimeout(() => {
+      const iv = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) { clearInterval(iv); setDone(true); }
+      }, 55);
+      return () => clearInterval(iv);
+    }, delay);
+    return () => clearTimeout(t);
+  }, [text, delay]);
+  return <span>{displayed}{!done && <span className="typing-cursor" />}</span>;
 }
 
 /* ---- CHART TOOLTIP ---- */
@@ -74,9 +93,13 @@ export default function DashboardPage() {
           border: '1px solid rgba(99,102,241,0.2)',
           boxShadow: '0 0 60px rgba(99,102,241,0.08)'
         }}>
-        {/* Decorative gradient blobs */}
-        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }} />
-        <div className="absolute -bottom-16 right-40 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #06B6D4, transparent 70%)' }} />
+        {/* Animated blobs */}
+        <motion.div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)' }}
+          animate={{ scale: [1, 1.15, 1], x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }} />
+        <motion.div className="absolute -bottom-16 right-40 w-48 h-48 rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #06B6D4, transparent 70%)' }}
+          animate={{ scale: [1, 1.2, 1], y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 9, ease: 'easeInOut', delay: 2 }} />
 
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
@@ -91,7 +114,7 @@ export default function DashboardPage() {
               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}
               className="text-[28px] font-bold tracking-tight text-white mb-1"
             >
-              {u.first_name} {u.last_name}
+              <Typewriter text={`${u.first_name} ${u.last_name}`} delay={350} />
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}

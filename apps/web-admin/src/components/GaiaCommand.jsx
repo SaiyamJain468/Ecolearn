@@ -1,117 +1,200 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, TerminalSquare, Database, Cpu, Zap, ShieldCheck, Globe, X, Maximize2, Minimize2 } from 'lucide-react';
-import { MOCK_LOGS } from '../lib/mockData';
+import { X, Send, Minimize2, Leaf, Zap, Cpu, Sparkles } from 'lucide-react';
 
-const LOG_MAX = 6;
+const GAIA_RESPONSES = [
+  { q: 'missions',  a: 'You have 9 active missions. Your highest-XP opportunity is **Solar Pulse Sync** (+2,000 XP). Start it before 2PM for max sun exposure data.' },
+  { q: 'rank',      a: 'DPS Bhopal is **#2** globally. You need 2,790 more XP to overtake Kendriya Vidyalaya. Focus on energy missions this week.' },
+  { q: 'streak',    a: "You're on a **6-day streak**! Complete any mission today to hit 7 days and unlock the 50 XP bonus." },
+  { q: 'badges',    a: 'You have 5 of 6 badges. **Data Analyst** is the only one remaining — log 100 environmental data points to unlock it.' },
+  { q: 'analytics', a: 'Your CO₂ offset grew by **24.8%** this month. Hydro-Retention protocols could boost your yield by 2.4× next cycle.' },
+  { q: 'default',   a: "I'm GAIA Intelligence. Ask me about your missions, rank, streak, badges, or analytics." },
+];
+
+const SUGGESTIONS = ['Check my rank', 'Active missions', 'My badges', 'Streak status'];
+
+function getResponse(text) {
+  const t = text.toLowerCase();
+  if (t.includes('mission')) return GAIA_RESPONSES[0];
+  if (t.includes('rank') || t.includes('leader')) return GAIA_RESPONSES[1];
+  if (t.includes('streak')) return GAIA_RESPONSES[2];
+  if (t.includes('badge')) return GAIA_RESPONSES[3];
+  if (t.includes('analytic') || t.includes('co2') || t.includes('carbon')) return GAIA_RESPONSES[4];
+  return GAIA_RESPONSES[5];
+}
+
+function format(text) {
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#A5B4FC">$1</strong>');
+}
+
+/* Orbiting dot around the button */
+function OrbitDot() {
+  return (
+    <div className="absolute inset-0 pointer-events-none" style={{ animation: 'none' }}>
+      <motion.div className="absolute w-2 h-2 rounded-full"
+        style={{ background: '#10B981', top: '50%', left: '50%', boxShadow: '0 0 8px #10B981',  marginTop: -4, marginLeft: -4 }}
+        animate={{ rotate: 360 }}
+        transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
+        transformTemplate={({ rotate }) => `rotate(${rotate}) translateX(26px) rotate(-${rotate})`}
+      />
+    </div>
+  );
+}
 
 export default function GaiaCommand() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [minimized, setMinimized] = useState(true);
-  const [logs, setLogs] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([{ role: 'assistant', text: "Hello! I'm **GAIA Intelligence**. How can I help you today?" }]);
+  const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
+  const endRef = useRef(null);
 
-  useEffect(() => {
-    setLogs(MOCK_LOGS.slice(0, 6).map(l => ({
-      id: l.id, type: l.status.toLowerCase(), msg: l.message, time: l.time
-    })));
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.key === 'k') { e.preventDefault(); setIsOpen(prev => !prev); }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    const interval = setInterval(() => {
-      const types = ['success', 'warning', 'info'];
-      const prefixes = ['UPLINK', 'NODE', 'PKT', 'SYNC', 'AUTH'];
-      setLogs(prev => [...prev.slice(-(LOG_MAX - 1)), {
-        id: Date.now(),
-        type: types[Math.floor(Math.random() * types.length)],
-        msg: `${prefixes[Math.floor(Math.random() * prefixes.length)]}_${Math.floor(Math.random() * 9999)}_OK`,
-        time: new Date().toLocaleTimeString([], { hour12: false, minute: '2-digit', second: '2-digit' })
-      }]);
-    }, 5000);
-    return () => { window.removeEventListener('keydown', handleKeyDown); clearInterval(interval); };
-  }, []);
+  useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, typing]);
+
+  const send = (text = input) => {
+    if (!text.trim()) return;
+    const userMsg = { role: 'user', text: text.trim() };
+    setMessages(m => [...m, userMsg]);
+    setInput('');
+    setTyping(true);
+    setTimeout(() => {
+      const res = getResponse(text);
+      setTyping(false);
+      setMessages(m => [...m, { role: 'assistant', text: res.a }]);
+    }, 900 + Math.random() * 400);
+  };
 
   return (
     <>
-      {/* Minimized: just a small pill */}
-      {minimized && (
-        <motion.button
-          onClick={() => setMinimized(false)}
-          whileHover={{ scale: 1.05 }}
-          className="fixed bottom-6 right-6 z-[100] px-4 py-2.5 bg-[#111827] border border-[#1F2937] rounded-full flex items-center gap-2 shadow-xl cursor-pointer hover:border-[#10B981]/40 transition-all"
-        >
-          <div className="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981] animate-pulse" />
-          <span className="text-[10px] font-bold text-[#8B92A5] uppercase tracking-wider">GAIA</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-[#1A1F2E] text-[#4B5563] text-[9px] font-bold border border-[#1F2937]">^K</kbd>
-        </motion.button>
-      )}
-
-      {/* Expanded Log */}
-      {!minimized && (
-        <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="fixed bottom-6 right-6 z-[100] w-80 bg-[#0B0F19] rounded-xl overflow-hidden shadow-2xl shadow-black/50 border border-[#1F2937]">
-          <div className="bg-[#111827] px-4 py-2.5 flex items-center justify-between border-b border-[#1F2937]">
-            <div className="flex items-center gap-2">
-              <Terminal size={13} className="text-[#10B981]" />
-              <span className="text-[10px] font-bold text-[#8B92A5] uppercase tracking-widest">GAIA_LOG</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#EF4444]/50" />
-                <div className="w-1.5 h-1.5 rounded-full bg-[#FBBF24]/50" />
-                <div className="w-1.5 h-1.5 rounded-full bg-[#10B981]/50" />
-              </div>
-              <button onClick={() => setMinimized(true)} className="text-[#4B5563] hover:text-white ml-1"><Minimize2 size={12} /></button>
-            </div>
-          </div>
-          <div className="p-3 space-y-1.5 font-mono max-h-[180px] overflow-y-auto no-scrollbar">
-            {logs.map((log) => (
-              <div key={log.id} className="flex gap-2 text-[9px] leading-tight">
-                <span className="text-[#4B5563] whitespace-nowrap">[{log.time}]</span>
-                <span className={`truncate ${log.type === 'success' ? 'text-[#10B981]' : log.type === 'warning' ? 'text-[#FBBF24]' : 'text-[#4F6EF7]'}`}>{log.msg}</span>
-              </div>
-            ))}
-          </div>
-          <div className="px-3 py-2 bg-[#111827] flex items-center justify-between border-t border-[#1F2937]">
-            <span className="text-[9px] font-bold text-[#10B981] uppercase tracking-wider animate-pulse">Online</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-[#1A1F2E] text-[#4B5563] text-[9px] font-bold border border-[#1F2937]">^K</kbd>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Command Palette */}
+      {/* ── Floating Pill Button ── */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-xl flex items-center justify-center p-8"
-            onClick={() => setIsOpen(false)}>
-            <motion.div initial={{ scale: 0.95, y: -20 }} animate={{ scale: 1, y: 0 }}
-              className="w-full max-w-xl bg-[#1A1F2E] rounded-2xl shadow-2xl overflow-hidden border border-[#1F2937]"
-              onClick={e => e.stopPropagation()}>
-              <div className="p-6 border-b border-[#1F2937] flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#252B3B] text-[#10B981] rounded-xl flex items-center justify-center"><TerminalSquare size={22} /></div>
-                <input autoFocus placeholder="Type a command..." className="flex-1 bg-transparent text-base font-semibold text-white focus:outline-none placeholder:text-[#4B5563] border-none" />
-                <button onClick={() => setIsOpen(false)} className="text-[#4B5563] hover:text-white text-xs font-bold uppercase">ESC</button>
-              </div>
-              <div className="p-3 bg-[#111827]">
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { icon: Globe, label: 'Impact Map', key: 'G' },
-                    { icon: Cpu, label: 'Diagnostics', key: 'D' },
-                    { icon: Database, label: 'Sync Data', key: 'S' },
-                    { icon: ShieldCheck, label: 'Auth Override', key: 'A' },
-                  ].map((cmd) => (
-                    <div key={cmd.key} className="p-4 bg-[#1A1F2E] border border-[#1F2937] rounded-xl flex items-center justify-between cursor-pointer group hover:border-[#10B981]/30 transition-all">
-                      <div className="flex items-center gap-3">
-                        <cmd.icon size={16} className="text-[#4B5563] group-hover:text-[#10B981] transition-colors" />
-                        <span className="text-[11px] font-semibold text-[#8B92A5] group-hover:text-white transition-colors">{cmd.label}</span>
-                      </div>
-                      <kbd className="px-1.5 py-0.5 rounded bg-[#252B3B] text-[#4B5563] text-[9px] font-bold">{cmd.key}</kbd>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        {!open && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}
+            onClick={() => setOpen(true)}
+            className="fixed bottom-6 right-6 z-[100] flex items-center gap-2.5 px-4 py-3 rounded-full cursor-pointer relative gaia-pill"
+          >
+            <OrbitDot />
+            <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}>
+              <Sparkles size={16} style={{ color: '#A5B4FC' }} />
             </motion.div>
+            <span className="text-[12px] font-semibold text-white">GAIA AI</span>
+            <motion.div className="w-2 h-2 rounded-full" style={{ background: '#10B981', boxShadow: '0 0 8px #10B981' }}
+              animate={{ scale: [1, 1.4, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* ── Chat Panel ── */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85, y: 30, x: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, scale: 0.85, y: 30, x: 20 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+            className="fixed bottom-6 right-6 z-[100] w-[380px] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
+            style={{
+              background: 'rgba(8,11,20,0.95)', backdropFilter: 'blur(24px)',
+              border: '1px solid rgba(99,102,241,0.3)',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(99,102,241,0.15)',
+              height: 480
+            }}
+          >
+            {/* Header */}
+            <div className="flex items-center gap-3 px-4 py-3.5 shrink-0"
+              style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(99,102,241,0.06)' }}>
+              <div className="relative">
+                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
+                  style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.2))', border: '1px solid rgba(99,102,241,0.4)' }}>
+                  🌿
+                </motion.div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#10B981] rounded-full border-2 border-[#080B14]" />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px] font-bold text-white">GAIA Intelligence</p>
+                <p className="text-[10px] flex items-center gap-1" style={{ color: '#10B981' }}>
+                  <span className="relative w-1.5 h-1.5 inline-block">
+                    <span className="absolute inset-0 rounded-full bg-[#10B981]" />
+                    <span className="absolute inset-0 rounded-full bg-[#10B981] animate-ping opacity-60" />
+                  </span>
+                  Online · Eco-Intelligence v4.2
+                </p>
+              </div>
+              <motion.button whileHover={{ scale: 1.15, rotate: 90 }} whileTap={{ scale: 0.9 }}
+                onClick={() => setOpen(false)}
+                className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-colors hover:bg-white/10"
+                style={{ color: '#64748B' }}>
+                <X size={15} />
+              </motion.button>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar">
+              <AnimatePresence initial={false}>
+                {messages.map((m, i) => (
+                  <motion.div key={i}
+                    initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[82%] px-4 py-2.5 rounded-2xl text-[12px] leading-relaxed ${
+                      m.role === 'user'
+                        ? 'text-white rounded-br-md'
+                        : 'text-[#E2E8F0] rounded-bl-md'
+                    }`} style={m.role === 'user'
+                      ? { background: 'linear-gradient(135deg, #6366F1, #8B5CF6)', boxShadow: '0 4px 16px rgba(99,102,241,0.3)' }
+                      : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }
+                    } dangerouslySetInnerHTML={{ __html: format(m.text) }} />
+                  </motion.div>
+                ))}
+                {typing && (
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
+                    <div className="px-4 py-3 rounded-2xl rounded-bl-md flex items-center gap-1.5"
+                      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      {[0, 0.2, 0.4].map((d, i) => (
+                        <motion.div key={i} className="w-1.5 h-1.5 rounded-full"
+                          style={{ background: '#A5B4FC' }}
+                          animate={{ y: [0, -5, 0] }}
+                          transition={{ repeat: Infinity, duration: 0.7, delay: d }} />
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div ref={endRef} />
+            </div>
+
+            {/* Suggestions */}
+            <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
+              {SUGGESTIONS.map((s, i) => (
+                <motion.button key={i} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                  onClick={() => send(s)}
+                  className="px-3 py-1.5 rounded-full text-[10px] font-semibold whitespace-nowrap cursor-pointer shrink-0 transition-all"
+                  style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', color: '#A5B4FC' }}>
+                  {s}
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Input */}
+            <div className="px-4 py-3 shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <input value={input} onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && send()}
+                  placeholder="Ask GAIA anything…"
+                  className="flex-1 text-[12px] bg-transparent border-0 outline-none text-white placeholder:text-[#334155]"
+                  style={{ fontFamily: 'Inter, sans-serif' }} />
+                <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
+                  onClick={() => send()}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center cursor-pointer transition-all"
+                  style={{ background: input.trim() ? 'linear-gradient(135deg, #6366F1, #8B5CF6)' : 'rgba(255,255,255,0.06)', color: input.trim() ? 'white' : '#334155' }}>
+                  <Send size={13} />
+                </motion.button>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

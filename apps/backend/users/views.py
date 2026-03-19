@@ -19,12 +19,3 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
-class GlobalLeaderboardView(generics.ListAPIView):
-    queryset = User.objects.all().order_by('-eco_points_total')[:50]
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-class SchoolLeaderboardView(generics.ListAPIView):
-    queryset = School.objects.all().order_by('-eco_points_total')[:20]
-    serializer_class = SchoolSerializer
-    permission_classes = [permissions.IsAuthenticated]

@@ -7,7 +7,11 @@ class CustomUser(AbstractUser):
         ('teacher', 'Teacher'),
         ('admin', 'Admin'),
     )
+    email = models.EmailField(unique=True)
     school = models.ForeignKey('School', on_delete=models.SET_NULL, null=True, blank=True)
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
     class_grade = models.CharField(max_length=10, blank=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
     avatar_url = models.URLField(blank=True)

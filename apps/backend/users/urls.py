@@ -6,8 +6,6 @@ from rest_framework_simplejwt.views import (
 from .views import (
     RegisterView, 
     UserDetailView,
-    GlobalLeaderboardView,
-    SchoolLeaderboardView
 )
 
 urlpatterns = [
@@ -15,6 +13,4 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('me/', UserDetailView.as_view(), name='user_detail'),
-    path('leaderboard/global/', GlobalLeaderboardView.as_view(), name='leaderboard_global'),
-    path('leaderboard/school/', SchoolLeaderboardView.as_view(), name='leaderboard_school'),
 ]

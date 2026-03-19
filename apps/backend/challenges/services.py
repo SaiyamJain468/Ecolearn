@@ -36,3 +36,49 @@ class PointService:
             )
             
             return eco_point_record
+
+class ChallengeService:
+    @staticmethod
+    def submit_challenge(user, challenge, proof_image_url=None):
+        """
+        Creates a ChallengeSubmission record for a user.
+        """
+        from .models import ChallengeSubmission
+        
+        submission = ChallengeSubmission.objects.create(
+            user=user,
+            challenge=challenge,
+            proof_image_url=proof_image_url,
+            status='pending'
+        )
+        return submission
+
+    @staticmethod
+    def review_submission(submission_id, reviewer, status, rejection_reason=""):
+        """
+        Updates a submission status and awards points if approved.
+        """
+        from .models import ChallengeSubmission
+        from django.utils import timezone
+        
+        with transaction.atomic():
+            submission = ChallengeSubmission.objects.select_for_update().get(id=submission_id)
+            
+            if submission.status != 'pending':
+                raise ValueError("Submission is already reviewed")
+            
+            submission.status = status
+            submission.reviewed_by = reviewer
+            submission.reviewed_at = timezone.now()
+            submission.rejection_reason = rejection_reason
+            submission.save()
+            
+            if status == 'approved':
+                PointService.award_points(
+                    user=submission.user,
+                    points=submission.challenge.points_reward,
+                    reason=f"Challenge Completed: {submission.challenge.title}",
+                    challenge=submission.challenge
+                )
+            
+            return submission

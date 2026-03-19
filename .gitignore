@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+*.sqlite3
+media/
+
+# Node
+node_modules/
+dist/
+.env.local
+.env.production
+
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+*.iml
+*.lock
+
+# General
+.DS_Store
+*.log
+.idea/
+.vscode/

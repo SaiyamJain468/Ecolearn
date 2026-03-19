@@ -1,17 +1,19 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from users.models import School
-from challenges.models import Challenge, ChallengeSubmission
-from badges.models import Badge, UserBadge
 from django.utils import timezone
 from datetime import timedelta
-
-User = get_user_model()
 
 class Command(BaseCommand):
     help = 'Seeds specific accounts for the hackathon demo'
 
     def handle(self, *args, **options):
+        # Move imports inside to avoid early execution errors
+        from users.models import School
+        from challenges.models import Challenge, ChallengeSubmission
+        from badges.models import Badge, UserBadge
+        
+        User = get_user_model()
+        
         self.stdout.write("Seeding demo accounts...")
 
         # 1. Ensure DPS Bhopal exists

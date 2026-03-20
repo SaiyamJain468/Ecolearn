@@ -1,42 +1,61 @@
-# Python
+# ═══════════════════════════════════════════════════════
+#  GAIA Protocol — Unified .gitignore
+# ═══════════════════════════════════════════════════════
+
+# ── Dependencies ────────────────────────────────────────
+node_modules/
+.pnp/
+.pnp.js
+
+# ── Build Output ────────────────────────────────────────
+dist/
+build/
+.next/
+out/
+
+# ── Environment Variables ───────────────────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# ── Python ──────────────────────────────────────────────
 __pycache__/
 *.pyc
 *.pyo
 venv/
-.env
 *.sqlite3
 media/
 
-# Node
-node_modules/
-dist/
-.env.local
-.env.production
-extra/
-# Flutter
+# ── Flutter / Dart ──────────────────────────────────────
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 *.iml
-*.lock
 
-# General
-.DS_Store
-*.log
-*.sqlite3
+# ── IDE / Editor ────────────────────────────────────────
 .idea/
 .vscode/
-todo.md
-PROGRESS.md
-prototype_roadmap.md
-professional_standards.md
-architectural_design.md
-deployment_strategy.md
-dist/
-node_modules/
-.env
-__pycache__/
-*.pyc
-*.pyo
-build/
-./
+*.swp
+*.swo
+*~
+
+# ── OS Files ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Lock Files (managed per-app) ────────────────────────
+*.lock
+!package-lock.json
+
+# ── Misc / Scratch ──────────────────────────────────────
+.activity_tracker.md

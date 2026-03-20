@@ -67,50 +67,50 @@ export default function ImpactMapPage() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Region Cards */}
-        <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4" style={{ alignContent: 'start' }}>
           {regions.map((r, i) => (
            <motion.div key={i} variants={fadeUp}
               whileHover={{ y: -2, boxShadow: `0 12px 32px rgba(0,0,0,0.3), 0 0 40px ${r.color}08` }}
               onClick={() => setSel(sel?.name === r.name ? null : r)}
-              className="surface p-2.5 cursor-pointer relative overflow-hidden"
-              style={{ border: sel?.name === r.name ? `1px solid ${r.color}50` : undefined, transition: 'all 0.2s ease' }}
+              className="surface cursor-pointer relative overflow-hidden"
+              style={{ border: sel?.name === r.name ? `1px solid ${r.color}50` : undefined, transition: 'all 0.2s ease', padding: '12px 14px', height: 'fit-content' }}
             >
               <motion.div className="absolute inset-0 rounded-2xl pointer-events-none" animate={{ opacity: sel?.name === r.name ? 1 : 0 }}
                 style={{ background: `${r.color}04` }} />
-              <div className="relative flex items-center justify-between mb-2">
+              <div className="relative flex items-center justify-between mb-1.5">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
                     style={{ background: `${r.color}10`, border: `1px solid ${r.color}20` }}>
-                    <MapPin size={13} style={{ color: r.color }} />
+                    <MapPin size={11} style={{ color: r.color }} />
                   </div>
                   <div>
-                    <h4 className="text-[13px] font-bold text-white leading-tight">{r.name}</h4>
-                    <div className="flex items-center gap-2">
-                      <span className="badge" style={{ fontSize: '7px', padding: '0px 6px', height: '14px', background: `${r.color}12`, color: r.color, border: `1px solid ${r.color}20` }}>{r.status}</span>
-                      <span className="flex items-center gap-1 text-[9px] font-bold" style={{ color: '#10B981' }}><TrendingUp size={9} />{r.trend}</span>
+                    <h4 className="text-[12px] font-bold text-white leading-tight">{r.name}</h4>
+                    <div className="flex items-center gap-1.5">
+                      <span className="badge" style={{ fontSize: '7px', padding: '0px 5px', height: '13px', background: `${r.color}12`, color: r.color, border: `1px solid ${r.color}20` }}>{r.status}</span>
+                      <span className="flex items-center gap-0.5 text-[8px] font-bold" style={{ color: '#10B981' }}><TrendingUp size={8} />{r.trend}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="relative grid grid-cols-3 gap-1 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+              <div className="relative grid grid-cols-3 gap-1 pt-1.5" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
                 <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5">
-                    <Leaf size={10} style={{ color: '#10B981' }} />
-                    <span className="text-[13px] font-bold text-white">{r.trees}</span>
+                  <div className="flex items-center gap-1">
+                    <Leaf size={9} style={{ color: '#10B981' }} />
+                    <span className="text-[12px] font-bold text-white">{r.trees}</span>
                   </div>
                   <span className="text-[7px] uppercase font-bold tracking-tighter" style={{ color: '#475569' }}>Trees</span>
                 </div>
                 <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5">
-                    <Droplets size={10} style={{ color: '#06B6D4' }} />
-                    <span className="text-[13px] font-bold text-white">{r.water}</span>
+                  <div className="flex items-center gap-1">
+                    <Droplets size={9} style={{ color: '#06B6D4' }} />
+                    <span className="text-[12px] font-bold text-white">{r.water}</span>
                   </div>
                   <span className="text-[7px] uppercase font-bold tracking-tighter" style={{ color: '#475569' }}>Water</span>
                 </div>
                 <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5">
-                    <Wind size={10} style={{ color: '#F59E0B' }} />
-                    <span className="text-[13px] font-bold text-white">{r.co2}</span>
+                  <div className="flex items-center gap-1">
+                    <Wind size={9} style={{ color: '#F59E0B' }} />
+                    <span className="text-[12px] font-bold text-white">{r.co2}</span>
                   </div>
                   <span className="text-[7px] uppercase font-bold tracking-tighter" style={{ color: '#475569' }}>CO₂</span>
                 </div>

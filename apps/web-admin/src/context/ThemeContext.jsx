@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('gaia-theme');
+      const saved = localStorage.getItem('ecolearn-theme');
       if (saved) return saved;
     }
     return 'light';
@@ -15,7 +15,7 @@ export function ThemeProvider({ children }) {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    localStorage.setItem('gaia-theme', theme);
+    localStorage.setItem('ecolearn-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

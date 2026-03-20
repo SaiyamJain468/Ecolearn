@@ -3,10 +3,11 @@ import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from 'f
 import {
   Zap, Target, Trophy, Award, Flame, TrendingUp,
   ArrowUpRight, ChevronRight, Leaf, Droplets, BatteryCharging,
-  CheckCircle2, Clock
+  CheckCircle2, Clock, UploadCloud
 } from 'lucide-react';
 import { MOCK_USER, MOCK_MISSIONS, MOCK_LOGS } from '../lib/mockData';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { toast } from 'react-hot-toast';
 
 /* ---- ANIMATED COUNTER ---- */
 function Counter({ from = 0, to, suffix = '', prefix = '' }) {
@@ -79,6 +80,40 @@ export default function DashboardPage() {
   const missions = MOCK_MISSIONS.slice(0, 3);
   const [tab, setTab] = useState('week');
 
+  // Daily Challenge State
+  const [dailyStatus, setDailyStatus] = useState('pending'); // 'pending', 'active', 'completed'
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem('ecolearn_daily_challenge');
+    if (saved) setDailyStatus(saved);
+  }, []);
+
+  const handleStartDaily = () => {
+    setDailyStatus('active');
+    sessionStorage.setItem('ecolearn_daily_challenge', 'active');
+    toast.success('Daily Challenge Started! Good luck.', {
+      style: { background: '#080B14', color: '#fff', border: '1px solid #10B981' },
+      iconTheme: { primary: '#10B981', secondary: '#fff' }
+    });
+  };
+
+  const handleUploadProof = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      toast.success('Analyzing proof...', { icon: '🔍', style: { background: '#080B14', color: '#fff' } });
+      setTimeout(() => {
+        setDailyStatus('completed');
+        sessionStorage.setItem('ecolearn_daily_challenge', 'completed');
+        window.dispatchEvent(new CustomEvent('xp-earned', { detail: { amount: 500 } }));
+        toast.success('Daily challenge complete!', {
+          icon: '🏆',
+          style: { background: '#080B14', color: '#fff', border: '1px solid #00F2FE' },
+        });
+      }, 1500);
+    }
+  };
+
   return (
     <motion.div
       variants={staggerContainer}
@@ -132,10 +167,10 @@ export default function DashboardPage() {
                 <span className="text-[11px] font-semibold" style={{ color: '#00F2FE' }}>260 XP to Climate Champion</span>
               </div>
               <div className="xp-bar-track">
-                <motion.div className="xp-bar-fill" initial={{ width: 0 }} animate={{ width: `${xpProgress * 100}%` }} transition={{ duration: 1.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} />
+                <motion.div className="xp-bar-fill" initial={{ width: 0 }} animate={{ width: `${(dailyStatus === 'completed' ? xpProgress + 0.05 : xpProgress) * 100}%` }} transition={{ duration: 1.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} />
               </div>
               <div className="flex justify-between mt-1.5">
-                <span className="text-[10px] font-mono" style={{ color: '#475569' }}><Counter to={u.xp || 12400} suffix=" XP" /></span>
+                <span className="text-[10px] font-mono" style={{ color: '#475569' }}><Counter to={dailyStatus === 'completed' ? u.xp + 500 : u.xp} suffix=" XP" /></span>
                 <span className="text-[10px]" style={{ color: '#475569' }}>Next: 13,660 XP</span>
               </div>
             </div>
@@ -182,7 +217,7 @@ export default function DashboardPage() {
       {/* ===== QUICK STATS ===== */}
       <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Eco Points', value: 12400, icon: Zap, color: '#00F2FE', glow: 'rgba(0, 242, 254, 0.25)', suffix: '' },
+          { label: 'Eco Points', value: dailyStatus === 'completed' ? 12900 : 12400, icon: Zap, color: '#00F2FE', glow: 'rgba(0, 242, 254, 0.25)', suffix: '' },
           { label: 'Missions Done', value: 24, icon: Target, color: '#10B981', glow: 'rgba(16,185,129,0.25)', suffix: '' },
           { label: 'Badges Earned', value: u.badges.length, icon: Award, color: '#F59E0B', glow: 'rgba(245,158,11,0.25)', suffix: '' },
           { label: 'School Rank', value: 2, icon: Trophy, color: '#06B6D4', glow: 'rgba(6,182,212,0.25)', prefix: '#', suffix: '' },
@@ -336,7 +371,7 @@ export default function DashboardPage() {
           <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }}
             className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 text-2xl"
             style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.1))', border: '1px solid rgba(0, 242, 254, 0.3)' }}>
-            🌍
+            {dailyStatus === 'completed' ? <CheckCircle2 size={28} className="text-white drop-shadow-lg" /> : '🌍'}
           </motion.div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-0.5">
@@ -346,16 +381,41 @@ export default function DashboardPage() {
             <h4 className="text-[15px] font-bold text-white">City Biodiversity Survey</h4>
             <p className="text-[11px] mt-0.5" style={{ color: '#94A3B8' }}>Document 5 native plant species in your local area using photos</p>
           </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="btn-primary shrink-0"
-            style={{ padding: '10px 22px', fontSize: '13px' }}
-          >
-            Start Now
-          </motion.button>
+          <div className="shrink-0">
+            {dailyStatus === 'pending' && (
+              <motion.button
+                onClick={handleStartDaily}
+                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+                className="btn-primary" style={{ padding: '10px 22px', fontSize: '13px' }}
+              >
+                Start Now
+              </motion.button>
+            )}
+            
+            {dailyStatus === 'active' && (
+              <div>
+                <input type="file" accept="image/*" className="hidden" id="daily-upload" onChange={handleUploadProof} ref={fileInputRef} />
+                <motion.button
+                  onClick={() => fileInputRef.current?.click()}
+                  whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+                  className="font-bold flex items-center gap-2"
+                  style={{ padding: '10px 22px', fontSize: '13px', background: 'rgba(255,255,255,0.05)', border: '1px dashed rgba(255,255,255,0.2)', color: 'white', borderRadius: '12px' }}
+                >
+                  <UploadCloud size={16} /> Upload Proof
+                </motion.button>
+              </div>
+            )}
+
+            {dailyStatus === 'completed' && (
+              <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="flex items-center gap-2 font-bold text-eco-green px-4 py-2 bg-eco-green/10 rounded-xl border border-eco-green/20">
+                <CheckCircle2 size={16} /> Completed
+              </motion.div>
+            )}
+          </div>
         </div>
       </motion.div>
     </motion.div>
   );
 }
+
+

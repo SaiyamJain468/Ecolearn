@@ -20,7 +20,7 @@ export default function SignUpPage() {
     setTimeout(async () => {
         await login(formData.email, formData.password); 
         toast.dismiss();
-        toast.success('Account Created. Welcome to GAIA.', {
+        toast.success('Account Created. Welcome to EcoLearn.', {
           style: { background: '#0F172A', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)' }
         });
         nav('/');

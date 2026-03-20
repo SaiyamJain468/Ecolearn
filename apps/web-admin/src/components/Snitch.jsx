@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const MOCK_LOGS = [
   "UPLINK_ESTABLISHED :: PORT_5000",
-  "DECRYPTING_GAIA_ARRAY... [OK]",
+  "DECRYPTING_EcoLearn_ARRAY... [OK]",
   "SIGN_OF_LIFE_DETECTED :: SECTOR_7G",
   "ENCRYPTION_KEY_ROTATED :: SHA-256",
   "NODE_SYNC_COMPLETE :: LATENCY_12ms",

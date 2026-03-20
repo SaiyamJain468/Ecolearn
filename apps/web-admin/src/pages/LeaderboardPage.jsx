@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Trophy, Medal, School, TrendingUp, Users } from 'lucide-react';
 import { 
   BarChart, 
@@ -10,6 +11,15 @@ import {
   Cell
 } from 'recharts';
 import { MOCK_LEADERBOARD } from '../lib/mockData';
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } }
+};
+const fadeUp = {
+  hidden: { opacity: 0, x: 20 },
+  show:   { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+};
 
 const LeaderboardPage = () => {
   const schools = MOCK_LEADERBOARD;
@@ -35,7 +45,7 @@ const LeaderboardPage = () => {
         <div className="lg:col-span-2 bg-white/5 border border-white/10 p-8 rounded-3xl">
           <h3 className="text-xl font-bold text-white mb-8">Inter-School Points Comparison</h3>
           <div className="h-[400px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={1}>
               <BarChart data={schools} layout="vertical" margin={{ top: 0, right: 30, left: 40, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.05)" />
                 <XAxis type="number" hide />
@@ -51,7 +61,7 @@ const LeaderboardPage = () => {
                   cursor={{ fill: 'rgba(255,255,255,0.02)' }}
                   contentStyle={{ backgroundColor: '#1F120C', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff' }}
                 />
-                <Bar dataKey="points" radius={[0, 8, 8, 0]} barSize={32}>
+                <Bar dataKey="points" radius={[0, 8, 8, 0]} barSize={32} isAnimationActive={true} animationBegin={0} animationDuration={1000}>
                   {schools.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -61,10 +71,10 @@ const LeaderboardPage = () => {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <motion.div variants={staggerContainer} initial="hidden" animate="show" className="space-y-6">
           <h3 className="text-xl font-bold text-white px-2">School Standings</h3>
           {schools.map((school, index) => (
-            <div key={school.name} className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between group hover:border-white/20 transition-all">
+            <motion.div variants={fadeUp} key={school.name} className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between group hover:border-white/20 hover:scale-[1.02] transition-all cursor-pointer">
               <div className="flex items-center space-x-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg ${
                   index === 0 ? 'bg-yellow-500/10 text-yellow-500' : 
@@ -84,14 +94,14 @@ const LeaderboardPage = () => {
               </div>
               <div className="text-right">
                 <p className="text-lg font-bold text-white">{school.points.toLocaleString()}</p>
-                <div className="flex items-center text-[10px] text-eco-green font-bold">
+                <div className="flex items-center justify-end text-[10px] text-eco-green font-bold">
                   <TrendingUp className="w-3 h-3 mr-1" />
                   +1.2k today
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

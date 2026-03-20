@@ -40,6 +40,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    sessionStorage.removeItem('ecolearn_completed_missions');
+    sessionStorage.removeItem('ecolearn_completed_lessons');
+    sessionStorage.removeItem('ecolearn_submissions');
     setUser(null);
   };
 

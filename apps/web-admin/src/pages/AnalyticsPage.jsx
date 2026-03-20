@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, Sparkles, Binary, Cpu, Wifi, Shield, Zap, Activity } from 'lucide-react';
+import { TrendingUp, Sparkles, Binary, Cpu, Wifi, Shield, Zap, Activity, Loader2 } from 'lucide-react';
 import { MOCK_ANALYTICS, MOCK_USER } from '../lib/mockData';
+import { toast } from 'react-hot-toast';
 
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
 const fadeUp  = { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.42, ease: [0.25,0.46,0.45,0.94] } } };
@@ -38,7 +39,29 @@ const statCards = [
   { label: 'Live Nodes',    value: '12,400', icon: Activity, color: '#06B6D4', glow: 'rgba(6,182,212,0.25)',     bg: 'rgba(6,182,212,0.1)'    },
 ];
 
+const aiInsights = [
+  { title: 'Hydro-Retention Opportunity Detected', body: 'Activating water conservation protocols could increase your school\'s XP yield by <b>2.4×</b> over the next 30 days.', tag: 'Water' },
+  { title: 'Carbon Sequestration Spike', body: 'Bhopal campus tree density has increased by <b>18%</b>. Projected CO₂ offset: <b>+320 Kg</b> this quarter. Recommend expanding reforest zone B.', tag: 'Plant' },
+  { title: 'Energy Anomaly — Peak Hours', body: 'Solar generation dropped <b>12%</b> last week due to dust accumulation. Scheduling automated panel cleaning could restore <b>₹4,200/month</b> in yield.', tag: 'Energy' },
+  { title: 'Waste Diversion Rate Exceeds Target', body: 'Compost output is at <b>94%</b> efficiency. Organic waste diversion has saved an estimated <b>₹8,500</b> in municipal fees this semester.', tag: 'Waste' },
+  { title: 'Alliance Synergy Detected', body: 'Green Guardians alliance shows <b>3.1×</b> faster XP accumulation. Recommend inviting Sagar Public School for cross-campus resource sharing.', tag: 'Network' },
+];
+
 export default function AnalyticsPage() {
+  const [aiIdx, setAiIdx] = useState(0);
+  const [aiLoading, setAiLoading] = useState(false);
+
+  const handleExecuteAI = () => {
+    setAiLoading(true);
+    toast.loading('EcoLearn AI processing telemetry data...', { duration: 1500 });
+    setTimeout(() => {
+      setAiIdx(prev => (prev + 1) % aiInsights.length);
+      setAiLoading(false);
+      toast.success('New insight generated from 12,400 live nodes', { icon: '🤖' });
+    }, 1800);
+  };
+
+  const currentInsight = aiInsights[aiIdx];
   return (
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
       {/* Hero */}
@@ -47,7 +70,7 @@ export default function AnalyticsPage() {
         <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
         <div className="absolute top-0 right-0 w-px h-full opacity-20" style={{ background: 'linear-gradient(180deg, transparent, #00F2FE, transparent)' }} />
         <div className="relative">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#22D3EE' }}>Powered by GAIA Intelligence</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1" style={{ color: '#22D3EE' }}>Powered by EcoLearn Intelligence</p>
           <h1 className="text-[26px] font-bold text-white tracking-tight mb-1">Eco Analytics</h1>
           <p className="text-[13px]" style={{ color: '#94A3B8' }}>AI-driven environmental intelligence · Updated every 60 seconds</p>
         </div>
@@ -171,15 +194,21 @@ export default function AnalyticsPage() {
             style={{ background: 'rgba(0, 242, 254, 0.15)', border: '1px solid rgba(0, 242, 254, 0.3)' }}>
             🤖
           </motion.div>
-          <div>
+          <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <span className="badge badge-accent" style={{ fontSize: '9px' }}>AI Insight</span>
-              <span className="text-[9px] font-semibold uppercase" style={{ color: '#475569' }}>· Updated 2min ago</span>
+              <span className="badge" style={{ fontSize: '8px', padding: '1px 6px', background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)' }}>{currentInsight.tag}</span>
+              <span className="text-[9px] font-semibold uppercase" style={{ color: '#475569' }}>· Insight {aiIdx + 1}/{aiInsights.length}</span>
             </div>
-            <p className="text-[14px] font-bold text-white mb-1">Hydro-Retention Opportunity Detected</p>
-            <p className="text-[12px]" style={{ color: '#94A3B8' }}>Activating water conservation protocols could increase your school's XP yield by <span className="font-bold" style={{ color: '#F59E0B' }}>2.4×</span> over the next 30 days.</p>
+            <p className="text-[14px] font-bold text-white mb-1">{currentInsight.title}</p>
+            <p className="text-[12px]" style={{ color: '#94A3B8' }} dangerouslySetInnerHTML={{ __html: currentInsight.body }} />
           </div>
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="btn-primary shrink-0" style={{ padding: '10px 20px', fontSize: '12px' }}>Execute</motion.button>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} 
+            onClick={handleExecuteAI}
+            disabled={aiLoading}
+            className="btn-primary shrink-0 flex items-center gap-2" style={{ padding: '10px 20px', fontSize: '12px' }}>
+            {aiLoading ? <><Loader2 size={14} className="animate-spin" /> Analyzing...</> : 'Execute'}
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>

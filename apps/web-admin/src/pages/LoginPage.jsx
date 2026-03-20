@@ -59,7 +59,7 @@ export default function LoginPage() {
               <div className="absolute inset-0 bg-eco-green/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               <Zap size={32} className="text-eco-green fill-eco-green/20 relative z-10" />
             </motion.div>
-            <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">GAIA <span className="text-eco-teal">Protocol</span></h1>
+            <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">EcoLearn <span className="text-eco-teal">Protocol</span></h1>
             <div className="flex items-center gap-2 mt-2">
                <span className="w-2 h-2 rounded-full bg-eco-green animate-pulse" />
                <p className="text-[10px] text-white/40 font-bold uppercase tracking-[0.3em]">DEMO ENVIRONMENT ACTIVE</p>
@@ -116,7 +116,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center mt-8 text-[11px] text-white/20 font-medium">
-            &copy; 2026 INNOSOFT | GAIA CORE v1.0.4-PROTO
+            &copy; 2026 INNOSOFT | EcoLearn CORE v1.0.4-PROTO
         </p>
       </motion.div>
     </div>

@@ -1,8 +1,8 @@
-// GAIA_CORE High-Fidelity Mock Data System v1.1
-// This file serves as the single source of truth for the GAIA Demo Mode.
+// EcoLearn_CORE High-Fidelity Mock Data System v1.1
+// This file serves as the single source of truth for the EcoLearn Demo Mode.
 
 export const MOCK_ADMIN = {
-  uid: 'gaia-admin-01',
+  uid: 'ecolearn-admin-01',
   email: 'admin@ecolearn.in',
   first_name: 'Admin',
   last_name: '(Demo User)',
@@ -15,7 +15,7 @@ export const MOCK_ADMIN = {
 };
 
 export const MOCK_SAIYAM = {
-  uid: 'gaia-user-02',
+  uid: 'ecolearn-user-02',
   email: 'saiyam@ecolearn.in',
   first_name: 'Saiyam',
   last_name: 'Jain',
@@ -122,11 +122,11 @@ export const MOCK_TRADES = [
     { from: 'Green Guardians', to: 'Solar Sentinels', action: 'Co-sponsored "Mega Reforest"', time: '14m ago' },
     { from: 'Arya Sharma', to: 'Global Fund', action: 'Donated 500 XP to Clean Ocean', time: '1h ago' },
     { from: 'Sagar Public', to: 'DPS Indore', action: 'Leased 12 Solar Arrays', time: '4h ago' },
-    { from: 'Uplink #404', to: 'Gaia_Core', action: 'Node synchronization success', time: '5h ago' },
+    { from: 'Uplink #404', to: 'EcoLearn_Core', action: 'Node synchronization success', time: '5h ago' },
     { from: 'KV No. 1', to: 'St. Joseph', action: 'Exchanged 1.2k Water Credits', time: '8h ago' },
     { from: 'Eco Wizards', to: 'Earth First', action: 'Traded 300 Saplings', time: '10h ago' },
     { from: 'St. Marys', to: 'DPS Bhopal', action: 'Merged Alliances', time: '12h ago' },
-    { from: 'Gaia_Uplink', to: 'Sagar Public', action: 'Achievement: Zero Waste Campus', time: 'Yesterday' },
+    { from: 'EcoLearn_Uplink', to: 'Sagar Public', action: 'Achievement: Zero Waste Campus', time: 'Yesterday' },
     { from: 'Indore North', to: 'Central India Hub', action: 'Pushed 1.5MW Surplus Energy', time: 'Yesterday' },
 ];
 
@@ -170,20 +170,70 @@ export const MOCK_SUBMISSIONS = [
     proof_image_url: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80',
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
     status: 'pending'
+  },
+  {
+    id: 6,
+    user: { first_name: 'Meera', last_name: 'Patel', username: 'meera' },
+    challenge: { title: 'Plastic Purge', category: 'Waste', points_reward: 220 },
+    proof_image_url: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 36).toISOString(),
+    status: 'approved'
+  },
+  {
+    id: 7,
+    user: { first_name: 'Aditya', last_name: 'Rao', username: 'aditya' },
+    challenge: { title: 'Energy Phantom', category: 'Energy', points_reward: 120 },
+    proof_image_url: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
+    status: 'rejected'
+  },
+  {
+    id: 8,
+    user: { first_name: 'Kavya', last_name: 'Nair', username: 'kavya' },
+    challenge: { title: 'Rain Guard', category: 'Water', points_reward: 400 },
+    proof_image_url: 'https://images.unsplash.com/photo-1468276311594-df7cb65d8df6?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(),
+    status: 'approved'
+  },
+  {
+    id: 9,
+    user: { first_name: 'Rohan', last_name: 'Deshmukh', username: 'rohan' },
+    challenge: { title: 'Seed Master', category: 'Plant', points_reward: 350 },
+    proof_image_url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 200).toISOString(),
+    status: 'pending'
+  },
+  {
+    id: 10,
+    user: { first_name: 'Ananya', last_name: 'Bhatt', username: 'ananya' },
+    challenge: { title: 'Green Cycle', category: 'Waste', points_reward: 180 },
+    proof_image_url: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 96).toISOString(),
+    status: 'rejected'
   }
 ];
 
 export const MOCK_STUDENTS = [
-  { id: 1, name: 'Aryan Jain', class_grade: 'X-B', eco_points_total: 1240, challenges_done: 12, last_active: '2026-03-19T10:30:00Z' },
-  { id: 2, name: 'Sanya Malhotra', class_grade: 'IX-A', eco_points_total: 1100, challenges_done: 9, last_active: '2026-03-18T15:45:00Z' },
-  { id: 3, name: 'Rahul Sharma', class_grade: 'X-B', eco_points_total: 980, challenges_done: 8, last_active: '2026-03-19T09:12:00Z' },
-  { id: 4, name: 'Priya Verma', class_grade: 'VIII-C', eco_points_total: 850, challenges_done: 7, last_active: '2026-03-17T11:20:00Z' },
-  { id: 5, name: 'Ishaan Singh', class_grade: 'X-A', eco_points_total: 720, challenges_done: 6, last_active: '2026-03-19T12:05:00Z' },
-  { id: 6, name: 'Neha Gupta', class_grade: 'VII-B', eco_points_total: 650, challenges_done: 5, last_active: '2026-03-16T14:30:00Z' },
-  { id: 7, name: 'Kunal Kapoor', class_grade: 'IX-C', eco_points_total: 580, challenges_done: 4, last_active: '2026-03-15T09:00:00Z' },
-  { id: 8, name: 'Tanvi Shah', class_grade: 'VIII-A', eco_points_total: 520, challenges_done: 4, last_active: '2026-03-19T08:15:00Z' },
-  { id: 9, name: 'Vicky Kaushal', class_grade: 'X-A', eco_points_total: 490, challenges_done: 3, last_active: '2026-03-18T16:20:00Z' },
-  { id: 10, name: 'Sara Ali Khan', class_grade: 'XII-C', eco_points_total: 450, challenges_done: 3, last_active: '2026-03-17T10:45:00Z' },
+  { id: 1,  name: 'Aryan Jain',        class_grade: 'X-B',   eco_points_total: 4240,  challenges_done: 32, last_active: '2026-03-19T10:30:00Z' },
+  { id: 2,  name: 'Sanya Malhotra',    class_grade: 'IX-A',  eco_points_total: 3800,  challenges_done: 28, last_active: '2026-03-18T15:45:00Z' },
+  { id: 3,  name: 'Rahul Sharma',      class_grade: 'X-B',   eco_points_total: 3560,  challenges_done: 25, last_active: '2026-03-19T09:12:00Z' },
+  { id: 4,  name: 'Priya Verma',       class_grade: 'VIII-C', eco_points_total: 3210,  challenges_done: 22, last_active: '2026-03-17T11:20:00Z' },
+  { id: 5,  name: 'Ishaan Singh',      class_grade: 'X-A',   eco_points_total: 2980,  challenges_done: 19, last_active: '2026-03-19T12:05:00Z' },
+  { id: 6,  name: 'Neha Gupta',        class_grade: 'VII-B', eco_points_total: 2650,  challenges_done: 18, last_active: '2026-03-16T14:30:00Z' },
+  { id: 7,  name: 'Kunal Kapoor',      class_grade: 'IX-C',  eco_points_total: 2480,  challenges_done: 16, last_active: '2026-03-15T09:00:00Z' },
+  { id: 8,  name: 'Tanvi Shah',        class_grade: 'VIII-A', eco_points_total: 2320,  challenges_done: 14, last_active: '2026-03-19T08:15:00Z' },
+  { id: 9,  name: 'Vikram Kaushal',    class_grade: 'X-A',   eco_points_total: 2190,  challenges_done: 13, last_active: '2026-03-18T16:20:00Z' },
+  { id: 10, name: 'Saira Khan',        class_grade: 'XII-C', eco_points_total: 2050,  challenges_done: 12, last_active: '2026-03-17T10:45:00Z' },
+  { id: 11, name: 'Meera Patel',       class_grade: 'XI-A',  eco_points_total: 1920,  challenges_done: 11, last_active: '2026-03-19T07:30:00Z' },
+  { id: 12, name: 'Aditya Rao',        class_grade: 'IX-B',  eco_points_total: 1780,  challenges_done: 10, last_active: '2026-03-18T13:15:00Z' },
+  { id: 13, name: 'Kavya Nair',        class_grade: 'X-C',   eco_points_total: 1640,  challenges_done: 9,  last_active: '2026-03-17T09:45:00Z' },
+  { id: 14, name: 'Rohan Deshmukh',    class_grade: 'VIII-B', eco_points_total: 1520,  challenges_done: 8,  last_active: '2026-03-16T11:30:00Z' },
+  { id: 15, name: 'Ananya Bhatt',      class_grade: 'VII-A', eco_points_total: 1380,  challenges_done: 7,  last_active: '2026-03-19T14:20:00Z' },
+  { id: 16, name: 'Dev Rathore',       class_grade: 'XI-B',  eco_points_total: 1250,  challenges_done: 6,  last_active: '2026-03-15T16:45:00Z' },
+  { id: 17, name: 'Shruti Iyer',       class_grade: 'X-A',   eco_points_total: 1120,  challenges_done: 5,  last_active: '2026-03-18T08:00:00Z' },
+  { id: 18, name: 'Harsh Pandey',      class_grade: 'IX-A',  eco_points_total: 980,   challenges_done: 5,  last_active: '2026-03-14T12:30:00Z' },
+  { id: 19, name: 'Riya Choudhary',    class_grade: 'VIII-C', eco_points_total: 840,   challenges_done: 4,  last_active: '2026-03-19T10:00:00Z' },
+  { id: 20, name: 'Aman Tripathi',     class_grade: 'XII-A', eco_points_total: 720,   challenges_done: 3,  last_active: '2026-03-13T15:20:00Z' },
 ];
 
 export const MOCK_LEADERBOARD = [

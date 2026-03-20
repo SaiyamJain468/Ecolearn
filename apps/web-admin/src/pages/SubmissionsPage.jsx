@@ -12,7 +12,12 @@ import { toast } from 'react-hot-toast';
 
 const SubmissionsPage = () => {
   const [filter, setFilter] = useState('pending');
-  const [submissions, setSubmissions] = useState(MOCK_SUBMISSIONS);
+  const [submissions, setSubmissions] = useState(() => {
+    try { 
+      const saved = sessionStorage.getItem('ecolearn_submissions');
+      return saved ? JSON.parse(saved) : MOCK_SUBMISSIONS; 
+    } catch { return MOCK_SUBMISSIONS; }
+  });
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [rejectionReason, setRejectionReason] = useState('');
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -20,13 +25,17 @@ const SubmissionsPage = () => {
   const filteredSubmissions = submissions.filter(s => filter === 'all' || s.status === filter);
 
   const handleApprove = (id) => {
-    setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status: 'approved' } : s));
+    const next = submissions.map(s => s.id === id ? { ...s, status: 'approved' } : s);
+    setSubmissions(next);
+    sessionStorage.setItem('ecolearn_submissions', JSON.stringify(next));
     toast.success('Submission approved! +XP awarded.', { icon: '✅' });
   };
 
   const handleReject = () => {
     if (!rejectionReason) return;
-    setSubmissions(prev => prev.map(s => s.id === selectedSubmission.id ? { ...s, status: 'rejected' } : s));
+    const next = submissions.map(s => s.id === selectedSubmission.id ? { ...s, status: 'rejected' } : s);
+    setSubmissions(next);
+    sessionStorage.setItem('ecolearn_submissions', JSON.stringify(next));
     toast.error('Submission rejected. Feedback sent.', { icon: '❌' });
     setShowRejectModal(false);
     setSelectedSubmission(null);

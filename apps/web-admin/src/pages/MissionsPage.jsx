@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { MOCK_MISSIONS } from '../lib/mockData';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Camera, Leaf, Droplets, BatteryCharging, Flame, Zap, X, CheckCircle2, Trophy, Star } from 'lucide-react';
+import { Clock, Camera, Leaf, Droplets, BatteryCharging, Flame, Zap, X, CheckCircle2, Trophy, Star, Upload } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const catConfig = {
   plant:  { icon: Leaf,            color: '#10B981', label: 'Plant',  bg: 'rgba(16,185,129,0.12)'  },
@@ -20,10 +21,14 @@ const diffLabel = d => d >= 3 ? ['Hard', 'badge-danger'] : d >= 2 ? ['Medium', '
 export default function MissionsPage() {
   const [cat, setCat]         = useState('All');
   const [sel, setSel]         = useState(null);
-  const [completed, setCompleted] = useState([]);
+  const [completed, setCompleted] = useState(() => {
+    try { return JSON.parse(sessionStorage.getItem('ecolearn_completed_missions') || '[]'); } catch { return []; }
+  });
   const [success, setSuccess] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [proof, setProof] = useState(null);
+  const [proofName, setProofName] = useState('');
+  const fileInputRef = useRef(null);
 
   const filtered = cat === 'All' ? MOCK_MISSIONS : MOCK_MISSIONS.filter(m => m.category === cat.toLowerCase());
   const done = completed.length;
@@ -31,11 +36,15 @@ export default function MissionsPage() {
 
   const complete = (m) => {
     if (!completed.includes(m.id)) {
-      setCompleted(p => [...p, m.id]);
+      const next = [...completed, m.id];
+      setCompleted(next);
+      sessionStorage.setItem('ecolearn_completed_missions', JSON.stringify(next));
       setSuccess(m);
       setSel(null);
       setIsSubmitting(false);
       setProof(null);
+      setProofName('');
+      toast.success(`Mission "${m.title}" submitted for validation!`);
       setTimeout(() => setSuccess(null), 3200);
     }
   };
@@ -44,8 +53,16 @@ export default function MissionsPage() {
     setIsSubmitting(true);
   };
 
-  const handleMockUpload = () => {
-    setProof('MOCK_IMAGE_DATA_URI');
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setProofName(file.name);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProof(reader.result);
+      toast.success('Photo proof attached!', { icon: '📸' });
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -182,15 +199,25 @@ export default function MissionsPage() {
                       </div>
 
                       <div className="space-y-5">
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleFileSelect}
+                        />
                         <div 
-                          onClick={handleMockUpload}
-                          className={`aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all ${proof ? 'border-eco-green bg-eco-green/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}
+                          onClick={() => fileInputRef.current?.click()}
+                          className={`aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden ${proof ? 'border-eco-green bg-eco-green/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}
                         >
                           {proof ? (
-                            <div className="flex flex-col items-center">
-                              <CheckCircle2 size={32} className="text-eco-green mb-2" />
-                              <span className="text-[12px] font-bold text-white">PHOTO ATTACHED</span>
-                              <span className="text-[10px] text-white/40 mt-1">GSC-PROOF-2026.JPG</span>
+                            <div className="relative w-full h-full">
+                              <img src={proof} alt="Proof" className="w-full h-full object-cover" />
+                              <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-black/70 backdrop-blur-sm flex items-center gap-2">
+                                <CheckCircle2 size={14} className="text-eco-green shrink-0" />
+                                <span className="text-[10px] font-bold text-white truncate">{proofName}</span>
+                                <span className="text-[9px] text-eco-green ml-auto shrink-0">ATTACHED</span>
+                              </div>
                             </div>
                           ) : (
                             <>
@@ -198,7 +225,7 @@ export default function MissionsPage() {
                                 <Camera size={24} className="text-white/40" />
                               </div>
                               <p className="text-[12px] font-bold text-white mb-1">Upload Photo Proof</p>
-                              <p className="text-[10px] text-white/40">Capture the impact results</p>
+                              <p className="text-[10px] text-white/40">Click to select an image from your device</p>
                             </>
                           )}
                         </div>

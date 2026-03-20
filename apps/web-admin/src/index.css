@@ -383,16 +383,16 @@ input::placeholder { color: var(--text-muted); }
 }
 
 /* ========================================
-   GAIA COMMAND PILL
+   EcoLearn COMMAND PILL
    ======================================== */
-.gaia-pill {
+.ecolearn-pill {
   background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.15));
   border: 1px solid rgba(0, 242, 254, 0.3);
   backdrop-filter: blur(16px);
   box-shadow: 0 8px 32px rgba(0, 242, 254, 0.25), 0 0 0 1px rgba(0, 242, 254, 0.1) inset;
 }
 
-/* Orbit ring animation (GaiaCommand expanded) */
+/* Orbit ring animation (EcoLearnCommand expanded) */
 @keyframes orbit {
   from { transform: rotate(0deg) translateX(18px) rotate(0deg); }
   to   { transform: rotate(360deg) translateX(18px) rotate(-360deg); }

@@ -2,25 +2,25 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Minimize2, Leaf, Zap, Cpu, Sparkles } from 'lucide-react';
 
-const GAIA_RESPONSES = [
+const EcoLearn_RESPONSES = [
   { q: 'missions',  a: 'You have 9 active missions. Your highest-XP opportunity is **Solar Pulse Sync** (+2,000 XP). Start it before 2PM for max sun exposure data.' },
   { q: 'rank',      a: 'DPS Bhopal is **#2** globally. You need 2,790 more XP to overtake Kendriya Vidyalaya. Focus on energy missions this week.' },
   { q: 'streak',    a: "You're on a **6-day streak**! Complete any mission today to hit 7 days and unlock the 50 XP bonus." },
   { q: 'badges',    a: 'You have 5 of 6 badges. **Data Analyst** is the only one remaining — log 100 environmental data points to unlock it.' },
   { q: 'analytics', a: 'Your CO₂ offset grew by **24.8%** this month. Hydro-Retention protocols could boost your yield by 2.4× next cycle.' },
-  { q: 'default',   a: "I'm GAIA Intelligence. Ask me about your missions, rank, streak, badges, or analytics." },
+  { q: 'default',   a: "I'm EcoLearn Intelligence. Ask me about your missions, rank, streak, badges, or analytics." },
 ];
 
 const SUGGESTIONS = ['Check my rank', 'Active missions', 'My badges', 'Streak status'];
 
 function getResponse(text) {
   const t = text.toLowerCase();
-  if (t.includes('mission')) return GAIA_RESPONSES[0];
-  if (t.includes('rank') || t.includes('leader')) return GAIA_RESPONSES[1];
-  if (t.includes('streak')) return GAIA_RESPONSES[2];
-  if (t.includes('badge')) return GAIA_RESPONSES[3];
-  if (t.includes('analytic') || t.includes('co2') || t.includes('carbon')) return GAIA_RESPONSES[4];
-  return GAIA_RESPONSES[5];
+  if (t.includes('mission')) return EcoLearn_RESPONSES[0];
+  if (t.includes('rank') || t.includes('leader')) return EcoLearn_RESPONSES[1];
+  if (t.includes('streak')) return EcoLearn_RESPONSES[2];
+  if (t.includes('badge')) return EcoLearn_RESPONSES[3];
+  if (t.includes('analytic') || t.includes('co2') || t.includes('carbon')) return EcoLearn_RESPONSES[4];
+  return EcoLearn_RESPONSES[5];
 }
 
 function format(text) {
@@ -41,9 +41,9 @@ function OrbitDot() {
   );
 }
 
-export default function GaiaCommand() {
+export default function EcoLearnCommand() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState([{ role: 'assistant', text: "Hello! I'm **GAIA Intelligence**. How can I help you today?" }]);
+  const [messages, setMessages] = useState([{ role: 'assistant', text: "Hello! I'm **EcoLearn Intelligence**. How can I help you today?" }]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const endRef = useRef(null);
@@ -72,13 +72,13 @@ export default function GaiaCommand() {
             initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}
             whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-6 right-6 z-[100] flex items-center gap-2.5 px-4 py-3 rounded-full cursor-pointer relative gaia-pill"
+            className="fixed bottom-6 right-6 z-[100] flex items-center gap-2.5 px-4 py-3 rounded-full cursor-pointer relative ecolearn-pill"
           >
             <OrbitDot />
             <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}>
               <Sparkles size={16} style={{ color: '#22D3EE' }} />
             </motion.div>
-            <span className="text-[12px] font-semibold text-white">GAIA AI</span>
+            <span className="text-[12px] font-semibold text-white">EcoLearn AI</span>
             <motion.div className="w-2 h-2 rounded-full" style={{ background: '#10B981', boxShadow: '0 0 8px #10B981' }}
               animate={{ scale: [1, 1.4, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} />
           </motion.button>
@@ -113,7 +113,7 @@ export default function GaiaCommand() {
                 <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-[#10B981] rounded-full border-2 border-[#080B14]" />
               </div>
               <div className="flex-1">
-                <p className="text-[12px] font-bold text-white">GAIA Intelligence</p>
+                <p className="text-[12px] font-bold text-white">EcoLearn Intelligence</p>
                 <p className="text-[9px] flex items-center gap-1" style={{ color: '#10B981' }}>
                   <span className="relative w-1 h-1 inline-block">
                     <span className="absolute inset-0 rounded-full bg-[#10B981]" />
@@ -184,7 +184,7 @@ export default function GaiaCommand() {
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <input value={input} onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && send()}
-                  placeholder="Ask GAIA anything…"
+                  placeholder="Ask EcoLearn anything…"
                   className="flex-1 text-[12px] bg-transparent border-0 outline-none text-white placeholder:text-[#334155]"
                   style={{ fontFamily: 'Inter, sans-serif' }} />
                 <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}

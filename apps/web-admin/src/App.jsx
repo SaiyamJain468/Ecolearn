@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
-// ... rest of imports
 import MissionsPage from './pages/MissionsPage';
 import LearnPage from './pages/LearnPage';
 import RankingsPage from './pages/RankingsPage';
@@ -15,6 +14,12 @@ import ImpactMapPage from './pages/ImpactMapPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import NexusPage from './pages/NexusPage';
 import CareerPathPage from './pages/CareerPathPage';
+import SubmissionsPage from './pages/SubmissionsPage';
+import StudentsPage from './pages/StudentsPage';
+import ProPage from './pages/ProPage';
+import PrimeDashboardPage from './pages/PrimeDashboardPage';
+import AlertsPage from './pages/AlertsPage';
+import HelpDeskPage from './pages/HelpDeskPage';
 import Layout from './components/Layout';
 import { AnimatePresence } from 'framer-motion';
 
@@ -40,6 +45,12 @@ const AnimatedRoutes = () => {
           <Route path="analytics" element={<AnalyticsPage />} />
           <Route path="nexus" element={<NexusPage />} />
           <Route path="career" element={<CareerPathPage />} />
+          <Route path="submissions" element={<SubmissionsPage />} />
+          <Route path="students" element={<StudentsPage />} />
+          <Route path="pro" element={<ProPage />} />
+          <Route path="prime" element={<PrimeDashboardPage />} />
+          <Route path="alerts" element={<AlertsPage />} />
+          <Route path="help" element={<HelpDeskPage />} />
           <Route path="dashboard" element={<Navigate to="/" replace />} />
         </Route>
         

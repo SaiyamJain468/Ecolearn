@@ -12,7 +12,7 @@ const api = axios.create({
 // Add a request interceptor to include the JWT token in headers
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('gaia_token');
+    const token = localStorage.getItem('ecolearn_token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }

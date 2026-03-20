@@ -1,40 +1,40 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import client from '../api/client';
 
 const AuthContext = createContext();
+
+const MOCK_ADMIN = {
+  id: 1,
+  name: 'Gaia Admin',
+  email: 'admin@ecolearn.in',
+  role: 'admin',
+  eco_points_total: 12500,
+};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // LOGIN BYPASS: auto-set a fake admin user for demo
-    const bypassUser = {
-      id: 1,
-      name: 'Admin',
-      email: 'admin@ecolearn.com',
-      role: 'admin',
-      eco_points_total: 9999,
-    };
-    localStorage.setItem('token', 'bypass-token');
-    localStorage.setItem('user', JSON.stringify(bypassUser));
-    setUser(bypassUser);
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    } else {
+      // Auto-login for prototype convenience
+      localStorage.setItem('token', 'proto-token-99');
+      localStorage.setItem('user', JSON.stringify(MOCK_ADMIN));
+      setUser(MOCK_ADMIN);
+    }
     setLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    try {
-      const response = await client.post('/auth/login/', { email, password });
-      const { access, user: userProfile } = response.data;
-      
-      localStorage.setItem('token', access);
-      localStorage.setItem('user', JSON.stringify(userProfile));
-      setUser(userProfile);
-      return true;
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
-    }
+    // Simulate network delay
+    await new Promise(r => setTimeout(r, 800));
+    
+    localStorage.setItem('token', 'proto-token-99');
+    localStorage.setItem('user', JSON.stringify(MOCK_ADMIN));
+    setUser(MOCK_ADMIN);
+    return true;
   };
 
   const logout = () => {

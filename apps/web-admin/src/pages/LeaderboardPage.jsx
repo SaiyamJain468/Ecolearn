@@ -1,5 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
-import client from '../api/client';
 import { Trophy, Medal, School, TrendingUp, Users } from 'lucide-react';
 import { 
   BarChart, 
@@ -11,28 +9,10 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
+import { MOCK_LEADERBOARD } from '../lib/mockData';
 
 const LeaderboardPage = () => {
-  const { data: schools, isLoading } = useQuery({
-    queryKey: ['schools-leaderboard'],
-    queryFn: async () => {
-      // res = await client.get('/leaderboard/schools/');
-      return [
-        { name: 'DPS Bhopal', points: 42850, students: 412, color: '#2D5A27' },
-        { name: 'Kendriya Vidyalaya S4', points: 38200, students: 385, color: '#E8573A' },
-        { name: 'Sagar Public School', points: 31450, students: 298, color: '#F4A07A' },
-        { name: 'Campian School', points: 28900, students: 256, color: '#00F2FE' },
-        { name: 'St. Joseph Co-ed', points: 24500, students: 210, color: '#0891B2' },
-        { name: 'Billabong High', points: 21200, students: 185, color: '#10B981' },
-        { name: 'Mount Carmel', points: 19800, students: 160, color: '#F59E0B' },
-        { name: 'Sanskar Valley', points: 17500, students: 142, color: '#06B6D4' },
-        { name: 'Holy Family', points: 15100, students: 120, color: '#F97316' },
-        { name: 'Ryan International', points: 12400, students: 95, color: '#00F2FE' },
-      ];
-    }
-  });
-
-  if (isLoading) return <div className="text-white/40">Loading rankings...</div>;
+  const schools = MOCK_LEADERBOARD;
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -72,7 +52,7 @@ const LeaderboardPage = () => {
                   contentStyle={{ backgroundColor: '#1F120C', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff' }}
                 />
                 <Bar dataKey="points" radius={[0, 8, 8, 0]} barSize={32}>
-                  {schools?.map((entry, index) => (
+                  {schools.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Bar>
@@ -83,7 +63,7 @@ const LeaderboardPage = () => {
 
         <div className="space-y-6">
           <h3 className="text-xl font-bold text-white px-2">School Standings</h3>
-          {schools?.map((school, index) => (
+          {schools.map((school, index) => (
             <div key={school.name} className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center justify-between group hover:border-white/20 transition-all">
               <div className="flex items-center space-x-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg ${

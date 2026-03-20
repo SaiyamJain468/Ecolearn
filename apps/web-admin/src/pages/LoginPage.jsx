@@ -2,66 +2,77 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import { Zap, Chrome, UserCircle } from 'lucide-react';
+import { Zap, Chrome, UserCircle, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('gaia.admin@ecolearn.in');
   const [password, setPassword] = useState('demo123');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const nav = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); setError(''); setLoading(true);
-    try { await login(email, password); nav('/'); }
-    catch (err) { setError(err.response?.data?.detail || 'Invalid credentials'); }
-    finally { setLoading(false); }
+    e.preventDefault(); 
+    setLoading(true);
+    await login(email, password); 
+    nav('/');
   };
-  const handleGuest = () => { login('guest@ecolearn.in', 'guest').then(() => nav('/')).catch(() => nav('/')); };
+  const handleGuest = () => { 
+    setLoading(true);
+    login('guest@ecolearn.in', 'guest').then(() => nav('/')); 
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0B0F19] px-4 relative overflow-hidden">
       {/* Decorative blobs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[#4F6EF7]/8 blur-[120px]" />
-      <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-[#22D3EE]/6 blur-[100px]" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-eco-green/10 blur-[120px]" />
+      <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-eco-coral/8 blur-[100px]" />
 
       <motion.div initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.5 }}
-        className="relative w-full max-w-[420px] bg-[#131B2E] rounded-2xl border border-[#1E293B] p-9 shadow-2xl shadow-black/30">
+        className="relative w-full max-w-[400px] bg-[#131B2E] rounded-[32px] border border-white/5 p-10 shadow-2xl shadow-black/50 overflow-hidden">
+        
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-eco-green via-eco-teal to-eco-coral" />
+
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-9">
-          <div className="w-11 h-11 bg-gradient-to-br from-[#4F6EF7] to-[#22D3EE] rounded-xl flex items-center justify-center shadow-lg shadow-[#4F6EF7]/20">
-            <Zap size={24} className="text-white" />
+        <div className="flex flex-col items-center text-center mb-10">
+          <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 mb-4 shadow-xl">
+            <Zap size={32} className="text-eco-green fill-eco-green/20" />
           </div>
-          <div>
-            <h1 className="text-[17px] font-bold text-white tracking-tight">GAIA Protocol</h1>
-            <p className="text-[10px] text-[#475569] font-medium uppercase tracking-wider">Eco Intelligence Platform</p>
-          </div>
+          <h1 className="text-2xl font-black text-white tracking-tighter uppercase italic">GAIA <span className="text-eco-teal">Protocol</span></h1>
+          <p className="text-[10px] text-white/30 font-bold uppercase tracking-[0.3em] mt-1">Admin Dashboard v1.0</p>
         </div>
 
-        {error && <div className="mb-5 p-3 bg-[#EF4444]/10 border border-[#EF4444]/20 rounded-xl text-[#EF4444] text-[13px] font-medium">{error}</div>}
-
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="text-[10px] font-semibold text-[#475569] uppercase tracking-wider mb-2 block">Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full" />
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Terminal ID</label>
+            <input 
+              type="email" 
+              value={email} 
+              onChange={e => setEmail(e.target.value)} 
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-eco-green transition-all"
+              placeholder="admin@ecolearn.in"
+            />
           </div>
-          <div>
-            <label className="text-[10px] font-semibold text-[#475569] uppercase tracking-wider mb-2 block">Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full" />
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Access Key</label>
+            <input 
+              type="password" 
+              value={password} 
+              onChange={e => setPassword(e.target.value)} 
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-eco-green transition-all"
+              placeholder="••••••••"
+            />
           </div>
           <button type="submit" disabled={loading}
-            className="w-full py-3 bg-[#4F6EF7] hover:bg-[#6B85FF] text-white font-semibold text-[13px] rounded-xl transition-all shadow-lg shadow-[#4F6EF7]/25 disabled:opacity-50 cursor-pointer mt-2">
-            {loading ? 'Connecting...' : 'Sign In'}
+            className="w-full py-4 bg-eco-green text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-eco-green/30 disabled:opacity-50 flex items-center justify-center group mt-4 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'INITIALIZE UPLINK'}
           </button>
         </form>
 
-        <div className="mt-5 space-y-2.5">
-          <button className="w-full py-2.5 bg-white/[0.03] border border-[#1E293B] hover:border-[#334155] text-[#94A3B8] hover:text-white text-[12px] font-semibold rounded-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer">
-            <Chrome size={15} /> Continue with Google
-          </button>
-          <button onClick={handleGuest} className="w-full py-2.5 bg-white/[0.03] border border-[#1E293B] hover:border-[#334155] text-[#64748B] hover:text-[#94A3B8] text-[12px] font-semibold rounded-xl transition-all flex items-center justify-center gap-2.5 cursor-pointer">
-            <UserCircle size={15} /> Guest Access
+        <div className="mt-8 pt-8 border-t border-white/5 space-y-3">
+          <button onClick={handleGuest} className="w-full py-3 bg-white/5 border border-white/10 hover:bg-white/10 text-white/60 hover:text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 group">
+            <UserCircle size={16} className="group-hover:scale-110 transition-transform" /> GUEST PROTOCOL
           </button>
         </div>
       </motion.div>

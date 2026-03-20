@@ -114,3 +114,72 @@ export const MOCK_TRADES = [
     { from: 'Gaia_Uplink', to: 'Sagar Public', action: 'Achievement: Zero Waste Campus', time: 'Yesterday' },
     { from: 'Indore North', to: 'Central India Hub', action: 'Pushed 1.5MW Surplus Energy', time: 'Yesterday' },
 ];
+
+export const MOCK_SUBMISSIONS = [
+  {
+    id: 1,
+    user: { first_name: 'Aryan', last_name: 'Jain', username: 'aryan' },
+    challenge: { title: 'Plant a Sapling', category: 'Plant', points_reward: 150 },
+    proof_image_url: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    status: 'pending'
+  },
+  {
+    id: 2,
+    user: { first_name: 'Sanya', last_name: 'Malhotra', username: 'sanya' },
+    challenge: { title: 'Compost Waste', category: 'Waste', points_reward: 200 },
+    proof_image_url: 'https://images.unsplash.com/photo-1591193520257-c030ea85780c?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+    status: 'pending'
+  },
+  {
+    id: 3,
+    user: { first_name: 'Rahul', last_name: 'Sharma', username: 'rahul' },
+    challenge: { title: 'Save Water', category: 'Water', points_reward: 100 },
+    proof_image_url: 'https://images.unsplash.com/photo-1548932813-7da36bbd926a?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+    status: 'approved'
+  },
+  {
+    id: 4,
+    user: { first_name: 'Priya', last_name: 'Verma', username: 'priya' },
+    challenge: { title: 'Solar Pulse Sync', category: 'Energy', points_reward: 300 },
+    proof_image_url: 'https://images.unsplash.com/photo-1509391366360-fe5bb5858345?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+    status: 'pending'
+  },
+  {
+    id: 5,
+    user: { first_name: 'Ishaan', last_name: 'Singh', username: 'ishaan' },
+    challenge: { title: 'Bio-Logician', category: 'Plant', points_reward: 180 },
+    proof_image_url: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80',
+    submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
+    status: 'pending'
+  }
+];
+
+export const MOCK_STUDENTS = [
+  { id: 1, name: 'Aryan Jain', class_grade: 'X-B', eco_points_total: 1240, challenges_done: 12, last_active: '2026-03-19T10:30:00Z' },
+  { id: 2, name: 'Sanya Malhotra', class_grade: 'IX-A', eco_points_total: 1100, challenges_done: 9, last_active: '2026-03-18T15:45:00Z' },
+  { id: 3, name: 'Rahul Sharma', class_grade: 'X-B', eco_points_total: 980, challenges_done: 8, last_active: '2026-03-19T09:12:00Z' },
+  { id: 4, name: 'Priya Verma', class_grade: 'VIII-C', eco_points_total: 850, challenges_done: 7, last_active: '2026-03-17T11:20:00Z' },
+  { id: 5, name: 'Ishaan Singh', class_grade: 'X-A', eco_points_total: 720, challenges_done: 6, last_active: '2026-03-19T12:05:00Z' },
+  { id: 6, name: 'Neha Gupta', class_grade: 'VII-B', eco_points_total: 650, challenges_done: 5, last_active: '2026-03-16T14:30:00Z' },
+  { id: 7, name: 'Kunal Kapoor', class_grade: 'IX-C', eco_points_total: 580, challenges_done: 4, last_active: '2026-03-15T09:00:00Z' },
+  { id: 8, name: 'Tanvi Shah', class_grade: 'VIII-A', eco_points_total: 520, challenges_done: 4, last_active: '2026-03-19T08:15:00Z' },
+  { id: 9, name: 'Vicky Kaushal', class_grade: 'X-A', eco_points_total: 490, challenges_done: 3, last_active: '2026-03-18T16:20:00Z' },
+  { id: 10, name: 'Sara Ali Khan', class_grade: 'XII-C', eco_points_total: 450, challenges_done: 3, last_active: '2026-03-17T10:45:00Z' },
+];
+
+export const MOCK_LEADERBOARD = [
+    { name: 'DPS Bhopal', points: 42850, students: 412, color: '#2D5A27' },
+    { name: 'Kendriya Vidyalaya S4', points: 38200, students: 385, color: '#E8573A' },
+    { name: 'Sagar Public School', points: 31450, students: 298, color: '#F4A07A' },
+    { name: 'Campian School', points: 28900, students: 256, color: '#00F2FE' },
+    { name: 'St. Joseph Co-ed', points: 24500, students: 210, color: '#0891B2' },
+    { name: 'Billabong High', points: 21200, students: 185, color: '#10B981' },
+    { name: 'Mount Carmel', points: 19800, students: 160, color: '#F59E0B' },
+    { name: 'Sanskar Valley', points: 17500, students: 142, color: '#06B6D4' },
+    { name: 'Holy Family', points: 15100, students: 120, color: '#F97316' },
+    { name: 'Ryan International', points: 12400, students: 95, color: '#00F2FE' },
+];

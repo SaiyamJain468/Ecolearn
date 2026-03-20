@@ -1,33 +1,19 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import client from '../api/client';
 import { 
   Search, 
   ArrowUpDown, 
   MoreHorizontal,
   ChevronLeft,
   ChevronRight,
-  User,
-  GraduationCap
+  Leaf
 } from 'lucide-react';
+import { MOCK_STUDENTS } from '../lib/mockData';
 
 const StudentsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'eco_points_total', direction: 'desc' });
 
-  const { data: students, isLoading } = useQuery({
-    queryKey: ['students'],
-    queryFn: async () => {
-      // res = await client.get('/users/?role=student');
-      return [
-        { id: 1, name: 'Aryan Jain', class_grade: 'X-B', eco_points_total: 1240, challenges_done: 12, last_active: '2026-03-19T10:30:00Z' },
-        { id: 2, name: 'Sanya Malhotra', class_grade: 'IX-A', eco_points_total: 1100, challenges_done: 9, last_active: '2026-03-18T15:45:00Z' },
-        { id: 3, name: 'Rahul Sharma', class_grade: 'X-B', eco_points_total: 980, challenges_done: 8, last_active: '2026-03-19T09:12:00Z' },
-        { id: 4, name: 'Priya Verma', class_grade: 'VIII-C', eco_points_total: 850, challenges_done: 7, last_active: '2026-03-17T11:20:00Z' },
-        { id: 5, name: 'Ishaan Singh', class_grade: 'X-A', eco_points_total: 720, challenges_done: 6, last_active: '2026-03-19T12:05:00Z' },
-      ];
-    }
-  });
+  const students = MOCK_STUDENTS;
 
   const sortedStudents = [...(students || [])].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
@@ -41,8 +27,6 @@ const StudentsPage = () => {
       direction: prev.key === key && prev.direction === 'desc' ? 'asc' : 'desc'
     }));
   };
-
-  if (isLoading) return <div className="text-white/40">Loading students...</div>;
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -124,7 +108,7 @@ const StudentsPage = () => {
         </div>
 
         <div className="p-4 border-t border-white/5 flex items-center justify-between bg-white/[0.01]">
-          <p className="text-xs text-white/20">Showing {sortedStudents.length} of {students?.length} students</p>
+          <p className="text-xs text-white/20">Showing {sortedStudents.length} of {students.length} students</p>
           <div className="flex items-center space-x-2">
             <button className="p-2 bg-white/5 border border-white/10 rounded-lg text-white/20 hover:text-white cursor-not-allowed">
               <ChevronLeft className="w-4 h-4" />

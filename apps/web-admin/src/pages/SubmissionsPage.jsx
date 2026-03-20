@@ -1,85 +1,33 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import client from '../api/client';
 import { 
   CheckCircle2, 
   XCircle, 
   Clock, 
-  ExternalLink,
-  MessageSquare,
-  Search,
-  Filter,
   Image as ImageIcon
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { MOCK_SUBMISSIONS } from '../lib/mockData';
 
 const SubmissionsPage = () => {
   const [filter, setFilter] = useState('pending');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [submissions, setSubmissions] = useState(MOCK_SUBMISSIONS);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [rejectionReason, setRejectionReason] = useState('');
   const [showRejectModal, setShowRejectModal] = useState(false);
 
-  const queryClient = useQueryClient();
-
-  const { data: submissions, isLoading } = useQuery({
-    queryKey: ['submissions', filter],
-    queryFn: async () => {
-      // In a real app: const res = await client.get(`/challenges/submissions/?status=${filter}`);
-      // For demo, we'll mock but allow the mutation to simulate behavior
-      const mockSubmissions = [
-        {
-          id: 1,
-          user: { first_name: 'Aryan', last_name: 'Jain', username: 'aryan' },
-          challenge: { title: 'Plant a Sapling', category: 'Plant', points_reward: 150 },
-          proof_image_url: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80',
-          submitted_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 mins ago
-          status: 'pending'
-        },
-        {
-          id: 2,
-          user: { first_name: 'Sanya', last_name: 'Malhotra', username: 'sanya' },
-          challenge: { title: 'Compost Waste', category: 'Waste', points_reward: 200 },
-          proof_image_url: 'https://images.unsplash.com/photo-1591193520257-c030ea85780c?w=800&q=80',
-          submitted_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(), // 2 hours ago
-          status: 'pending'
-        },
-        {
-          id: 3,
-          user: { first_name: 'Rahul', last_name: 'Sharma', username: 'rahul' },
-          challenge: { title: 'Save Water', category: 'Water', points_reward: 100 },
-          proof_image_url: 'https://images.unsplash.com/photo-1548932813-7da36bbd926a?w=800&q=80',
-          submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
-          status: 'approved'
-        }
-      ];
-      return mockSubmissions.filter(s => filter === 'all' || s.status === filter);
-    }
-  });
-
-  const reviewMutation = useMutation({
-    mutationFn: async ({ id, status, reason }) => {
-      // return client.patch(`/challenges/submissions/${id}/`, { status, rejection_reason: reason });
-      return { id, status };
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['submissions']);
-      setShowRejectModal(false);
-      setSelectedSubmission(null);
-      setRejectionReason('');
-    }
-  });
+  const filteredSubmissions = submissions.filter(s => filter === 'all' || s.status === filter);
 
   const handleApprove = (id) => {
-    reviewMutation.mutate({ id, status: 'approved' });
+    setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status: 'approved' } : s));
   };
 
   const handleReject = () => {
     if (!rejectionReason) return;
-    reviewMutation.mutate({ id: selectedSubmission.id, status: 'rejected', reason: rejectionReason });
+    setSubmissions(prev => prev.map(s => s.id === selectedSubmission.id ? { ...s, status: 'rejected' } : s));
+    setShowRejectModal(false);
+    setSelectedSubmission(null);
+    setRejectionReason('');
   };
-
-  if (isLoading) return <div className="text-white/40">Loading queue...</div>;
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -106,7 +54,7 @@ const SubmissionsPage = () => {
         </div>
       </div>
 
-      {submissions?.length === 0 ? (
+      {filteredSubmissions.length === 0 ? (
         <div className="bg-white/5 border border-white/10 rounded-3xl p-12 text-center">
           <Clock className="w-12 h-12 text-white/10 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white">All caught up!</h3>
@@ -114,7 +62,7 @@ const SubmissionsPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {submissions?.map((sub) => (
+          {filteredSubmissions.map((sub) => (
             <div key={sub.id} className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden group hover:border-white/20 transition-all duration-300 flex flex-col sm:flex-row">
               <div className="w-full sm:w-48 h-48 sm:h-auto relative overflow-hidden bg-eco-dark">
                 {sub.proof_image_url ? (
@@ -202,16 +150,15 @@ const SubmissionsPage = () => {
               <button 
                 onClick={() => setShowRejectModal(false)}
                 className="flex-1 py-3 text-white/50 hover:text-white transition-colors"
-                disabled={reviewMutation.isLoading}
               >
                 Cancel
               </button>
               <button 
                 onClick={handleReject}
-                disabled={!rejectionReason || reviewMutation.isLoading}
+                disabled={!rejectionReason}
                 className="flex-1 bg-eco-coral text-white font-bold py-3 rounded-xl hover:bg-eco-coral/90 transition-all disabled:opacity-50"
               >
-                {reviewMutation.isLoading ? 'Processing...' : 'Confirm Rejection'}
+                Confirm Rejection
               </button>
             </div>
           </div>

@@ -468,8 +468,9 @@ export default function LearnPage() {
         className="space-y-6"
       >
         {/* Lesson Header */}
-        <div className="flex items-center gap-4">
-          <motion.button
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <div className="flex items-start md:items-center gap-4 flex-1">
+            <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
@@ -500,11 +501,12 @@ export default function LearnPage() {
                 {viewing.dur}
               </span>
             </div>
-            <h1 className="text-[22px] font-bold text-white tracking-tight">
-              {viewing.title}
-            </h1>
+              <h1 className="text-[18px] md:text-[22px] font-bold text-white tracking-tight">
+                {viewing.title}
+              </h1>
+            </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 md:ml-auto mt-2 md:mt-0">
             <span
               className="badge badge-success"
               style={{ fontSize: "9px", padding: "3px 10px" }}
@@ -666,7 +668,7 @@ export default function LearnPage() {
         </div>
         {/* Tab filter */}
         <div
-          className="flex gap-1 p-1 rounded-xl"
+          className="flex flex-wrap gap-1 p-1 rounded-xl w-full sm:w-fit justify-center md:justify-end"
           style={{
             background: "rgba(255,255,255,0.03)",
             border: "1px solid rgba(255,255,255,0.07)",

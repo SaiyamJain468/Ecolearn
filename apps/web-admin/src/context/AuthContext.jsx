@@ -1,5 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { MOCK_ADMIN, MOCK_SAIYAM } from "../lib/mockData";
+import { auth, googleProvider } from "../lib/firebase";
+import { 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signInWithPopup, 
+  signOut 
+} from "firebase/auth";
 
 const AuthContext = createContext();
 
@@ -8,45 +15,51 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    } else {
-      // Auto-login for prototype convenience
-      localStorage.setItem("token", "proto-token-99");
-      localStorage.setItem("user", JSON.stringify(MOCK_ADMIN));
-      setUser(MOCK_ADMIN);
-    }
-    setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        // Map to our app's expected user structure
+        setUser({
+          id: currentUser.uid,
+          name: currentUser.displayName || currentUser.email.split('@')[0],
+          email: currentUser.email,
+          role: currentUser.email.toLowerCase().includes("admin") ? "Admin" : "Member",
+          avatar: currentUser.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.uid}`,
+          xp: 1250, // default placeholder
+          level: 5,
+          rank: "Eco Pioneer",
+          joinDate: "2026-03-20"
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
   const login = async (email, password) => {
-    // Simulate network delay
-    await new Promise((r) => setTimeout(r, 800));
-
-    let userToSet = MOCK_SAIYAM; // Default
-    if (email.toLowerCase().includes("admin")) {
-      userToSet = MOCK_ADMIN;
-    }
-
-    localStorage.setItem("token", "proto-token-99");
-    localStorage.setItem("user", JSON.stringify(userToSet));
-    setUser(userToSet);
-    return true;
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  const signup = async (email, password, name) => {
+    // In a full app, we update the profile with the name. Here we just create the auth record.
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const loginWithGoogle = async () => {
+    return signInWithPopup(auth, googleProvider);
+  };
+
+  const logout = async () => {
     sessionStorage.removeItem("ecolearn_completed_missions");
     sessionStorage.removeItem("ecolearn_completed_lessons");
     sessionStorage.removeItem("ecolearn_submissions");
-    setUser(null);
+    await signOut(auth);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
-      {children}
+    <AuthContext.Provider value={{ user, login, signup, loginWithGoogle, logout, loading }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

@@ -477,7 +477,7 @@ export default function AnalyticsPage() {
             background: "radial-gradient(circle, #00F2FE, transparent 70%)",
           }}
         />
-        <div className="relative flex items-start gap-5">
+        <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 text-center sm:text-left">
           <motion.div
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
@@ -490,7 +490,7 @@ export default function AnalyticsPage() {
             🤖
           </motion.div>
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mb-2">
               <span className="badge badge-accent" style={{ fontSize: "9px" }}>
                 AI Insight
               </span>
@@ -527,7 +527,7 @@ export default function AnalyticsPage() {
             whileTap={{ scale: 0.97 }}
             onClick={handleExecuteAI}
             disabled={aiLoading}
-            className="btn-primary shrink-0 flex items-center gap-2"
+            className="btn-primary w-full sm:w-auto shrink-0 flex items-center justify-center gap-2 mt-2 sm:mt-0"
             style={{ padding: "10px 20px", fontSize: "12px" }}
           >
             {aiLoading ? (

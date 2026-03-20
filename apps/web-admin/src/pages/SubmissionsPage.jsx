@@ -57,7 +57,7 @@ const SubmissionsPage = () => {
           </p>
         </div>
 
-        <div className="flex items-center space-x-2 bg-white/5 p-1 rounded-xl border border-white/10">
+        <div className="flex flex-wrap justify-center sm:justify-start items-center gap-1 sm:gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
           {["pending", "approved", "rejected", "all"].map((tab) => (
             <button
               key={tab}
@@ -139,10 +139,10 @@ const SubmissionsPage = () => {
                 </div>
 
                 {sub.status === "pending" ? (
-                  <div className="flex items-center space-x-3 border-t border-white/5 pt-4 mt-2">
+                  <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 border-t border-white/5 pt-4 mt-2">
                     <button
                       onClick={() => handleApprove(sub.id)}
-                      className="flex-1 bg-eco-green/10 hover:bg-eco-green text-eco-green hover:text-white border border-eco-green/20 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center group/btn"
+                      className="w-full sm:flex-1 bg-eco-green/10 hover:bg-eco-green text-eco-green hover:text-white border border-eco-green/20 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center group/btn"
                     >
                       <CheckCircle2 className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
                       Approve
@@ -152,7 +152,7 @@ const SubmissionsPage = () => {
                         setSelectedSubmission(sub);
                         setShowRejectModal(true);
                       }}
-                      className="flex-1 bg-eco-coral/10 hover:bg-eco-coral text-eco-coral hover:text-white border border-eco-coral/20 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center group/btn"
+                      className="w-full sm:flex-1 bg-eco-coral/10 hover:bg-eco-coral text-eco-coral hover:text-white border border-eco-coral/20 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center group/btn"
                     >
                       <XCircle className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
                       Reject

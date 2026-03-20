@@ -94,8 +94,8 @@ export default function CareerPathPage() {
             background: "radial-gradient(circle, #00F2FE, transparent 70%)",
           }}
         />
-        <div className="relative flex flex-col md:flex-row md:items-center gap-6">
-          <div className="flex-1">
+        <div className="relative flex flex-col items-center md:flex-row md:items-center gap-6 text-center md:text-left">
+          <div className="flex-1 w-full max-w-sm md:max-w-none mx-auto md:mx-0">
             <p
               className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1"
               style={{ color: "#22D3EE" }}
@@ -109,7 +109,7 @@ export default function CareerPathPage() {
               Level up your eco-skills to unlock advanced career opportunities.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-3 shrink-0">
+          <div className="flex flex-wrap justify-center md:grid md:grid-cols-3 gap-2 sm:gap-3 shrink-0 w-full md:w-auto">
             {[
               { k: "Total Level", v: totalLevel, c: "#00F2FE" },
               { k: "Max Possible", v: maxTotalLevel, c: "#94A3B8" },
@@ -124,7 +124,7 @@ export default function CareerPathPage() {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.15 + i * 0.07, type: "spring" }}
-                className="p-4 rounded-2xl text-center"
+                className="p-3 sm:p-4 rounded-2xl text-center min-w-[30%] flex-1"
                 style={{
                   background: "rgba(255,255,255,0.05)",
                   border: "1px solid rgba(255,255,255,0.08)",

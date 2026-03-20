@@ -150,7 +150,7 @@ export default function MissionsPage() {
           }}
         />
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
-          <div className="flex-1">
+          <div className="flex-1 text-center md:text-left">
             <p
               className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1"
               style={{ color: "#22D3EE" }}
@@ -166,7 +166,7 @@ export default function MissionsPage() {
               available
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-3 shrink-0">
+          <div className="grid grid-cols-3 gap-2 md:gap-3 shrink-0">
             {[
               { k: "Available", v: MOCK_MISSIONS.length, c: "#22D3EE" },
               { k: "Completed", v: done, c: "#10B981" },
@@ -205,7 +205,7 @@ export default function MissionsPage() {
       {/* Category Filter */}
       <motion.div
         variants={fadeUp}
-        className="flex gap-1 p-1 rounded-xl w-fit"
+        className="flex flex-wrap gap-1 p-1 rounded-xl w-full sm:w-fit justify-center md:justify-start"
         style={{
           background: "rgba(255,255,255,0.03)",
           border: "1px solid rgba(255,255,255,0.07)",
@@ -383,7 +383,7 @@ export default function MissionsPage() {
                   animate={{ scale: 1, y: 0, opacity: 1 }}
                   exit={{ scale: 0.88, y: 40, opacity: 0 }}
                   transition={{ type: "spring", stiffness: 250, damping: 22 }}
-                  className="glass-strong rounded-2xl max-w-md w-full p-7 shadow-2xl overflow-hidden relative"
+                  className="glass-strong rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto p-5 md:p-7 shadow-2xl relative"
                   style={{ border: `1px solid ${cfg.color}30` }}
                   onClick={(e) => e.stopPropagation()}
                 >

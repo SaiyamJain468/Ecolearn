@@ -9,32 +9,41 @@ export default function LoginPage() {
   const [email, setEmail] = useState("admin@ecolearn.in");
   const [password, setPassword] = useState("demo123");
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const nav = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await login(email, password);
-    toast.success("System Uplink Established", {
-      style: {
-        background: "#0F172A",
-        color: "#10B981",
-        border: "1px solid rgba(16,185,129,0.2)",
-      },
-    });
-    nav("/");
+    try {
+      await login(email, password);
+      toast.success("System Uplink Established", {
+        style: {
+          background: "#0F172A",
+          color: "#10B981",
+          border: "1px solid rgba(16,185,129,0.2)",
+        },
+      });
+      nav("/");
+    } catch (err) {
+      toast.error("Auth failed: " + err.message.substring(0, 30) + "...");
+      setLoading(false);
+    }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setLoading(true);
-    toast.loading("Redirecting to Google Auth...", { duration: 1500 });
-    setTimeout(() => {
-      login("admin@ecolearn.in", "google-auth").then(() => {
-        toast.success("Verified as Admin(Demo User)");
-        nav("/");
-      });
-    }, 1600);
+    toast.loading("Connecting to Google Auth...", { duration: 1500 });
+    try {
+      await loginWithGoogle();
+      toast.dismiss();
+      toast.success("Verified via Google");
+      nav("/");
+    } catch (err) {
+      toast.dismiss();
+      toast.error("Google Auth Canceled or Failed");
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,7 +60,7 @@ export default function LoginPage() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-[420px] z-10"
       >
-        <div className="surface-glass p-10 rounded-[40px] border border-white/10 shadow-3xl relative overflow-hidden">
+        <div className="surface-glass p-6 md:p-10 rounded-[40px] border border-white/10 shadow-3xl relative overflow-hidden">
           {/* Top accent line */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-eco-teal via-eco-green to-eco-teal opacity-50" />
 
@@ -62,10 +71,7 @@ export default function LoginPage() {
               className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 mb-5 shadow-2xl relative group"
             >
               <div className="absolute inset-0 bg-eco-green/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <Zap
-                size={32}
-                className="text-eco-green fill-eco-green/20 relative z-10"
-              />
+              <img src="/logo.png" alt="EcoLearn Logo" className="w-10 h-10 object-contain relative z-10" />
             </motion.div>
             <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
               EcoLearn <span className="text-eco-teal">Protocol</span>

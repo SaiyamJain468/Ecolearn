@@ -135,7 +135,7 @@ export default function NexusPage() {
           }}
         />
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
-          <div className="flex-1">
+          <div className="flex-1 text-center md:text-left">
             <p
               className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-1"
               style={{ color: "#22D3EE" }}
@@ -150,7 +150,7 @@ export default function NexusPage() {
               impact.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-3 shrink-0">
+          <div className="grid grid-cols-3 gap-2 md:gap-3 shrink-0">
             {[
               { k: "Alliances", v: "12.4k", c: "#00F2FE" },
               { k: "Active Now", v: "3.2k", c: "#10B981" },
@@ -449,7 +449,7 @@ export default function NexusPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.88, y: 40 }}
               transition={{ type: "spring", stiffness: 250, damping: 22 }}
-              className="glass-strong rounded-2xl max-w-lg w-full p-7 shadow-2xl overflow-hidden relative max-h-[85vh] overflow-y-auto"
+              className="glass-strong rounded-2xl max-w-lg w-full p-5 md:p-7 shadow-2xl overflow-hidden relative max-h-[85vh] overflow-y-auto"
               style={{ border: `1px solid ${selectedAlliance.color}30` }}
               onClick={(e) => e.stopPropagation()}
             >

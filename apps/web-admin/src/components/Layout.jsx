@@ -29,6 +29,7 @@ import {
   Sliders,
   ExternalLink,
   X,
+  Menu,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
@@ -147,8 +148,8 @@ function XpAnimationOverlay() {
 }
 
 /* ── Nav Item ────────────────────────────────────────────── */
-const NavItem = ({ to, icon: Icon, label, active }) => (
-  <Link to={to}>
+const NavItem = ({ to, icon: Icon, label, active, onClick }) => (
+  <Link to={to} onClick={onClick}>
     <motion.div
       whileHover={{ x: 4 }}
       whileTap={{ scale: 0.97 }}
@@ -211,7 +212,13 @@ export default function Layout() {
   const p = location.pathname;
   const [profileOpen, setProfileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [p]);
 
   // Header Dropdowns
   const [openDropdown, setOpenDropdown] = useState(null); // 'alerts', 'help', 'settings'
@@ -292,9 +299,22 @@ export default function Layout() {
         style={{ background: "#06B6D4" }}
       />
 
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* ═══ SIDEBAR ═══════════════════════════════════════ */}
       <aside
-        className="relative z-10 w-[260px] h-full flex flex-col border-r overflow-y-auto no-scrollbar shrink-0"
+        className={`fixed md:relative z-50 w-[260px] h-full flex flex-col border-r overflow-y-auto no-scrollbar shrink-0 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
         style={{
           background: "var(--bg-surface)",
           borderColor: "var(--border)",
@@ -314,13 +334,14 @@ export default function Layout() {
           <motion.div
             whileHover={{ rotate: 180 }}
             transition={{ duration: 0.5 }}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-[14px]"
+            className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden"
             style={{
-              background: "linear-gradient(135deg, #00F2FE, #0891B2)",
-              boxShadow: "0 0 20px rgba(0, 242, 254, 0.5)",
+              background: "linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(8, 145, 178, 0.1))",
+              boxShadow: "0 0 20px rgba(0, 242, 254, 0.3)",
+              border: "1px solid rgba(0, 242, 254, 0.2)",
             }}
           >
-            G
+            <img src="/logo.png" alt="EcoLearn Logo" className="w-full h-full object-cover" />
           </motion.div>
           <span className="text-[15px] font-bold text-white tracking-tight">
             EcoLearn <span style={{ color: "#22D3EE" }}>Protocol</span>
@@ -619,13 +640,19 @@ export default function Layout() {
       <main className="relative flex-1 min-w-0 h-full overflow-y-auto overflow-x-hidden z-10">
         {/* Sticky Header */}
         <header
-          className="h-14 flex items-center justify-between px-7 sticky top-0 z-40 backdrop-blur-xl"
+          className="h-14 flex items-center justify-between px-4 md:px-7 sticky top-0 z-30 backdrop-blur-xl"
           style={{
             background: "rgba(8,11,20,0.85)",
             borderBottom: "1px solid rgba(255,255,255,0.06)",
           }}
         >
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3 md:gap-2.5">
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="md:hidden text-white/70 hover:text-white p-1 rounded-lg hover:bg-white/10"
+            >
+              <Menu size={20} />
+            </button>
             <motion.h2
               key={p}
               initial={{ opacity: 0, x: -10 }}

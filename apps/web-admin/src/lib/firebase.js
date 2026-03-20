@@ -1,21 +1,20 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB-EXAMPLE-KEY",
-  authDomain: "ecolearn-gaia.firebaseapp.com",
-  projectId: "ecolearn-gaia",
-  storageBucket: "ecolearn-gaia.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef123456",
+  apiKey: "AIzaSyBaeOVOLKOsctsR2kZa0O6znsSHYGk2Le4",
+  authDomain: "ecolearn-827f0.firebaseapp.com",
+  projectId: "ecolearn-827f0",
+  storageBucket: "ecolearn-827f0.firebasestorage.app",
+  messagingSenderId: "476603770779",
+  appId: "1:476603770779:web:900c56078923f7eafc633e",
+  measurementId: "G-7WB72RJQ4G"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const googleProvider = new GoogleAuthProvider();
 
-export const auth = firebase.auth();
-export const db = firebase.firestore();
-
-export default firebase;
+export default app;

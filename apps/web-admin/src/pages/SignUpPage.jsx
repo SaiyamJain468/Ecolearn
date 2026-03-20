@@ -12,7 +12,7 @@ export default function SignUpPage() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { signup, loginWithGoogle } = useAuth();
   const nav = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,9 +20,8 @@ export default function SignUpPage() {
     setLoading(true);
     toast.loading("Provisioning Secure Identity...", { duration: 1500 });
 
-    // Simulate signup then login
-    setTimeout(async () => {
-      await login(formData.email, formData.password);
+    try {
+      await signup(formData.email, formData.password, formData.name);
       toast.dismiss();
       toast.success("Account Created. Welcome to EcoLearn.", {
         style: {
@@ -32,19 +31,26 @@ export default function SignUpPage() {
         },
       });
       nav("/");
-    }, 1600);
+    } catch (err) {
+      toast.dismiss();
+      toast.error("Signup failed: " + err.message.substring(0, 30) + "...");
+      setLoading(false);
+    }
   };
 
-  const handleGoogleSignup = () => {
+  const handleGoogleSignup = async () => {
     setLoading(true);
     toast.loading("Connecting to Google...", { duration: 1000 });
-    setTimeout(() => {
-      login("newuser@gmail.com", "google-auth").then(() => {
-        toast.dismiss();
-        toast.success("Identity Verified via Google");
-        nav("/");
-      });
-    }, 1100);
+    try {
+      await loginWithGoogle();
+      toast.dismiss();
+      toast.success("Identity Verified via Google");
+      nav("/");
+    } catch (err) {
+      toast.dismiss();
+      toast.error("Google Auth Canceled or Failed");
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,7 +66,7 @@ export default function SignUpPage() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-[440px] z-10"
       >
-        <div className="surface-glass p-10 rounded-[40px] border border-white/10 shadow-3xl relative">
+        <div className="surface-glass p-6 md:p-10 rounded-[40px] border border-white/10 shadow-3xl relative">
           <Link
             to="/login"
             className="absolute top-8 left-8 text-white/40 hover:text-white transition-colors"
@@ -69,8 +75,8 @@ export default function SignUpPage() {
           </Link>
 
           <div className="flex flex-col items-center text-center mb-10 mt-2">
-            <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 mb-5">
-              <ShieldCheck size={28} className="text-eco-teal" />
+            <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 mb-5 overflow-hidden p-2">
+              <img src="/logo.png" alt="EcoLearn Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="text-2xl font-black text-white tracking-tight uppercase">
               JOIN <span className="text-eco-teal">THE MISSION</span>

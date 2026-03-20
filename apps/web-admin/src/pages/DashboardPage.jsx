@@ -734,7 +734,7 @@ export default function DashboardPage() {
             background: "radial-gradient(circle, #00F2FE, transparent 70%)",
           }}
         />
-        <div className="relative flex items-center gap-5">
+        <div className="relative flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
           <motion.div
             whileHover={{ rotate: 360 }}
             transition={{ duration: 0.6 }}

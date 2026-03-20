@@ -3,7 +3,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB-EXAMPLE-KEY", 
+  apiKey: "AIzaSyB-EXAMPLE-KEY",
   authDomain: "ecolearn-gaia.firebaseapp.com",
   projectId: "ecolearn-gaia",
   storageBucket: "ecolearn-gaia.appspot.com",

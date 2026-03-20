@@ -1,29 +1,66 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from 'framer-motion';
+import React, { useState, useEffect, useRef } from "react";
 import {
-  Zap, Target, Trophy, Award, Flame, TrendingUp,
-  ArrowUpRight, ChevronRight, Leaf, Droplets, BatteryCharging,
-  CheckCircle2, Clock, UploadCloud
-} from 'lucide-react';
-import { MOCK_USER, MOCK_MISSIONS, MOCK_LOGS } from '../lib/mockData';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { toast } from 'react-hot-toast';
+  motion,
+  AnimatePresence,
+  useInView,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import {
+  Zap,
+  Target,
+  Trophy,
+  Award,
+  Flame,
+  TrendingUp,
+  ArrowUpRight,
+  ChevronRight,
+  Leaf,
+  Droplets,
+  BatteryCharging,
+  CheckCircle2,
+  Clock,
+  UploadCloud,
+} from "lucide-react";
+import { MOCK_USER, MOCK_MISSIONS, MOCK_LOGS } from "../lib/mockData";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
+import { toast } from "react-hot-toast";
 
 /* ---- ANIMATED COUNTER ---- */
-function Counter({ from = 0, to, suffix = '', prefix = '' }) {
+function Counter({ from = 0, to, suffix = "", prefix = "" }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const val = useMotionValue(from);
   const smooth = useSpring(val, { stiffness: 55, damping: 16, mass: 0.9 });
   const [display, setDisplay] = useState(from);
-  useEffect(() => { if (inView) val.set(to); }, [inView, to]);
-  useEffect(() => smooth.on('change', v => setDisplay(Math.floor(v))), [smooth]);
-  return <span ref={ref} className="stat-number">{prefix}{display.toLocaleString()}{suffix}</span>;
+  useEffect(() => {
+    if (inView) val.set(to);
+  }, [inView, to]);
+  useEffect(
+    () => smooth.on("change", (v) => setDisplay(Math.floor(v))),
+    [smooth],
+  );
+  return (
+    <span ref={ref} className="stat-number">
+      {prefix}
+      {display.toLocaleString()}
+      {suffix}
+    </span>
+  );
 }
 
 /* ---- TYPEWRITER ---- */
 function Typewriter({ text, delay = 0 }) {
-  const [displayed, setDisplayed] = useState('');
+  const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   useEffect(() => {
     let i = 0;
@@ -31,13 +68,60 @@ function Typewriter({ text, delay = 0 }) {
       const iv = setInterval(() => {
         i++;
         setDisplayed(text.slice(0, i));
-        if (i >= text.length) { clearInterval(iv); setDone(true); }
+        if (i >= text.length) {
+          clearInterval(iv);
+          setDone(true);
+        }
       }, 55);
       return () => clearInterval(iv);
     }, delay);
     return () => clearTimeout(t);
   }, [text, delay]);
-  return <span>{displayed}{!done && <span className="typing-cursor" />}</span>;
+  return (
+    <span>
+      {displayed}
+      {!done && <span className="typing-cursor" />}
+    </span>
+  );
+}
+
+/* ---- 3D TILT CARD ---- */
+function TiltCard({ children, className }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className={className}
+    >
+      <div style={{ transform: "translateZ(30px)" }} className="h-full w-full">
+        {children}
+      </div>
+    </motion.div>
+  );
 }
 
 /* ---- CHART TOOLTIP ---- */
@@ -48,7 +132,10 @@ const ChartTip = ({ active, payload, label }) => {
       <p className="text-[#475569] font-semibold mb-1.5">{label}</p>
       {payload.map((p, i) => (
         <div key={i} className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: p.color }} />
+          <div
+            className="w-2 h-2 rounded-full"
+            style={{ background: p.color }}
+          />
           <span className="text-[#94A3B8]">{p.name}</span>
           <span className="text-white font-bold ml-auto">{p.value} XP</span>
         </div>
@@ -58,57 +145,79 @@ const ChartTip = ({ active, payload, label }) => {
 };
 
 const chartData = [
-  { d: 'Mon', xp: 340 }, { d: 'Tue', xp: 520 }, { d: 'Wed', xp: 290 },
-  { d: 'Thu', xp: 680 }, { d: 'Fri', xp: 450 }, { d: 'Sat', xp: 740 }, { d: 'Sun', xp: 620 },
+  { d: "Mon", xp: 340 },
+  { d: "Tue", xp: 520 },
+  { d: "Wed", xp: 290 },
+  { d: "Thu", xp: 680 },
+  { d: "Fri", xp: 450 },
+  { d: "Sat", xp: 740 },
+  { d: "Sun", xp: 620 },
 ];
 
-const STREAK_DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const STREAK_DAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const STREAK_DONE = [true, true, true, true, true, true, false];
 
 const staggerContainer = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.06 } }
+  show: { transition: { staggerChildren: 0.06 } },
 };
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } }
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
 };
 
 export default function DashboardPage() {
   const u = MOCK_USER;
   const xpProgress = 0.72; // 72% to next level
   const missions = MOCK_MISSIONS.slice(0, 3);
-  const [tab, setTab] = useState('week');
+  const [tab, setTab] = useState("week");
 
   // Daily Challenge State
-  const [dailyStatus, setDailyStatus] = useState('pending'); // 'pending', 'active', 'completed'
+  const [dailyStatus, setDailyStatus] = useState("pending"); // 'pending', 'active', 'completed'
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('ecolearn_daily_challenge');
+    const saved = sessionStorage.getItem("ecolearn_daily_challenge");
     if (saved) setDailyStatus(saved);
   }, []);
 
   const handleStartDaily = () => {
-    setDailyStatus('active');
-    sessionStorage.setItem('ecolearn_daily_challenge', 'active');
-    toast.success('Daily Challenge Started! Good luck.', {
-      style: { background: '#080B14', color: '#fff', border: '1px solid #10B981' },
-      iconTheme: { primary: '#10B981', secondary: '#fff' }
+    setDailyStatus("active");
+    sessionStorage.setItem("ecolearn_daily_challenge", "active");
+    toast.success("Daily Challenge Started! Good luck.", {
+      style: {
+        background: "#080B14",
+        color: "#fff",
+        border: "1px solid #10B981",
+      },
+      iconTheme: { primary: "#10B981", secondary: "#fff" },
     });
   };
 
   const handleUploadProof = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      toast.success('Analyzing proof...', { icon: '🔍', style: { background: '#080B14', color: '#fff' } });
+      toast.success("Analyzing proof...", {
+        icon: "🔍",
+        style: { background: "#080B14", color: "#fff" },
+      });
       setTimeout(() => {
-        setDailyStatus('completed');
-        sessionStorage.setItem('ecolearn_daily_challenge', 'completed');
-        window.dispatchEvent(new CustomEvent('xp-earned', { detail: { amount: 500 } }));
-        toast.success('Daily challenge complete!', {
-          icon: '🏆',
-          style: { background: '#080B14', color: '#fff', border: '1px solid #00F2FE' },
+        setDailyStatus("completed");
+        sessionStorage.setItem("ecolearn_daily_challenge", "completed");
+        window.dispatchEvent(
+          new CustomEvent("xp-earned", { detail: { amount: 500 } }),
+        );
+        toast.success("Daily challenge complete!", {
+          icon: "🏆",
+          style: {
+            background: "#080B14",
+            color: "#fff",
+            border: "1px solid #00F2FE",
+          },
         });
       }, 1500);
     }
@@ -122,38 +231,64 @@ export default function DashboardPage() {
       className="space-y-5"
     >
       {/* ===== HERO GREETING ===== */}
-      <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
+      <motion.div
+        variants={fadeUp}
+        className="relative overflow-hidden rounded-2xl p-7"
         style={{
-          background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(8, 145, 178, 0.08) 50%, rgba(34, 211, 238, 0.05) 100%)',
-          border: '1px solid rgba(0, 242, 254, 0.2)',
-          boxShadow: '0 0 60px rgba(0, 242, 254, 0.08)'
-        }}>
+          background:
+            "linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(8, 145, 178, 0.08) 50%, rgba(34, 211, 238, 0.05) 100%)",
+          border: "1px solid rgba(0, 242, 254, 0.2)",
+          boxShadow: "0 0 60px rgba(0, 242, 254, 0.08)",
+        }}
+      >
         {/* Animated blobs */}
-        <motion.div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }}
-          animate={{ scale: [1, 1.15, 1], x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }} />
-        <motion.div className="absolute -bottom-16 right-40 w-48 h-48 rounded-full opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #06B6D4, transparent 70%)' }}
-          animate={{ scale: [1, 1.2, 1], y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 9, ease: 'easeInOut', delay: 2 }} />
+        <motion.div
+          className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, #00F2FE, transparent 70%)",
+          }}
+          animate={{ scale: [1, 1.15, 1], x: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-16 right-40 w-48 h-48 rounded-full opacity-10 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, #06B6D4, transparent 70%)",
+          }}
+          animate={{ scale: [1, 1.2, 1], y: [0, -10, 0] }}
+          transition={{
+            repeat: Infinity,
+            duration: 9,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
 
         <div className="relative flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
             <motion.p
-              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
               className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-1"
-              style={{ color: '#22D3EE' }}
+              style={{ color: "#22D3EE" }}
             >
               Good morning ✨
             </motion.p>
             <motion.h1
-              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15 }}
               className="text-[28px] font-bold tracking-tight text-white mb-1"
             >
               <Typewriter text={`${u.first_name} ${u.last_name}`} delay={350} />
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}
-              className="text-[13px] mb-5" style={{ color: '#94A3B8' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25 }}
+              className="text-[13px] mb-5"
+              style={{ color: "#94A3B8" }}
             >
               🌱 7 trees planted by your school this week — keep pushing!
             </motion.p>
@@ -162,25 +297,65 @@ export default function DashboardPage() {
             <div className="max-w-md">
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="badge badge-accent" style={{ fontSize: '10px', padding: '2px 10px' }}>Lvl {u.level} · Eco Warrior</span>
+                  <span
+                    className="badge badge-accent"
+                    style={{ fontSize: "10px", padding: "2px 10px" }}
+                  >
+                    Lvl {u.level} · Eco Warrior
+                  </span>
                 </div>
-                <span className="text-[11px] font-semibold" style={{ color: '#00F2FE' }}>260 XP to Climate Champion</span>
+                <span
+                  className="text-[11px] font-semibold"
+                  style={{ color: "#00F2FE" }}
+                >
+                  260 XP to Climate Champion
+                </span>
               </div>
               <div className="xp-bar-track">
-                <motion.div className="xp-bar-fill" initial={{ width: 0 }} animate={{ width: `${(dailyStatus === 'completed' ? xpProgress + 0.05 : xpProgress) * 100}%` }} transition={{ duration: 1.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} />
+                <motion.div
+                  className="xp-bar-fill"
+                  initial={{ width: 0 }}
+                  animate={{
+                    width: `${(dailyStatus === "completed" ? xpProgress + 0.05 : xpProgress) * 100}%`,
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    delay: 0.4,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                />
               </div>
               <div className="flex justify-between mt-1.5">
-                <span className="text-[10px] font-mono" style={{ color: '#475569' }}><Counter to={dailyStatus === 'completed' ? u.xp + 500 : u.xp} suffix=" XP" /></span>
-                <span className="text-[10px]" style={{ color: '#475569' }}>Next: 13,660 XP</span>
+                <span
+                  className="text-[10px] font-mono"
+                  style={{ color: "#475569" }}
+                >
+                  <Counter
+                    to={dailyStatus === "completed" ? u.xp + 500 : u.xp}
+                    suffix=" XP"
+                  />
+                </span>
+                <span className="text-[10px]" style={{ color: "#475569" }}>
+                  Next: 13,660 XP
+                </span>
               </div>
             </div>
           </div>
 
           {/* 7-Day Streak */}
-          <div className="flex flex-col items-center gap-3 p-5 rounded-2xl shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', minWidth: 200 }}>
+          <div
+            className="flex flex-col items-center gap-3 p-5 rounded-2xl shrink-0"
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              minWidth: 200,
+            }}
+          >
             <div className="flex items-center gap-2">
               <Flame size={16} className="text-[#F97316]" />
-              <span className="text-[12px] font-bold text-white">6-Day Streak</span>
+              <span className="text-[12px] font-bold text-white">
+                6-Day Streak
+              </span>
             </div>
             <div className="flex gap-2">
               {STREAK_DAYS.map((d, i) => (
@@ -188,58 +363,124 @@ export default function DashboardPage() {
                   key={i}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.4 + i * 0.06, type: 'spring', stiffness: 200 }}
+                  transition={{
+                    delay: 0.4 + i * 0.06,
+                    type: "spring",
+                    stiffness: 200,
+                  }}
                   className="flex flex-col items-center gap-1"
                 >
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-[10px] font-bold transition-all ${
-                    i === 6
-                      ? 'opacity-25 border border-white/10 text-white/40'
-                      : STREAK_DONE[i]
-                        ? 'text-white shadow-md'
-                        : 'text-white/30'
-                  }`} style={{
-                    background: STREAK_DONE[i] && i !== 6
-                      ? 'linear-gradient(135deg, #0891B2, #00F2FE)'
-                      : 'rgba(255,255,255,0.04)',
-                    boxShadow: STREAK_DONE[i] && i !== 6 ? '0 0 12px rgba(0, 242, 254, 0.5)' : 'none'
-                  }}>
+                  <div
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center text-[10px] font-bold transition-all ${
+                      i === 6
+                        ? "opacity-25 border border-white/10 text-white/40"
+                        : STREAK_DONE[i]
+                          ? "text-white shadow-md"
+                          : "text-white/30"
+                    }`}
+                    style={{
+                      background:
+                        STREAK_DONE[i] && i !== 6
+                          ? "linear-gradient(135deg, #0891B2, #00F2FE)"
+                          : "rgba(255,255,255,0.04)",
+                      boxShadow:
+                        STREAK_DONE[i] && i !== 6
+                          ? "0 0 12px rgba(0, 242, 254, 0.5)"
+                          : "none",
+                    }}
+                  >
                     {STREAK_DONE[i] && i !== 6 ? <CheckCircle2 size={12} /> : d}
                   </div>
-                  <span className="text-[8px] font-medium" style={{ color: '#475569' }}>{d}</span>
+                  <span
+                    className="text-[8px] font-medium"
+                    style={{ color: "#475569" }}
+                  >
+                    {d}
+                  </span>
                 </motion.div>
               ))}
             </div>
-            <p className="text-[10px]" style={{ color: '#64748B' }}>50 XP bonus unlocks tomorrow!</p>
+            <p className="text-[10px]" style={{ color: "#64748B" }}>
+              50 XP bonus unlocks tomorrow!
+            </p>
           </div>
         </div>
       </motion.div>
 
       {/* ===== QUICK STATS ===== */}
-      <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <motion.div
+        variants={fadeUp}
+        className="grid grid-cols-2 md:grid-cols-4 gap-4"
+      >
         {[
-          { label: 'Eco Points', value: dailyStatus === 'completed' ? 12900 : 12400, icon: Zap, color: '#00F2FE', glow: 'rgba(0, 242, 254, 0.25)', suffix: '' },
-          { label: 'Missions Done', value: 24, icon: Target, color: '#10B981', glow: 'rgba(16,185,129,0.25)', suffix: '' },
-          { label: 'Badges Earned', value: u.badges.length, icon: Award, color: '#F59E0B', glow: 'rgba(245,158,11,0.25)', suffix: '' },
-          { label: 'School Rank', value: 2, icon: Trophy, color: '#06B6D4', glow: 'rgba(6,182,212,0.25)', prefix: '#', suffix: '' },
+          {
+            label: "Eco Points",
+            value: dailyStatus === "completed" ? 12900 : 12400,
+            icon: Zap,
+            color: "#00F2FE",
+            glow: "rgba(0, 242, 254, 0.25)",
+            suffix: "",
+          },
+          {
+            label: "Missions Done",
+            value: 24,
+            icon: Target,
+            color: "#10B981",
+            glow: "rgba(16,185,129,0.25)",
+            suffix: "",
+          },
+          {
+            label: "Badges Earned",
+            value: u.badges.length,
+            icon: Award,
+            color: "#F59E0B",
+            glow: "rgba(245,158,11,0.25)",
+            suffix: "",
+          },
+          {
+            label: "School Rank",
+            value: 2,
+            icon: Trophy,
+            color: "#06B6D4",
+            glow: "rgba(6,182,212,0.25)",
+            prefix: "#",
+            suffix: "",
+          },
         ].map((s, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -4, scale: 1.01 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-            className="surface p-5 flex flex-col gap-3 cursor-pointer group"
-          >
-            <div className="flex justify-between items-start">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all group-hover:scale-110" style={{ background: `${s.color}15`, boxShadow: `0 0 20px ${s.glow}` }}>
-                <s.icon size={18} style={{ color: s.color }} />
+          <motion.div key={i} variants={fadeUp} style={{ perspective: 1000 }}>
+            <TiltCard className="surface p-5 flex flex-col gap-3 cursor-pointer group h-full transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] hover:border-white/20">
+              <div className="flex justify-between items-start mt-2">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all group-hover:scale-110"
+                  style={{
+                    background: `${s.color}15`,
+                    boxShadow: `0 0 20px ${s.glow}`,
+                  }}
+                >
+                  <s.icon size={18} style={{ color: s.color }} />
+                </div>
+                <ArrowUpRight
+                  size={13}
+                  style={{ color: "#334155" }}
+                  className="group-hover:text-[#00F2FE] transition-colors"
+                />
               </div>
-              <ArrowUpRight size={13} style={{ color: '#334155' }} className="group-hover:text-[#00F2FE] transition-colors" />
-            </div>
-            <div>
-              <p className="text-[26px] font-bold text-white leading-none tracking-tight">
-                <Counter to={s.value} prefix={s.prefix || ''} suffix={s.suffix} />
-              </p>
-              <p className="text-[11px] font-medium mt-1" style={{ color: '#64748B' }}>{s.label}</p>
-            </div>
+              <div>
+                <p className="text-[26px] font-bold text-white leading-none tracking-tight">
+                  <Counter
+                    to={s.value}
+                    prefix={s.prefix || ""}
+                    suffix={s.suffix}
+                  />
+                </p>
+                <p
+                  className="text-[11px] font-medium mt-1"
+                  style={{ color: "#64748B" }}
+                >
+                  {s.label}
+                </p>
+              </div>
+            </TiltCard>
           </motion.div>
         ))}
       </motion.div>
@@ -249,36 +490,86 @@ export default function DashboardPage() {
         {/* Active Missions */}
         <motion.div variants={fadeUp} className="lg:col-span-3 space-y-3">
           <div className="flex justify-between items-center">
-            <h3 className="text-[14px] font-semibold text-white">Active Missions</h3>
-            <a href="/missions" className="text-[11px] font-medium flex items-center gap-1 hover:opacity-80 transition-opacity" style={{ color: '#22D3EE' }}>View all <ArrowUpRight size={12} /></a>
+            <h3 className="text-[14px] font-semibold text-white">
+              Active Missions
+            </h3>
+            <a
+              href="/missions"
+              className="text-[11px] font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
+              style={{ color: "#22D3EE" }}
+            >
+              View all <ArrowUpRight size={12} />
+            </a>
           </div>
           {missions.map((m, i) => (
             <motion.div
               key={m.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 + i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{
+                delay: 0.2 + i * 0.08,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               whileHover={{ x: 4 }}
               className="surface p-4 flex items-center gap-4 cursor-pointer group"
             >
-              <div className="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center" style={{
-                background: i === 0 ? 'rgba(16,185,129,0.12)' : i === 1 ? 'rgba(6,182,212,0.12)' : 'rgba(245,158,11,0.12)'
-              }}>
-                {i === 0 ? <Leaf size={17} style={{ color: '#10B981' }} /> : i === 1 ? <Droplets size={17} style={{ color: '#06B6D4' }} /> : <BatteryCharging size={17} style={{ color: '#F59E0B' }} />}
+              <div
+                className="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center"
+                style={{
+                  background:
+                    i === 0
+                      ? "rgba(16,185,129,0.12)"
+                      : i === 1
+                        ? "rgba(6,182,212,0.12)"
+                        : "rgba(245,158,11,0.12)",
+                }}
+              >
+                {i === 0 ? (
+                  <Leaf size={17} style={{ color: "#10B981" }} />
+                ) : i === 1 ? (
+                  <Droplets size={17} style={{ color: "#06B6D4" }} />
+                ) : (
+                  <BatteryCharging size={17} style={{ color: "#F59E0B" }} />
+                )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-semibold text-white truncate group-hover:text-[#22D3EE] transition-colors">{m.title}</p>
+                <p className="text-[13px] font-semibold text-white truncate group-hover:text-[#22D3EE] transition-colors">
+                  {m.title}
+                </p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-[10px] font-medium" style={{ color: '#475569' }}><Clock size={10} className="inline mr-1" />~30 min</span>
-                  <span className="text-[9px]" style={{ color: '#334155' }}>·</span>
-                  <span className={`text-[9px] font-bold uppercase ${m.difficulty >= 3 ? 'text-[#EF4444]' : m.difficulty >= 2 ? 'text-[#F59E0B]' : 'text-[#10B981]'}`}>
-                    {m.difficulty >= 3 ? 'Hard' : m.difficulty >= 2 ? 'Medium' : 'Easy'}
+                  <span
+                    className="text-[10px] font-medium"
+                    style={{ color: "#475569" }}
+                  >
+                    <Clock size={10} className="inline mr-1" />
+                    ~30 min
+                  </span>
+                  <span className="text-[9px]" style={{ color: "#334155" }}>
+                    ·
+                  </span>
+                  <span
+                    className={`text-[9px] font-bold uppercase ${m.difficulty >= 3 ? "text-[#EF4444]" : m.difficulty >= 2 ? "text-[#F59E0B]" : "text-[#10B981]"}`}
+                  >
+                    {m.difficulty >= 3
+                      ? "Hard"
+                      : m.difficulty >= 2
+                        ? "Medium"
+                        : "Easy"}
                   </span>
                 </div>
               </div>
               <div className="shrink-0 text-right">
-                <span className="text-[12px] font-bold" style={{ color: '#00F2FE' }}>+{m.xp} XP</span>
-                <ChevronRight size={13} style={{ color: '#334155' }} className="ml-auto mt-1 group-hover:text-[#00F2FE] group-hover:translate-x-0.5 transition-all" />
+                <span
+                  className="text-[12px] font-bold"
+                  style={{ color: "#00F2FE" }}
+                >
+                  +{m.xp} XP
+                </span>
+                <ChevronRight
+                  size={13}
+                  style={{ color: "#334155" }}
+                  className="ml-auto mt-1 group-hover:text-[#00F2FE] group-hover:translate-x-0.5 transition-all"
+                />
               </div>
             </motion.div>
           ))}
@@ -288,10 +579,19 @@ export default function DashboardPage() {
         <motion.div variants={fadeUp} className="lg:col-span-2 surface p-5">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h3 className="text-[14px] font-semibold text-white">Weekly XP</h3>
-              <p className="text-[11px] mt-0.5" style={{ color: '#475569' }}>Your performance</p>
+              <h3 className="text-[14px] font-semibold text-white">
+                Weekly XP
+              </h3>
+              <p className="text-[11px] mt-0.5" style={{ color: "#475569" }}>
+                Your performance
+              </p>
             </div>
-            <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: '#10B981' }}><TrendingUp size={13} /> +18%</span>
+            <span
+              className="flex items-center gap-1 text-[11px] font-semibold"
+              style={{ color: "#10B981" }}
+            >
+              <TrendingUp size={13} /> +18%
+            </span>
           </div>
           <div className="h-[180px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -302,14 +602,32 @@ export default function DashboardPage() {
                     <stop offset="100%" stopColor="#00F2FE" />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                <XAxis dataKey="d" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#475569' }} />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="rgba(255,255,255,0.05)"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="d"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: "#475569" }}
+                />
                 <YAxis hide />
                 <Tooltip content={<ChartTip />} />
                 <Line
-                  type="monotone" dataKey="xp" name="XP"
-                  stroke="url(#xpLine)" strokeWidth={2.5} dot={false}
-                  activeDot={{ r: 5, fill: '#00F2FE', stroke: '#080B14', strokeWidth: 2.5 }}
+                  type="monotone"
+                  dataKey="xp"
+                  name="XP"
+                  stroke="url(#xpLine)"
+                  strokeWidth={2.5}
+                  dot={false}
+                  activeDot={{
+                    r: 5,
+                    fill: "#00F2FE",
+                    stroke: "#080B14",
+                    strokeWidth: 2.5,
+                  }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -320,8 +638,13 @@ export default function DashboardPage() {
       {/* ===== RECENT ACTIVITY ===== */}
       <motion.div variants={fadeUp} className="surface p-5">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-[14px] font-semibold text-white">Recent Activity</h3>
-          <span className="flex items-center gap-1.5 text-[10px] font-semibold" style={{ color: '#10B981' }}>
+          <h3 className="text-[14px] font-semibold text-white">
+            Recent Activity
+          </h3>
+          <span
+            className="flex items-center gap-1.5 text-[10px] font-semibold"
+            style={{ color: "#10B981" }}
+          >
             <span className="relative w-2 h-2">
               <span className="absolute inset-0 rounded-full bg-[#10B981]" />
               <span className="absolute inset-0 rounded-full bg-[#10B981] animate-ping opacity-60" />
@@ -329,7 +652,10 @@ export default function DashboardPage() {
             LIVE
           </span>
         </div>
-        <div className="space-y-0 divide-y" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div
+          className="space-y-0 divide-y"
+          style={{ borderColor: "rgba(255,255,255,0.05)" }}
+        >
           {MOCK_LOGS.slice(0, 6).map((log, i) => (
             <motion.div
               key={log.id}
@@ -338,19 +664,46 @@ export default function DashboardPage() {
               transition={{ delay: 0.3 + i * 0.06 }}
               className="flex items-center gap-4 py-3 group cursor-pointer hover:bg-white/[0.02] -mx-2 px-2 rounded-lg transition-colors"
             >
-              <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[11px] font-bold"
+              <div
+                className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[11px] font-bold"
                 style={{
-                  background: log.status === 'success' ? 'rgba(16,185,129,0.12)' : log.status === 'warning' ? 'rgba(245,158,11,0.12)' : 'rgba(0, 242, 254, 0.12)',
-                  color: log.status === 'success' ? '#10B981' : log.status === 'warning' ? '#F59E0B' : '#22D3EE'
-                }}>
-                {log.status === 'success' ? <CheckCircle2 size={14} /> : log.status === 'warning' ? <Flame size={14} /> : <Zap size={14} />}
+                  background:
+                    log.status === "success"
+                      ? "rgba(16,185,129,0.12)"
+                      : log.status === "warning"
+                        ? "rgba(245,158,11,0.12)"
+                        : "rgba(0, 242, 254, 0.12)",
+                  color:
+                    log.status === "success"
+                      ? "#10B981"
+                      : log.status === "warning"
+                        ? "#F59E0B"
+                        : "#22D3EE",
+                }}
+              >
+                {log.status === "success" ? (
+                  <CheckCircle2 size={14} />
+                ) : log.status === "warning" ? (
+                  <Flame size={14} />
+                ) : (
+                  <Zap size={14} />
+                )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-medium text-white truncate group-hover:text-[#22D3EE] transition-colors">{log.message}</p>
-                <p className="text-[10px] mt-0.5" style={{ color: '#475569' }}>{log.time}</p>
+                <p className="text-[12px] font-medium text-white truncate group-hover:text-[#22D3EE] transition-colors">
+                  {log.message}
+                </p>
+                <p className="text-[10px] mt-0.5" style={{ color: "#475569" }}>
+                  {log.time}
+                </p>
               </div>
               {log.xp && (
-                <span className="text-[11px] font-bold shrink-0" style={{ color: '#00F2FE' }}>+{log.xp} XP</span>
+                <span
+                  className="text-[11px] font-bold shrink-0"
+                  style={{ color: "#00F2FE" }}
+                >
+                  +{log.xp} XP
+                </span>
               )}
             </motion.div>
           ))}
@@ -358,56 +711,116 @@ export default function DashboardPage() {
       </motion.div>
 
       {/* ===== DAILY CHALLENGE SPOTLIGHT ===== */}
-      <motion.div variants={fadeUp}
+      <motion.div
+        variants={fadeUp}
         whileHover={{ scale: 1.005 }}
         className="relative overflow-hidden rounded-2xl p-6 cursor-pointer group"
         style={{
-          background: 'linear-gradient(135deg, #0D1120 0%, rgba(0, 242, 254, 0.08) 100%)',
-          border: '1px solid rgba(0, 242, 254, 0.2)'
-        }}>
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(8, 145, 178, 0.03))' }} />
-        <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #00F2FE, transparent 70%)' }} />
+          background:
+            "linear-gradient(135deg, #0D1120 0%, rgba(0, 242, 254, 0.08) 100%)",
+          border: "1px solid rgba(0, 242, 254, 0.2)",
+        }}
+      >
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(8, 145, 178, 0.03))",
+          }}
+        />
+        <div
+          className="absolute -right-10 -top-10 w-48 h-48 rounded-full opacity-10 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, #00F2FE, transparent 70%)",
+          }}
+        />
         <div className="relative flex items-center gap-5">
-          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }}
+          <motion.div
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.6 }}
             className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 text-2xl"
-            style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.1))', border: '1px solid rgba(0, 242, 254, 0.3)' }}>
-            {dailyStatus === 'completed' ? <CheckCircle2 size={28} className="text-white drop-shadow-lg" /> : '🌍'}
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(8, 145, 178, 0.1))",
+              border: "1px solid rgba(0, 242, 254, 0.3)",
+            }}
+          >
+            {dailyStatus === "completed" ? (
+              <CheckCircle2 size={28} className="text-white drop-shadow-lg" />
+            ) : (
+              "🌍"
+            )}
           </motion.div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="badge badge-accent" style={{ fontSize: '9px', padding: '2px 8px' }}>Daily Challenge</span>
-              <span className="badge badge-success" style={{ fontSize: '9px', padding: '2px 8px' }}>+500 XP</span>
+              <span
+                className="badge badge-accent"
+                style={{ fontSize: "9px", padding: "2px 8px" }}
+              >
+                Daily Challenge
+              </span>
+              <span
+                className="badge badge-success"
+                style={{ fontSize: "9px", padding: "2px 8px" }}
+              >
+                +500 XP
+              </span>
             </div>
-            <h4 className="text-[15px] font-bold text-white">City Biodiversity Survey</h4>
-            <p className="text-[11px] mt-0.5" style={{ color: '#94A3B8' }}>Document 5 native plant species in your local area using photos</p>
+            <h4 className="text-[15px] font-bold text-white">
+              City Biodiversity Survey
+            </h4>
+            <p className="text-[11px] mt-0.5" style={{ color: "#94A3B8" }}>
+              Document 5 native plant species in your local area using photos
+            </p>
           </div>
           <div className="shrink-0">
-            {dailyStatus === 'pending' && (
+            {dailyStatus === "pending" && (
               <motion.button
                 onClick={handleStartDaily}
-                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
-                className="btn-primary" style={{ padding: '10px 22px', fontSize: '13px' }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="btn-primary"
+                style={{ padding: "10px 22px", fontSize: "13px" }}
               >
                 Start Now
               </motion.button>
             )}
-            
-            {dailyStatus === 'active' && (
+
+            {dailyStatus === "active" && (
               <div>
-                <input type="file" accept="image/*" className="hidden" id="daily-upload" onChange={handleUploadProof} ref={fileInputRef} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  id="daily-upload"
+                  onChange={handleUploadProof}
+                  ref={fileInputRef}
+                />
                 <motion.button
                   onClick={() => fileInputRef.current?.click()}
-                  whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
                   className="font-bold flex items-center gap-2"
-                  style={{ padding: '10px 22px', fontSize: '13px', background: 'rgba(255,255,255,0.05)', border: '1px dashed rgba(255,255,255,0.2)', color: 'white', borderRadius: '12px' }}
+                  style={{
+                    padding: "10px 22px",
+                    fontSize: "13px",
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px dashed rgba(255,255,255,0.2)",
+                    color: "white",
+                    borderRadius: "12px",
+                  }}
                 >
                   <UploadCloud size={16} /> Upload Proof
                 </motion.button>
               </div>
             )}
 
-            {dailyStatus === 'completed' && (
-              <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="flex items-center gap-2 font-bold text-eco-green px-4 py-2 bg-eco-green/10 rounded-xl border border-eco-green/20">
+            {dailyStatus === "completed" && (
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                className="flex items-center gap-2 font-bold text-eco-green px-4 py-2 bg-eco-green/10 rounded-xl border border-eco-green/20"
+              >
                 <CheckCircle2 size={16} /> Completed
               </motion.div>
             )}
@@ -417,5 +830,3 @@ export default function DashboardPage() {
     </motion.div>
   );
 }
-
-

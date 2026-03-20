@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 /**
  * Hook to apply a 3D tilt effect to an element on mouse move.
@@ -15,25 +15,23 @@ export function useTilt(ref) {
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -8;  // max 8deg
+      const rotateX = ((y - centerY) / centerY) * -8; // max 8deg
       const rotateY = ((x - centerX) / centerX) * 8;
-      
-      el.style.transform = 
-        `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+
+      el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
     };
 
     const onLeave = () => {
-      el.style.transform = 
-        `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+      el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
     };
 
-    el.style.transition = 'transform 0.15s ease';
-    el.addEventListener('mousemove', onMove);
-    el.addEventListener('mouseleave', onLeave);
+    el.style.transition = "transform 0.15s ease";
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
 
     return () => {
-      el.removeEventListener('mousemove', onMove);
-      el.removeEventListener('mouseleave', onLeave);
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
     };
   }, [ref]);
 }

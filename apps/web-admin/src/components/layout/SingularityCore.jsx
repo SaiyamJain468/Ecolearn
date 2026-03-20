@@ -1,11 +1,11 @@
-import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, MeshDistortMaterial, Sphere } from '@react-three/drei';
-import * as THREE from 'three';
+import React, { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float, MeshDistortMaterial, Sphere } from "@react-three/drei";
+import * as THREE from "three";
 
 const PulsingCore = () => {
   const meshRef = useRef();
-  
+
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     meshRef.current.rotation.x = time * 0.2;
@@ -78,11 +78,11 @@ const SingularityCore = () => {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} color="#E8573A" intensity={2} />
         <pointLight position={[-10, -10, -10]} color="#00F5FF" intensity={1} />
-        
+
         <PulsingCore />
         <Particles />
-        
-        <fog attach="fog" args={['#060408', 5, 20]} />
+
+        <fog attach="fog" args={["#060408", 5, 20]} />
       </Canvas>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(6,4,8,0.8)_100%)]" />
     </div>

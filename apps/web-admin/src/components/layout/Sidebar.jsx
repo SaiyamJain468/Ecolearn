@@ -1,7 +1,13 @@
-import { LayoutDashboard, Users, ClipboardCheck, Trophy, LogOut } from 'lucide-react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import clsx from 'clsx';
+import {
+  LayoutDashboard,
+  Users,
+  ClipboardCheck,
+  Trophy,
+  LogOut,
+} from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import clsx from "clsx";
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
@@ -9,14 +15,14 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   const navItems = [
-    { icon: LayoutDashboard, label: 'Overview', path: '/dashboard' },
-    { icon: ClipboardCheck, label: 'Submissions', path: '/submissions' },
-    { icon: Users, label: 'Students', path: '/students' },
-    { icon: Trophy, label: 'Leaderboard', path: '/leaderboard' },
+    { icon: LayoutDashboard, label: "Overview", path: "/dashboard" },
+    { icon: ClipboardCheck, label: "Submissions", path: "/submissions" },
+    { icon: Users, label: "Students", path: "/students" },
+    { icon: Trophy, label: "Leaderboard", path: "/leaderboard" },
   ];
 
   return (
@@ -26,7 +32,9 @@ const Sidebar = () => {
           <div className="w-8 h-8 bg-eco-green rounded-lg flex items-center justify-center">
             <Trophy className="text-white w-5 h-5" />
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">EcoLearn</span>
+          <span className="text-xl font-bold text-white tracking-tight">
+            EcoLearn
+          </span>
         </div>
       </div>
 
@@ -38,9 +46,9 @@ const Sidebar = () => {
             className={({ isActive }) =>
               clsx(
                 "flex items-center space-x-3 px-4 py-3 rounded-xl transition-all group",
-                isActive 
-                  ? "bg-eco-green/10 text-eco-green border border-eco-green/20" 
-                  : "text-white/50 hover:bg-white/5 hover:text-white"
+                isActive
+                  ? "bg-eco-green/10 text-eco-green border border-eco-green/20"
+                  : "text-white/50 hover:bg-white/5 hover:text-white",
               )
             }
           >
@@ -57,8 +65,12 @@ const Sidebar = () => {
               {user.first_name?.[0] || user.username?.[0]}
             </div>
             <div className="overflow-hidden">
-              <p className="text-sm font-bold text-white truncate">{user.first_name || user.username}</p>
-              <p className="text-[10px] text-white/40 truncate uppercase tracking-widest">{user.role}</p>
+              <p className="text-sm font-bold text-white truncate">
+                {user.first_name || user.username}
+              </p>
+              <p className="text-[10px] text-white/40 truncate uppercase tracking-widest">
+                {user.role}
+              </p>
             </div>
           </div>
           <button

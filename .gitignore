@@ -29,6 +29,9 @@ extra/
 todo.md
 PROGRESS.md
 prototype_roadmap.md
+professional_standards.md
+architectural_design.md
+deployment_strategy.md
 dist/
 node_modules/
 .env

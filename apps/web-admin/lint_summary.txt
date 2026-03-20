@@ -1,0 +1,152 @@
+D:\Hackathon\MU\apps\web-admin\src\components\Layout.jsx
+  Line 3: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 151: 'Icon' is defined but never used.
+  Line 220: Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  218 |   // Close mobile menu on route change
+  219 |   useEffect(() => {
+> 220 |     setMobileMenuOpen(false);
+      |     ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  221 |   }, [p]);
+  222 |
+  223 |   // Header Dropdowns
+
+D:\Hackathon\MU\apps\web-admin\src\components\layout\GlitchTransition.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\components\layout\SingularityCore.jsx
+  Line 38: Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  36 |     const p = new Float32Array(count * 3);
+  37 |     for (let i = 0; i < count; i++) {
+> 38 |       p[i * 3] = (Math.random() - 0.5) * 20;
+     |                   ^^^^^^^^^^^^^ Cannot call impure function
+  39 |       p[i * 3 + 1] = (Math.random() - 0.5) * 20;
+  40 |       p[i * 3 + 2] = (Math.random() - 0.5) * 20;
+  41 |     }
+  Line 39: Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  37 |     for (let i = 0; i < count; i++) {
+  38 |       p[i * 3] = (Math.random() - 0.5) * 20;
+> 39 |       p[i * 3 + 1] = (Math.random() - 0.5) * 20;
+     |                       ^^^^^^^^^^^^^ Cannot call impure function
+  40 |       p[i * 3 + 2] = (Math.random() - 0.5) * 20;
+  41 |     }
+  42 |     return p;
+  Line 40: Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  38 |       p[i * 3] = (Math.random() - 0.5) * 20;
+  39 |       p[i * 3 + 1] = (Math.random() - 0.5) * 20;
+> 40 |       p[i * 3 + 2] = (Math.random() - 0.5) * 20;
+     |                       ^^^^^^^^^^^^^ Cannot call impure function
+  41 |     }
+  42 |     return p;
+  43 |   }, [count]);
+
+D:\Hackathon\MU\apps\web-admin\src\context\AuthContext.jsx
+  Line 44: 'name' is defined but never used.
+  Line 67: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.
+
+D:\Hackathon\MU\apps\web-admin\src\context\ThemeContext.jsx
+  Line 32: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\AccountPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\AlertsPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\AnalyticsPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\BadgesPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\CareerPathPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\DashboardPage.jsx
+  Line 3: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 47: React Hook useEffect has a missing dependency: 'val'. Either include it or remove the dependency array.
+  Line 177: 'tab' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 177: 'setTab' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 185: Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  183 |   useEffect(() => {
+  184 |     const saved = sessionStorage.getItem("ecolearn_daily_challenge");
+> 185 |     if (saved) setDailyStatus(saved);
+      |                ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  186 |   }, []);
+  187 |
+  188 |   const handleStartDaily = () => {
+
+D:\Hackathon\MU\apps\web-admin\src\pages\HelpDeskPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\ImpactMapPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 132: Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  130 |       delay: Math.random() * 2,
+  131 |     }));
+> 132 |     setNodes(randomNodes);
+      |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  133 |   }, []);
+  134 |
+  135 |   return (
+
+D:\Hackathon\MU\apps\web-admin\src\pages\LeaderboardPage.jsx
+  Line 1: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\LearnPage.jsx
+  Line 3: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 423: 'sel' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 423: 'setSel' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\LoginPage.jsx
+  Line 4: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 42: 'err' is defined but never used.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\MissionsPage.jsx
+  Line 3: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\NexusPage.jsx
+  Line 3: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\PrimeDashboardPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\ProPage.jsx
+  Line 3: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 76: 'scaleParams' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\RankingsPage.jsx
+  Line 2: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+
+D:\Hackathon\MU\apps\web-admin\src\pages\SignUpPage.jsx
+  Line 4: 'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.
+  Line 49: 'err' is defined but never used.

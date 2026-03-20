@@ -6,7 +6,7 @@ require('dotenv').config();
 const seedData = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecolearn');
-    console.log('>>> GAIA_SEEDING_INITIALIZED');
+    console.log('>>> ECOLEARN_SEEDING_INITIALIZED');
 
     // Clear existing
     await Student.deleteMany({});
@@ -14,9 +14,9 @@ const seedData = async () => {
 
     // Seed Students
     const student1 = await Student.create({
-      uid: 'gaia-user-01',
+      uid: 'ecolearn-user-01',
       first_name: 'ARYAN',
-      email: 'aryan@gaia.com',
+      email: 'aryan@ecolearn.com',
       password: 'password123',
       role: 'student',
       eco_points_total: 124500,
@@ -26,9 +26,9 @@ const seedData = async () => {
     });
 
     const student2 = await Student.create({
-        uid: 'gaia-user-02',
+        uid: 'ecolearn-user-02',
         first_name: 'ZARA',
-        email: 'zara@gaia.com',
+        email: 'zara@ecolearn.com',
         password: 'password123',
         role: 'student',
         eco_points_total: 98200,
@@ -70,10 +70,10 @@ const seedData = async () => {
       }
     ]);
 
-    console.log('>>> GAIA_SEEDING_COMPLETE');
+    console.log('>>> ECOLEARN_SEEDING_COMPLETE');
     process.exit();
   } catch (err) {
-    console.error('>>> GAIA_SEEDING_FAILURE:', err);
+    console.error('>>> ECOLEARN_SEEDING_FAILURE:', err);
     process.exit(1);
   }
 };

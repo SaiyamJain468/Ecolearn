@@ -544,7 +544,7 @@ export const MOCK_SUBMISSIONS = [
       points_reward: 150,
     },
     proof_image_url:
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80",
+      "https://picsum.photos/seed/eco1/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
     status: "pending",
   },
@@ -557,7 +557,7 @@ export const MOCK_SUBMISSIONS = [
       points_reward: 200,
     },
     proof_image_url:
-      "https://images.unsplash.com/photo-1591193520257-c030ea85780c?w=800&q=80",
+      "https://picsum.photos/seed/eco2/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
     status: "pending",
   },
@@ -566,7 +566,7 @@ export const MOCK_SUBMISSIONS = [
     user: { first_name: "Rahul", last_name: "Sharma", username: "rahul" },
     challenge: { title: "Save Water", category: "Water", points_reward: 100 },
     proof_image_url:
-      "https://images.unsplash.com/photo-1548932813-7da36bbd926a?w=800&q=80",
+      "https://picsum.photos/seed/eco3/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
     status: "approved",
   },
@@ -579,7 +579,7 @@ export const MOCK_SUBMISSIONS = [
       points_reward: 300,
     },
     proof_image_url:
-      "https://images.unsplash.com/photo-1509391366360-fe5bb5858345?w=800&q=80",
+      "https://picsum.photos/seed/eco4/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
     status: "pending",
   },
@@ -588,7 +588,7 @@ export const MOCK_SUBMISSIONS = [
     user: { first_name: "Ishaan", last_name: "Singh", username: "ishaan" },
     challenge: { title: "Bio-Logician", category: "Plant", points_reward: 180 },
     proof_image_url:
-      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80",
+      "https://picsum.photos/seed/eco5/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
     status: "pending",
   },
@@ -601,7 +601,7 @@ export const MOCK_SUBMISSIONS = [
       points_reward: 220,
     },
     proof_image_url:
-      "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&q=80",
+      "https://picsum.photos/seed/eco6/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 36).toISOString(),
     status: "approved",
   },
@@ -614,7 +614,7 @@ export const MOCK_SUBMISSIONS = [
       points_reward: 120,
     },
     proof_image_url:
-      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
+      "https://picsum.photos/seed/eco7/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
     status: "rejected",
   },
@@ -623,7 +623,7 @@ export const MOCK_SUBMISSIONS = [
     user: { first_name: "Kavya", last_name: "Nair", username: "kavya" },
     challenge: { title: "Rain Guard", category: "Water", points_reward: 400 },
     proof_image_url:
-      "https://images.unsplash.com/photo-1468276311594-df7cb65d8df6?w=800&q=80",
+      "https://picsum.photos/seed/eco8/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(),
     status: "approved",
   },
@@ -632,7 +632,7 @@ export const MOCK_SUBMISSIONS = [
     user: { first_name: "Rohan", last_name: "Deshmukh", username: "rohan" },
     challenge: { title: "Seed Master", category: "Plant", points_reward: 350 },
     proof_image_url:
-      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
+      "https://picsum.photos/seed/eco9/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 200).toISOString(),
     status: "pending",
   },
@@ -641,7 +641,7 @@ export const MOCK_SUBMISSIONS = [
     user: { first_name: "Ananya", last_name: "Bhatt", username: "ananya" },
     challenge: { title: "Green Cycle", category: "Waste", points_reward: 180 },
     proof_image_url:
-      "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80",
+      "https://picsum.photos/seed/eco10/800/600",
     submitted_at: new Date(Date.now() - 1000 * 60 * 60 * 96).toISOString(),
     status: "rejected",
   },

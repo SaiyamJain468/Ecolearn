@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
 
     await student.save();
 
-    const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET || 'GAIA_SECRET_KEY', { expiresIn: '1d' });
+    const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET || 'ECOLEARN_SECRET_KEY', { expiresIn: '1d' });
     res.status(201).json({ token, user: student });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -41,7 +41,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'INVALID_CREDENTIALS' });
     }
 
-    const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET || 'GAIA_SECRET_KEY', { expiresIn: '1d' });
+    const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET || 'ECOLEARN_SECRET_KEY', { expiresIn: '1d' });
     res.json({ token, user: student });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -54,7 +54,7 @@ router.get('/profile', async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'UNAUTHORIZED' });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'GAIA_SECRET_KEY');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'ECOLEARN_SECRET_KEY');
     const student = await Student.findById(decoded.id).select('-password');
     
     if (!student) return res.status(404).json({ message: 'STUDENT_NOT_FOUND' });

@@ -43,10 +43,10 @@ class EcoPointsEngine {
         });
       }
 
-      console.log(`>>> GAIA_AWARD_SUCCESS: ${points} XP -> ${student.first_name} [REASON: ${reason}]`);
+      console.log(`>>> ECOLEARN_AWARD_SUCCESS: ${points} XP -> ${student.first_name} [REASON: ${reason}]`);
       return { success: true, points, student };
     } catch (err) {
-      console.error('>>> GAIA_AWARD_CRITICAL_ERROR:', err.message);
+      console.error('>>> ECOLEARN_AWARD_CRITICAL_ERROR:', err.message);
       throw err;
     }
   }

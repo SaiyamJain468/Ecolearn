@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Animated Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:10B981,50:06B6D4,100:00F2FE&height=220&section=header&text=🌍%20GAIA%20Protocol&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Decentralized%20Environmental%20Intelligence%20Platform&descSize=16&descAlignY=55&descAlign=50" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:10B981,50:06B6D4,100:00F2FE&height=220&section=header&text=🌍%20EcoLearn&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Decentralized%20Environmental%20Intelligence%20Platform&descSize=16&descAlignY=55&descAlign=50" width="100%" />
 
 <!-- Badges -->
 [![Built with React](https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
@@ -12,7 +12,7 @@
 
 <br/>
 
-> **GAIA Protocol** transforms environmental sustainability into an interactive, gamified experience.  
+> **EcoLearn** transforms environmental sustainability into an interactive, gamified experience.  
 > Track ecological impact, complete eco-missions, earn XP, and collaborate with communities — all through a futuristic, cinematic dashboard.
 
 <br/>

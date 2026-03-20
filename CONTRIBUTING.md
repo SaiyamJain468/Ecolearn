@@ -1,6 +1,6 @@
-# 🤝 Contributing to GAIA Protocol
+# 🤝 Contributing to EcoLearn
 
-Thank you for considering contributing to **GAIA Protocol**! We welcome contributions from the community.
+Thank you for considering contributing to **EcoLearn**! We welcome contributions from the community.
 
 ## 🚀 Getting Started
 

@@ -1,28 +1,43 @@
 // GAIA_CORE High-Fidelity Mock Data System v1.1
 // This file serves as the single source of truth for the GAIA Demo Mode.
 
-export const MOCK_USER = {
+export const MOCK_ADMIN = {
   uid: 'gaia-admin-01',
-  email: 'gaia.admin@ecolearn.in',
-  first_name: 'ARYAN',
-  last_name: 'SHARMA',
+  email: 'admin@ecolearn.in',
+  first_name: 'Admin',
+  last_name: '(Demo User)',
+  role: 'admin',
+  level: 99,
+  xp: 1000000,
+  rank: 1,
+  badges: ['eco-leader', 'system-master'],
+  impact: { trees: 1000, water: 50000, waste: 2000, co2: 12000 }
+};
+
+export const MOCK_SAIYAM = {
+  uid: 'gaia-user-02',
+  email: 'saiyam@ecolearn.in',
+  first_name: 'Saiyam',
+  last_name: 'Jain',
   role: 'student',
-  level: 14,
-  xp: 124500,
-  rank: 2,
-  badges: ['green-thumb', 'water-saver', 'waste-warrior', 'solar-pioneer', 'eco-leader'],
+  level: 18,
+  xp: 152400,
+  rank: 4,
+  badges: ['green-thumb', 'water-saver', 'waste-warrior', 'solar-pioneer'],
   impact: {
-    trees: 42,
-    water: 1250, // Liters
-    waste: 85,    // KG
-    co2: 450      // KG offset
+    trees: 56,
+    water: 4200, 
+    waste: 120,    
+    co2: 850      
   },
   stats: {
-      velocity: '+12%',
-      survival_streak: '7 DAYS',
-      monthly_xp: [2400, 3100, 2800, 4200, 3900, 5100, 4800, 6200, 5500, 7100, 6800, 8200]
+      velocity: '+18%',
+      survival_streak: '12 DAYS',
+      monthly_xp: [3400, 4100, 3800, 5200, 4900, 6100, 5800, 7200, 6500, 8100, 7800, 9200]
   }
 };
+
+export const MOCK_USER = MOCK_ADMIN; // Default for prototype preview
 
 export const MOCK_LOGS = [
   { id: 1,  type: 'ECO',      message: 'Completed waste segregation mission',       time: '10:00', status: 'success', xp: 150 },

@@ -22,6 +22,8 @@ export default function MissionsPage() {
   const [sel, setSel]         = useState(null);
   const [completed, setCompleted] = useState([]);
   const [success, setSuccess] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [proof, setProof] = useState(null);
 
   const filtered = cat === 'All' ? MOCK_MISSIONS : MOCK_MISSIONS.filter(m => m.category === cat.toLowerCase());
   const done = completed.length;
@@ -32,12 +34,23 @@ export default function MissionsPage() {
       setCompleted(p => [...p, m.id]);
       setSuccess(m);
       setSel(null);
+      setIsSubmitting(false);
+      setProof(null);
       setTimeout(() => setSuccess(null), 3200);
     }
   };
 
+  const handleStartSubmit = () => {
+    setIsSubmitting(true);
+  };
+
+  const handleMockUpload = () => {
+    setProof('MOCK_IMAGE_DATA_URI');
+  };
+
   return (
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-5">
+      {/* ... previous Hero and Category Filter code ... */}
       {/* Hero */}
       <motion.div variants={fadeUp} className="relative overflow-hidden rounded-2xl p-7"
         style={{ background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.12) 0%, rgba(16, 185, 129, 0.06) 100%)', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
@@ -135,27 +148,79 @@ export default function MissionsPage() {
               onClick={() => setSel(null)}>
               <motion.div initial={{ scale: 0.88, y: 40, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.88, y: 40, opacity: 0 }}
                 transition={{ type: 'spring', stiffness: 250, damping: 22 }}
-                className="glass-strong rounded-2xl max-w-md w-full p-7 shadow-2xl"
-                style={{ border: `1px solid ${cfg.color}20` }}
+                className="glass-strong rounded-2xl max-w-md w-full p-7 shadow-2xl overflow-hidden relative"
+                style={{ border: `1px solid ${cfg.color}30` }}
                 onClick={e => e.stopPropagation()}>
-                <div className="flex justify-between items-start mb-5">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: cfg.bg, border: `1px solid ${cfg.color}30`, boxShadow: `0 0 30px ${cfg.color}20` }}>
-                    <Icon size={26} style={{ color: cfg.color }} />
-                  </div>
-                  <button onClick={() => setSel(null)} className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer hover:bg-white/10 transition-all" style={{ color: '#64748B' }}><X size={16} /></button>
-                </div>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`badge ${dBadge}`} style={{ fontSize: '9px' }}>{dLabel}</span>
-                  <span className="badge badge-accent" style={{ fontSize: '9px' }}>+{sel.xp} XP</span>
-                  <span className="flex items-center gap-1 text-[10px]" style={{ color: '#475569' }}><Clock size={10} />{sel.time}</span>
-                </div>
-                <h2 className="text-[22px] font-bold text-white mb-2 tracking-tight">{sel.title}</h2>
-                <p className="text-[13px] leading-relaxed mb-6" style={{ color: '#94A3B8' }}>{sel.description}</p>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  className="btn-primary w-full" style={{ padding: '13px', fontSize: '13px' }}
-                  onClick={() => complete(sel)}>
-                  Complete Mission · +{sel.xp} XP
-                </motion.button>
+                
+                <AnimatePresence mode="wait">
+                  {!isSubmitting ? (
+                    <motion.div key="details" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                      <div className="flex justify-between items-start mb-5">
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: cfg.bg, border: `1px solid ${cfg.color}30`, boxShadow: `0 0 30px ${cfg.color}20` }}>
+                          <Icon size={26} style={{ color: cfg.color }} />
+                        </div>
+                        <button onClick={() => setSel(null)} className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer hover:bg-white/10 transition-all" style={{ color: '#64748B' }}><X size={16} /></button>
+                      </div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className={`badge ${dBadge}`} style={{ fontSize: '9px' }}>{dLabel}</span>
+                        <span className="badge badge-accent" style={{ fontSize: '9px' }}>+{sel.xp} XP</span>
+                        <span className="flex items-center gap-1 text-[10px]" style={{ color: '#475569' }}><Clock size={10} />{sel.time}</span>
+                      </div>
+                      <h2 className="text-[22px] font-bold text-white mb-2 tracking-tight">{sel.title}</h2>
+                      <p className="text-[13px] leading-relaxed mb-6" style={{ color: '#94A3B8' }}>{sel.description}</p>
+                      <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                        className="btn-primary w-full" style={{ padding: '13px', fontSize: '13px' }}
+                        onClick={handleStartSubmit}>
+                        Initiate Completion · +{sel.xp} XP
+                      </motion.button>
+                    </motion.div>
+                  ) : (
+                    <motion.div key="submit" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
+                      <div className="flex justify-between items-center mb-6">
+                        <h3 className="text-lg font-bold text-white">Proof of Impact</h3>
+                        <button onClick={() => setIsSubmitting(false)} className="text-[11px] font-bold text-white/40 hover:text-white transition-colors">BACK</button>
+                      </div>
+
+                      <div className="space-y-5">
+                        <div 
+                          onClick={handleMockUpload}
+                          className={`aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all ${proof ? 'border-eco-green bg-eco-green/5' : 'border-white/10 bg-white/5 hover:border-white/20'}`}
+                        >
+                          {proof ? (
+                            <div className="flex flex-col items-center">
+                              <CheckCircle2 size={32} className="text-eco-green mb-2" />
+                              <span className="text-[12px] font-bold text-white">PHOTO ATTACHED</span>
+                              <span className="text-[10px] text-white/40 mt-1">GSC-PROOF-2026.JPG</span>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
+                                <Camera size={24} className="text-white/40" />
+                              </div>
+                              <p className="text-[12px] font-bold text-white mb-1">Upload Photo Proof</p>
+                              <p className="text-[10px] text-white/40">Capture the impact results</p>
+                            </>
+                          )}
+                        </div>
+
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] ml-1">Observational Notes</label>
+                           <textarea rows={2} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-eco-teal transition-all" placeholder="Tell us what you accomplished..."></textarea>
+                        </div>
+
+                        <motion.button 
+                          disabled={!proof}
+                          whileHover={proof ? { scale: 1.02 } : {}} 
+                          whileTap={proof ? { scale: 0.97 } : {}}
+                          className={`w-full py-3.5 rounded-xl font-bold text-[13px] transition-all ${proof ? 'bg-eco-green hover:bg-eco-green/80 text-white shadow-lg' : 'bg-white/5 text-white/20 cursor-not-allowed'}`}
+                          onClick={() => complete(sel)}
+                        >
+                          SUBMIT FOR VALIDATION
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </motion.div>
           );

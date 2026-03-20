@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MOCK_TRADES } from '../lib/mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Globe, Zap, ChevronRight, ArrowRightLeft, ShieldCheck, Cpu, Plus, TrendingUp } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } };
 const fadeUp  = { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.42, ease: [0.25,0.46,0.45,0.94] } } };
@@ -14,13 +15,31 @@ const alliances = [
 
 const AllianceCard = ({ a, i }) => {
   const [hovered, setHovered] = useState(false);
+  
+  const handleAction = () => {
+    if (a.joined) {
+      toast.success(`Opening ${a.name} command center...`);
+    } else {
+      toast.promise(
+        new Promise(resolve => setTimeout(resolve, 1000)),
+        {
+          loading: 'Sending join request...',
+          success: `Request sent to ${a.name} mentors!`,
+          error: 'Transmission failed.',
+        }
+      );
+    }
+  };
+
   return (
     <motion.div variants={fadeUp}
       whileHover={{ y: -6, boxShadow: `0 24px 48px rgba(0,0,0,0.35), 0 0 60px ${a.color}15` }}
       onHoverStart={() => setHovered(true)} onHoverEnd={() => setHovered(false)}
       className="surface p-5 flex flex-col cursor-pointer relative overflow-hidden"
       style={{ transition: 'all 0.3s ease' }}
+      onClick={handleAction}
     >
+      {/* ... rest of AllianceCard ... */}
       {/* Subtle gradient bg on hover */}
       <motion.div className="absolute inset-0 rounded-2xl pointer-events-none" animate={{ opacity: hovered ? 1 : 0 }}
         style={{ background: `radial-gradient(circle at top right, ${a.color}06, transparent 60%)` }} />
@@ -118,6 +137,7 @@ export default function NexusPage() {
               {MOCK_TRADES.map((t, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: -15 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
                   whileHover={{ x: 4 }}
+                  onClick={() => toast.success(`Viewing details for trade: ${t.action}`)}
                   className="flex items-center gap-4 p-4 rounded-xl cursor-pointer group transition-all"
                   style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-all group-hover:scale-110"

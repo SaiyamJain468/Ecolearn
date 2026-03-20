@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   BarChart3, LayoutDashboard, Target, Trophy, User, BookOpen,
   Bell, Settings, Sparkles, Globe, Zap, Network, Search,
-  ChevronDown, Flame
+  ChevronDown, Flame, ClipboardCheck, Users
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-hot-toast';
 
 /* ── Cursor Spotlight ────────────────────────────────────── */
 function CursorSpotlight() {
@@ -133,8 +134,8 @@ export default function Layout() {
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#10B981] rounded-full border-2 border-[#0D1120]" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[12px] font-semibold text-white truncate">{user?.first_name || 'Aryan'} Sharma</p>
-              <p className="text-[10px] font-medium" style={{ color: '#475569' }}>Eco Warrior · Lvl 14</p>
+              <p className="text-[12px] font-semibold text-white truncate">{user?.first_name || 'Admin'} {user?.last_name || '(Demo User)'}</p>
+              <p className="text-[10px] font-medium" style={{ color: '#475569' }}>{user?.role === 'admin' ? 'System Administrator' : 'Eco Warrior · Lvl 14'}</p>
             </div>
             <ChevronDown size={12} className="text-[#334155] group-hover:text-[#64748B] transition-colors" />
           </motion.div>
@@ -158,20 +159,27 @@ export default function Layout() {
           <nav className="space-y-0.5 mb-4">
             <NavItem to="/"           icon={LayoutDashboard} label="Dashboard"  active={p === '/'} />
             <NavItem to="/missions"   icon={Target}          label="Missions"   active={p === '/missions'} />
-            <NavItem to="/learn"      icon={BookOpen}        label="Learning"   active={p === '/learn'} />
+            <NavItem to="/learn"      icon={BookOpen}        label="Learning Hub" active={p === '/learn'} />
             <NavItem to="/analytics"  icon={BarChart3}       label="Analytics"  active={p === '/analytics'} />
-            <NavItem to="/nexus"      icon={Network}         label="Teams"      active={p === '/nexus'} />
+            <NavItem to="/nexus"      icon={Network}         label="Collaboration" active={p === '/nexus'} />
           </nav>
+          
+          <SectionLabel>Management</SectionLabel>
+          <nav className="space-y-0.5 mb-4">
+            <NavItem to="/submissions" icon={ClipboardCheck} label="Approval Queue" active={p === '/submissions'} />
+            <NavItem to="/students"    icon={Users}          label="Member List"    active={p === '/students'} />
+          </nav>
+
           <SectionLabel>Compete</SectionLabel>
           <nav className="space-y-0.5 mb-4">
             <NavItem to="/rankings"   icon={Trophy}    label="Leaderboard"  active={p === '/rankings'} />
-            <NavItem to="/badges"     icon={Sparkles}  label="Badges"       active={p === '/badges'} />
-            <NavItem to="/career"     icon={Zap}       label="Career"       active={p === '/career'} />
+            <NavItem to="/badges"     icon={Sparkles}  label="Reward Vault" active={p === '/badges'} />
+            <NavItem to="/career"     icon={Zap}       label="Career Path"  active={p === '/career'} />
           </nav>
-          <SectionLabel>More</SectionLabel>
+          <SectionLabel>System</SectionLabel>
           <nav className="space-y-0.5">
             <NavItem to="/map"        icon={Globe} label="Impact Map"  active={p === '/map'} />
-            <NavItem to="/profile"    icon={User}  label="Profile"     active={p === '/profile'} />
+            <NavItem to="/profile"    icon={User}  label="Account Center" active={p === '/profile'} />
           </nav>
         </div>
 
@@ -227,12 +235,14 @@ export default function Layout() {
           </div>
           <div className="flex items-center gap-2.5">
             <motion.div whileHover={{ scale: 1.03 }}
+              onClick={() => toast.success('XP sync complete. Rank verified.')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold cursor-pointer"
               style={{ background: 'rgba(0, 242, 254, 0.1)', color: '#22D3EE', border: '1px solid rgba(0, 242, 254, 0.2)' }}>
               <Zap size={13} />
-              124,500 XP
+              {(user?.xp || 124500).toLocaleString()} XP
             </motion.div>
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+              onClick={() => toast('No new transmissions', { icon: '📡' })}
               className="relative w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#64748B' }}>
               <Bell size={16} />
@@ -241,6 +251,7 @@ export default function Layout() {
                 style={{ background: '#EF4444', borderColor: '#080B14' }} />
             </motion.button>
             <motion.button whileHover={{ scale: 1.1, rotate: 15 }} whileTap={{ scale: 0.9 }}
+              onClick={() => toast.loading('Opening system terminal...', { duration: 1000 })}
               className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#64748B' }}>
               <Settings size={16} />

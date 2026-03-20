@@ -8,6 +8,8 @@ import {
 import { formatDistanceToNow } from 'date-fns';
 import { MOCK_SUBMISSIONS } from '../lib/mockData';
 
+import { toast } from 'react-hot-toast';
+
 const SubmissionsPage = () => {
   const [filter, setFilter] = useState('pending');
   const [submissions, setSubmissions] = useState(MOCK_SUBMISSIONS);
@@ -19,11 +21,13 @@ const SubmissionsPage = () => {
 
   const handleApprove = (id) => {
     setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status: 'approved' } : s));
+    toast.success('Submission approved! +XP awarded.', { icon: '✅' });
   };
 
   const handleReject = () => {
     if (!rejectionReason) return;
     setSubmissions(prev => prev.map(s => s.id === selectedSubmission.id ? { ...s, status: 'rejected' } : s));
+    toast.error('Submission rejected. Feedback sent.', { icon: '❌' });
     setShowRejectModal(false);
     setSelectedSubmission(null);
     setRejectionReason('');

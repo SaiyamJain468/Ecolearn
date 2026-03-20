@@ -1,14 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { MOCK_ADMIN, MOCK_SAIYAM } from '../lib/mockData';
 
 const AuthContext = createContext();
 
-const MOCK_ADMIN = {
-  id: 1,
-  name: 'Gaia Admin',
-  email: 'admin@ecolearn.in',
-  role: 'admin',
-  eco_points_total: 12500,
-};
+
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -31,9 +26,14 @@ export const AuthProvider = ({ children }) => {
     // Simulate network delay
     await new Promise(r => setTimeout(r, 800));
     
+    let userToSet = MOCK_SAIYAM; // Default
+    if (email.toLowerCase().includes('admin')) {
+      userToSet = MOCK_ADMIN;
+    }
+
     localStorage.setItem('token', 'proto-token-99');
-    localStorage.setItem('user', JSON.stringify(MOCK_ADMIN));
-    setUser(MOCK_ADMIN);
+    localStorage.setItem('user', JSON.stringify(userToSet));
+    setUser(userToSet);
     return true;
   };
 

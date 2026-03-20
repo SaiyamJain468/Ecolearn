@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, PlayCircle, Clock, Star, Lock, X, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+
+// ... rest of imports/constants ...
 
 const lessons = [
   { id: 1, title: 'Introduction to Composting', cat: 'Waste',  dur: '15 min', stars: 4, color: '#F59E0B', xp: 60,  unlocked: true,  done: true  },
@@ -93,7 +96,16 @@ export default function LearnPage() {
               </div>
               <h2 className="text-[20px] font-bold text-white mb-1.5">{sel.title}</h2>
               <p className="text-[12px] flex items-center gap-1.5 mb-6" style={{ color: '#64748B' }}><Clock size={12} /> {sel.dur} · {sel.stars}/5 stars</p>
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} className="btn-primary w-full" style={{ padding: '13px', fontSize: '13px' }}>
+              <motion.button 
+                whileHover={{ scale: 1.02 }} 
+                whileTap={{ scale: 0.97 }} 
+                className="btn-primary w-full" 
+                style={{ padding: '13px', fontSize: '13px' }}
+                onClick={() => {
+                  toast.success(`Launching lesson: ${sel.title}`);
+                  setSel(null);
+                }}
+              >
                 {sel.done ? 'Review Lesson' : 'Start Lesson'} <ChevronRight size={15} className="inline ml-1" />
               </motion.button>
             </motion.div>
